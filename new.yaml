@@ -1,0 +1,376 @@
+openapi: 3.0.3
+info:
+  title: Asociación API
+  version: 1.0.0
+  description: API CRUD para la gestión de socios, participantes, actividades y servicios
+
+servers:
+  - url: http://localhost:8080/api
+
+paths:
+
+  /socios:
+    get:
+      summary: Listar socios
+      parameters:
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Lista de socios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Socio'
+    post:
+      summary: Crear socio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocioCreate'
+      responses:
+        '201':
+          description: Socio creado
+
+  /socios/{id}:
+    get:
+      summary: Obtener socio por ID
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          description: Socio encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socio'
+    put:
+      summary: Actualizar socio
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocioUpdate'
+      responses:
+        '200':
+          description: Socio actualizado
+    delete:
+      summary: Baja lógica del socio
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Socio desactivado
+
+  /participantes:
+    get:
+      summary: Listar participantes
+      parameters:
+        - in: query
+          name: socioId
+          schema:
+            type: integer
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Lista de participantes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Participante'
+    post:
+      summary: Crear participante (requiere socioId)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipanteCreate'
+      responses:
+        '201':
+          description: Participante creado
+
+  /participantes/{id}:
+    get:
+      summary: Obtener participante por ID
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participante'
+    put:
+      summary: Actualizar participante
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipanteUpdate'
+      responses:
+        '200':
+          description: Participante actualizado
+    delete:
+      summary: Baja lógica del participante
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Participante desactivado
+
+  /actividades:
+    get:
+      summary: Listar actividades
+      parameters:
+        - in: query
+          name: tipo
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Actividad'
+    post:
+      summary: Crear actividad
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActividadCreate'
+      responses:
+        '201':
+          description: Actividad creada
+
+  /servicios:
+    get:
+      summary: Listar servicios
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Servicio'
+    post:
+      summary: Crear servicio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicioCreate'
+      responses:
+        '201':
+          description: Servicio creado
+
+  /inscripciones-actividad:
+    post:
+      summary: Inscribir participante en actividad
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InscripcionActividadCreate'
+      responses:
+        '201':
+          description: Inscripción creada
+
+  /inscripciones-servicio:
+    post:
+      summary: Inscribir participante en servicio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InscripcionServicioCreate'
+      responses:
+        '201':
+          description: Inscripción creada
+
+components:
+
+  parameters:
+    IdPath:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+
+    Status:
+      type: string
+      enum: [ACTIVO, INACTIVO, CANCELADO, FINALIZADO]
+
+    Socio:
+      type: object
+      properties:
+        id:
+          type: integer
+        dni:
+          type: string
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        direccion:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        fechaAlta:
+          type: string
+          format: date
+
+    SocioCreate:
+      required: [dni, nombre, email]
+      allOf:
+        - $ref: '#/components/schemas/Socio'
+
+    SocioUpdate:
+      allOf:
+        - $ref: '#/components/schemas/Socio'
+
+    Participante:
+      type: object
+      properties:
+        id:
+          type: integer
+        socioId:
+          type: integer
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        email:
+          type: string
+        fechaNacimiento:
+          type: string
+          format: date
+        necesidades:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+
+    ParticipanteCreate:
+      required: [socioId, nombre]
+      allOf:
+        - $ref: '#/components/schemas/Participante'
+
+    ParticipanteUpdate:
+      allOf:
+        - $ref: '#/components/schemas/Participante'
+
+    Actividad:
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        descripcion:
+          type: string
+        tipo:
+          type: string
+        precio:
+          type: number
+        fechaHora:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Location'
+        status:
+          $ref: '#/components/schemas/Status'
+
+    ActividadCreate:
+      allOf:
+        - $ref: '#/components/schemas/Actividad'
+
+    Servicio:
+      type: object
+      properties:
+        id:
+          type: integer
+        precio:
+          type: number
+        acceso:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        status:
+          $ref: '#/components/schemas/Status'
+
+    ServicioCreate:
+      allOf:
+        - $ref: '#/components/schemas/Servicio'
+
+    Location:
+      type: object
+      properties:
+        address:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    InscripcionActividadCreate:
+      required: [participanteId, actividadId]
+      type: object
+      properties:
+        participanteId:
+          type: integer
+        actividadId:
+          type: integer
+        fechaReserva:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/Status'
+
+    InscripcionServicioCreate:
+      required: [participanteId, servicioId]
+      type: object
+      properties:
+        participanteId:
+          type: integer
+        servicioId:
+          type: integer
+        fechaReserva:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/Status'
