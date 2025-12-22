@@ -17,7 +17,7 @@ public class SocioService {
     private ModelMapper modelMapper;
 
     public List<Socio> findAll(){
-        List<Socio> socios = socioRepository.findALl();
+        List<Socio> socios = socioRepository.findAll();
         return socios;
     }
 

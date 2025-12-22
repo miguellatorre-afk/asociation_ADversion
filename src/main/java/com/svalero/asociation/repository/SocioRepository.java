@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SocioRepository extends CrudRepository<Socio, Long> {
-    List<Socio> findALl();
+    List<Socio> findAll();
 }
