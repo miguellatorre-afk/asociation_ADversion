@@ -37,6 +37,4 @@ public class Socio {
     private LocalDate entryDate;
     @Column
     private LocalDate outDate;
-
-
 }
