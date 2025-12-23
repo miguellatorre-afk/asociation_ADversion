@@ -32,7 +32,7 @@ public class Socio {
     @Column
     private String civilState;
     @Column
-    private boolean isTutor;
+    private boolean isDivorced;
     @Column
     private LocalDate entryDate;
     @Column

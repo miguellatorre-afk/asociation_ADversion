@@ -15,15 +15,21 @@ public class SocioController {
     private SocioService socioService;
 
     @GetMapping("/socios")
-    public ResponseEntity<List<Socio>> getAll(){
+    public ResponseEntity<List<Socio>> getAll(@RequestParam(value = "divorced", defaultValue = "true") boolean isDivorced){
         List<Socio> allsocios = socioService.findAll();
         return ResponseEntity.ok(allsocios);
+    }
+
+    @GetMapping("/socios/{id}")
+    public ResponseEntity<Socio> getSocioById(@PathVariable long id){
+        Socio selectedsocio = socioService.findById(id);
+        return new ResponseEntity<>(selectedsocio, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/socios")
     public ResponseEntity<Socio> addSocio(@RequestBody Socio socio){
         Socio newsocio = socioService.add(socio);
-        return new ResponseEntity<>(socio, HttpStatus.CREATED);
+        return new ResponseEntity<>(newsocio, HttpStatus.CREATED);
     }
 
     @PutMapping("/socios/{id}")
