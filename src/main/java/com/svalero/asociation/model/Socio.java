@@ -15,26 +15,24 @@ public class Socio {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
-    @Column
+    @Column(nullable = false, unique = true)
     private String dni;
-    @Column
+    @Column(nullable = false)
     private String name;
-    @Column
+    @Column(nullable = false)
     private String surname;
-    @Column
+    @Column(nullable = true)
     private String email;
-    @Column
-    private LocalDate birthDate;
-    @Column
+    @Column(nullable = false)
     private String address;
-    @Column
+    @Column(nullable = false)
     private String phoneNumber;
-    @Column
+    @Column(nullable = true)
     private String civilState;
-    @Column
+    @Column(nullable = true)
     private boolean isDivorced;
-    @Column
+    @Column(nullable = false)
     private LocalDate entryDate;
-    @Column
+    @Column(nullable = true)
     private LocalDate outDate;
 }

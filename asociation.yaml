@@ -9,7 +9,6 @@ paths:
   /socios:
     get:
       summary: Devuelve lista de socios
-      operationId: GetAllSocios
       description: Devuelve una lista de todos los socios miembros de la asociacion
       parameters:
         - in : query
@@ -32,13 +31,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/NotFoundError 404'
+              example:
+                no se encontró
         '500':
           description: server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServerError 500'
+              example:
+                Error interno del server
 
     post:
       summary: subir un nuevo socio
@@ -57,23 +60,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequest'
+                $ref: '#/components/schemas/BadRequest 400'
+              example: no se encontró
         409:
           description: Resource already exists
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Conflict'
+                $ref: '#/components/schemas/Conflict 409'
         '500':
           description: server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServerError 500'
 
   /socios/{id}:
     get:
-      summary: Devuelve el ocio con el id indicado
       description: Busca el socio individual que tiene el id indicado
       responses:
         200 :
@@ -81,91 +84,81 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Socio'
+                $ref: '#/components/schemas/Socio'
         '404':
           description: not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/NotFoundError 404'r'
         '500':
           description: server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
-
-    delete:
-      summary: borrar socio cuyo DNI coincide con la búsqueda
-      operationId: getSocioById
-      responses:
-        204:
-          description: Borrado exitoso
-        200:
-          description: Borrado exitoso con confirmación
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Socio'
-        404:
-          description: not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-        409:
-          description: Resource can’t be deleted due to dependencies
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Conflict'
-        '500':
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
-
+                $ref: '#/components/schemas/InternalServerError 500'
     put:
-      summary: editar socio cuyo DNI coincide con la búsqueda
+      summary: editar socio cuyo id coincide con la búsqueda
       operationId: PutSocio
       responses:
-        200:
-          description: Update successful with response body
-        204:
-          description: Update successful without response body
+        '200':
+          description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NoContent'
+                $ref: '#/components/schemas/Participante'
         400:
           description: invalid update data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequest'
+                $ref: '#/components/schemas/BadRequest 400'
         404:
           description: Resource already gone
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/NotFoundError 404'
         409:
           description: Update conflicts with the current state
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Conflict'
+                $ref: '#/components/schemas/Conflict 409'
         500:
           description: server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServerError 500'
+    delete:
+      summary: borrar socio cuyo id coincide con la búsqueda
+      operationId: getSocioById
+      responses:
+        204:
+          description: borrado exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent 204'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Resource can’t be deleted due to dependencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
 
   /participantes:
     get:
@@ -193,10 +186,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ParticipanteCreate'
+              $ref: '#/components/schemas/Participante'
       responses:
         '201':
           description: Participante creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
 
   /participantes/{id}:
     get:
@@ -215,17 +212,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ParticipanteUpdate'
+              $ref: '#/components/schemas/Participante'
       responses:
         '200':
           description: Participante actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participante'
     delete:
-      summary: Baja lógica del participante
-
+      summary: Baja del participante
       responses:
         '204':
           description: Participante desactivado
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent 204'
 
   /actividades:
     get:
@@ -251,11 +254,96 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActividadCreate'
+              $ref: '#/components/schemas/Actividad'
       responses:
         '201':
           description: Actividad creada
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
+  /actividades/{id}:
+    get:
+      description: Busca la actividad que tiene el id indicado
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Actividad'
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    put:
+      summary: editar actividad cuyo id coincide con la búsqueda
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participante'
+        400:
+          description: invalid update data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        404:
+          description: Resource already gone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Update conflicts with the current state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    delete:
+      summary: borrar actividad cuyo id coincide con la búsqueda
+      responses:
+        204:
+          description: borrado exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent 204'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Resource can’t be deleted due to dependencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
   /servicios:
     get:
       summary: Listar servicios
@@ -275,10 +363,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServicioCreate'
+              $ref: '#/components/schemas/Servicio'
       responses:
         '201':
           description: Servicio creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
 
   /inscripciones-actividad:
     post:
@@ -288,10 +380,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InscripcionActividadCreate'
+              $ref: '#/components/schemas/Inscripcion-Actividad'
       responses:
         '201':
           description: Inscripción creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
 
   /inscripciones-servicio:
     post:
@@ -301,19 +397,48 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InscripcionServicioCreate'
+              $ref: '#/components/schemas/Contratación-Servicio'
       responses:
         '201':
           description: Inscripción creada
-
-
-
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
+  /trabajador:
+    get:
+      summary: Listar trabajadores
+      responses:
+        '200':
+          description: Lista de trabajadores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trabajador'
+    post:
+      summary: Crear trabajador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trabajador'
+      responses:
+        '201':
+          description: Trabajador creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Created 201'
+  /trabajador/{id}:
 
 components:
   schemas:
     Socio:
       type: object
+      required: [dni, name, surname, email, phoneNumber]
       properties:
         id:
           type: integer
@@ -333,10 +458,6 @@ components:
           type: string
           format: email
           description: email de socio
-        birthDate:
-          type: string
-          format: date
-          description: fecha de nacimiento de socio
         address:
           type: string
           description: direccion de vivienda de socio
@@ -344,37 +465,33 @@ components:
           type: string
           pattern: '^+34 [0-9]{9}$'
           description: nº de telefono de socio
-        civilState:
+        FamilyModel:
           type: string
-          description: estado civil de socio
-        isTutor:
+          enum: [nuclear, monoparental, homoparental, no descendants]
+          description: tipo de modelo familiar
+        isActive:
           type: boolean
-          description: socio es tutor o no
+          description: socio está activo o no
         entryDate:
           type: string
           format: date
           description: fecha de alta de socio
 
-    SocioCreate:
-      required: [dni, nombre, email]
-      allOf:
-        - $ref: '#/components/schemas/Socio'
-
-    SocioUpdate:
-      allOf:
-        - $ref: '#/components/schemas/Socio'
-
     Participante:
       type: object
+      required: [dni, name, surname, email]
       properties:
         id:
           type: integer
-          format: int32
+          format: int64
           description: id de participante
-        socioId:
+          readOnly: true
+        socioResponsableId:
           type: integer
-          format: int32
-          description: identificador de participante
+          format: int64
+          nullable: true
+          description: >
+            ID del socio responsable. Si es null, el participante es su propio socio.
         dni:
           type: string
           pattern: '^[0-9]{8}[A-Z]$'
@@ -388,6 +505,10 @@ components:
         email:
           description: email de participante
           type: string
+        phoneNumber:
+          type: string
+          pattern: '^+34 [0-9]{9}$'
+          description: nº de telefono de participante
         birthDate:
           description: fecha de nacimiento de participante
           type: string
@@ -397,52 +518,137 @@ components:
           type: string
         typeRel:
           description: tipo de relación del participante respecto a su socio
+          type : string
+        isActive:
+          type: boolean
+          description: participante está activo o no
+        entryDate:
+          type: string
+          format: date
+          description: fecha de alta de participante
 
-    ParticipanteCreate:
-      required: [socioId, nombre]
-      allOf:
-        - $ref: '#/components/schemas/Participante'
+    Inscripcion-Actividad:
+      type: object
+      required: [participanteId, actividadId]
+      description: "Entidad que relaciona un Participante con una Actividad"
+      properties:
+        id:
+          type: integer
+        participante_id:
+          type: integer
+          description: Fk que apunta a Socio
+        actividad_id:
+          type: integer
+          description: Fk que apunta a Actividad
+        dateReserve:
+          type: string
+          format: date
+          description: fecha en la que se hizo la reserva
+        state:
+          type: string
+          enum: [pendiente, pagada, cancelada]
+        price:
+          type: float
+          description: precio de la inscripción
 
-    ParticipanteUpdate:
-      allOf:
-        - $ref: '#/components/schemas/Participante'
+    Contratación-Servicio:
+      type: object
+      required: [participante_id, servicio_id]
+      description: "Entidad que relaciona un Participante con un Sevicio"
+      properties:
+        id:
+          type: integer
+        participante_id:
+          type: integer
+          description: Fk que apunta a Socio
+        servicio_id:
+          type: integer
+          description: Fk que apunta a Actividad
+        dateReserve:
+          type: string
+          format: date
+          description: fecha en la que se hizo la reserva
+        state:
+          type: string
+          enum: [pendiente, pagada, cancelada]
+        price:
+          type: float
+          description: precio de la inscripción
 
     Actividad:
       type: object
       properties:
         id:
           type: integer
-        title:
-          type: string
+          description: id de la actividad
         description:
           type: string
-        type:
+          description: descripción de la actividad
+        date:
           type: string
-        price:
-          type: number
-        dateTime:
-          type: string
-          format: date-time
+          format: 'date-time'
+          description: dia y hora de la actividad
+        duration:
+          type: float
+          description: tiempo de duración
+        isOpen:
+          type: boolean
+          description: el plazo para apuntarse a la actividad está abierto o no
+        capacity:
+          type: integer
+          description: máximo de personas posible
         location:
           $ref: '#/components/schemas/Location'
-
-    ActividadCreate:
-      allOf:
-        - $ref: '#/components/schemas/Actividad'
 
     Servicio:
       type: object
       properties:
         id:
           type: integer
-        price:
-          type: number
+          description: id del servicio
+        description:
+          type: string
+          description: titulo y descripcion del servicio
+        periodicity:
+          type: string
+          description: periodicidad en la que el servicio se contrata
+        requisites:
+          type: string
+          description: requisitos necesarios del solicitante
+        duration:
+          type: float
+          description: duración del servicio
         location:
           $ref: '#/components/schemas/Location'
 
-    ServicioCreate:
-      allOf:
-        - $ref: '#/components/schemas/Servicio'
+    Trabajador:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id del trabajador
+        dni:
+          type: string
+          description: dni del trabajador
+        name:
+          type: string
+          description: nombre de trabajador
+        surname:
+          type: string
+          description: apellidos de trabajador
+        email:
+          type: string
+          format: email
+        specialty:
+          type: string
+        phoneNumber:
+          type: string
+          pattern: '^+34 [0-9]{9}$'
+          description: nº de telefono de trabajador
+        entryDate:
+          type: string
+          format: date
+          description: fecha de alta de trabajador
 
     Location:
       type: object
@@ -454,67 +660,50 @@ components:
         longitude:
           type: number
 
-    InscripcionActividadCreate:
-      required: [participanteId, actividadId]
-      type: object
-      properties:
-        participanteId:
-          type: integer
-        actividadId:
-          type: integer
-        fechaReserva:
-          type: string
-          format: date
 
-
-    InscripcionServicioCreate:
-      required: [participanteId, servicioId]
-      type: object
-      properties:
-        participanteId:
-          type: integer
-        servicioId:
-          type: integer
-        fechaReserva:
-          type: string
-          format: date
-
-
-    NoContent:
+    Created 201:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponse'
+        - $ref: '#/components/schemas/Response'
+      example:
+        code: 201
+        message: Created
+        title: created
+    NoContent 204:
+      allOf:
+        - $ref: '#/components/schemas/Response'
       example:
         code: 204
         message: No content
         title: no-content
-    InternalServerError:
+    InternalServerError 500:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 500
         message: Internal server error
         title: internal-server-error
-    NotFoundError:
+    NotFoundError 404:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 404
         message: Resource could not be found
         title: not-found
-    BadRequest:
+    BadRequest 400:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 400
         message: Bad quest
         title: bad-request
-    Conflict:
+    Conflict 409:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 409
         message: conflicting events
         title: conflict
+
     ErrorResponse:
       type: object
       properties:
@@ -525,6 +714,20 @@ components:
         message:
           type: string
           description: mensaje de error
+        title:
+          type: string
+          description: titulo
+
+    Response:
+      type: object
+      properties:
+        code:
+          type: number
+          format: integer
+          description: codigo de estado
+        message:
+          type: string
+          description: mensaje de respuesta correcta
         title:
           type: string
           description: titulo
