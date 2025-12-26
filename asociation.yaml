@@ -27,24 +27,19 @@ paths:
                 items:
                   $ref: '#/components/schemas/Socio'
         '404':
-          description: not found
+          description: Not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
-              example:
-                no se encontró
         '500':
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
-              example:
-                Error interno del server
-
     post:
-      summary: subir un nuevo socio
+      summary: Subir un nuevo socio
       operationId: PostSocio
       responses:
         201:
@@ -56,12 +51,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Socio'
         400:
-          description: bad request, nonsensical
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
-              example: no se encontró
         409:
           description: Resource already exists
           content:
@@ -69,7 +63,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
         '500':
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -90,9 +84,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError 404'r'
+                $ref: '#/components/schemas/NotFoundError 404'
         '500':
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -432,7 +426,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Created 201'
-  /trabajador/{id}:
 
 components:
   schemas:

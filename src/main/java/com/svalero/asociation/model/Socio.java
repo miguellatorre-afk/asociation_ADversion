@@ -25,12 +25,12 @@ public class Socio {
     private String email;
     @Column(nullable = false)
     private String address;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 9, unique = true)
     private String phoneNumber;
-    @Column(nullable = true)
-    private String civilState;
-    @Column(nullable = true)
-    private boolean isDivorced;
+    @Column(nullable = true, name = "family_model")
+    private String FamilyModel;
+    @Column(nullable = false)
+    private boolean isActive;
     @Column(nullable = false)
     private LocalDate entryDate;
     @Column(nullable = true)

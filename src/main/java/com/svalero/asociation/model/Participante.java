@@ -12,17 +12,23 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "participantes")
+@Entity(name = "participantes")
 public class Participante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 9)
     private String dni;
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surnames;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false, name = "birth_date")
     private LocalDate birthDate;
+    @Column(nullable = false, name = "entry_date")
     private LocalDate entryDate;
     @Column(columnDefinition = "TEXT")
     private String needs;

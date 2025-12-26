@@ -1,0 +1,43 @@
+package com.svalero.asociation.service;
+
+import com.svalero.asociation.model.Trabajador;
+import com.svalero.asociation.repository.TrabajadorRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TrabajadorService {
+
+    @Autowired
+    private TrabajadorRepository trabajadorRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public List<Trabajador> findAll(){
+        return trabajadorRepository.findAll();
+    }
+
+    public Trabajador findById(long id) {
+        Trabajador foundtrabajador = trabajadorRepository.findById(id).orElseThrow();
+        return foundtrabajador;
+    }
+
+    public Trabajador add(Trabajador trabajador) {
+        trabajadorRepository.save(trabajador);
+        return trabajador;
+    }
+
+    public Trabajador modify(long id, Trabajador trabajador) {
+        Trabajador oldtrabajador = trabajadorRepository.findById(id).orElseThrow();
+        modelMapper.map(trabajador, oldtrabajador);
+        return trabajadorRepository.save(oldtrabajador);
+    }
+
+    public void delete(long id) {
+        Trabajador trabajador = findById(id);
+        trabajadorRepository.delete(trabajador);
+    }
+}

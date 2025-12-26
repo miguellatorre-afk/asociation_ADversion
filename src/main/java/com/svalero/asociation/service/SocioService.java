@@ -17,10 +17,13 @@ public class SocioService {
     private ModelMapper modelMapper;
 
     public List<Socio> findAll(){
-        List<Socio> socios = socioRepository.findAll();
-        return socios;
+        return socioRepository.findAll();
     }
 
+    public Socio findById(long id) {
+        Socio foundsocio = socioRepository.findById(id).orElseThrow();
+        return foundsocio;
+    }
     public Socio add(Socio socio) {
         socioRepository.save(socio);
         return socio;
@@ -32,10 +35,6 @@ public class SocioService {
         return socioRepository.save(oldsocio);
     }
 
-    public Socio findById(long id) {
-        Socio foundsocio = socioRepository.findById(id).orElseThrow();
-        return foundsocio;
-    }
 
     public void delete(long id){
         Socio socio = findById(id);
