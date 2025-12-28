@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "trabajador")
-@Table(name = "trabajador")
+@Table(name = "trabajadores")
+@Entity(name = "trabajadores")
 public class Trabajador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,5 @@ public class Trabajador {
     @Column(nullable = true, name = "birth_date")
     private LocalDate birthDate;
     @Column(nullable = false, name = "entry_date")
-    private LocalDate entryData;
+    private LocalDate entryDate;
 }

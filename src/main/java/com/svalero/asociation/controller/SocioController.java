@@ -1,7 +1,5 @@
 package com.svalero.asociation.controller;
 
-import com.svalero.asociation.exception.ErrorResponse;
-import com.svalero.asociation.exception.SocioNotFoundException;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.SocioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ public class SocioController {
     }
 
     @GetMapping("/socios/{id}")
-    public ResponseEntity<Socio> getSocioById(@PathVariable long id) throws SocioNotFoundException{
+    public ResponseEntity<Socio> getSocioById(@PathVariable long id){
         Socio selectedsocio = socioService.findById(id);
         return new ResponseEntity<>(selectedsocio, HttpStatus.ACCEPTED);
     }
@@ -36,13 +34,13 @@ public class SocioController {
     }
 
     @PutMapping("/socios/{id}")
-    public ResponseEntity<Socio> editSocio(@PathVariable long id, @RequestBody Socio socio) throws SocioNotFoundException{
+    public ResponseEntity<Socio> editSocio(@PathVariable long id, @RequestBody Socio socio){
         Socio updatedsocio = socioService.modify(id, socio);
         return ResponseEntity.ok(updatedsocio);
     }
 
     @DeleteMapping("/socios/{id}")
-    public ResponseEntity<Void> deleteSocio (@PathVariable long id) throws SocioNotFoundException{
+    public ResponseEntity<Void> deleteSocio(@PathVariable long id){
         socioService.delete(id);
         return ResponseEntity.noContent().build();
     }

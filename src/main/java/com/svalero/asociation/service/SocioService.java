@@ -1,5 +1,6 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.exception.ResourceNotFoundException;
 import com.svalero.asociation.exception.SocioNotFoundException;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.repository.SocioRepository;
@@ -22,7 +23,7 @@ public class SocioService {
         return socioRepository.findAll();
     }
 
-    public Socio findById(long id) throws SocioNotFoundException {
+    public Socio findById(long id) {
         return socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
     }
     public Socio add(Socio socio) throws MethodArgumentNotValidException {
@@ -30,15 +31,18 @@ public class SocioService {
         return socio;
     }
 
-    public Socio modify(long id, Socio socio) throws SocioNotFoundException {
+    public Socio modify(long id, Socio socio) {
         Socio oldsocio = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         modelMapper.map(socio, oldsocio);
         return socioRepository.save(oldsocio);
     }
 
 
-    public void delete(long id) throws SocioNotFoundException{
+    public void delete(long id){
+        // se utilize en vez de ::new porque hay un constructor en la clase SocioNotFoundException
         Socio socio = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         socioRepository.delete(socio);
     }
+
+
 }

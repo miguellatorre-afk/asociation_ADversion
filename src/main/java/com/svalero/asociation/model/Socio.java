@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Socio {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id; // bugfix a futuro, en postman se puede cambiar toda un registro con POST si editas la id
     @Column(nullable = false, unique = true)
     private String dni;
     @Column(nullable = false)

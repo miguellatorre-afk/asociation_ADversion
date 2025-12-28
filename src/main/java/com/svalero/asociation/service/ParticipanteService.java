@@ -1,7 +1,9 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
+import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ParticipanteService {
     }
 
     public Participante findById(long id) {
-        Participante foundparticipante = participanteRepository.findById(id).orElseThrow();
+        Participante foundparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         return foundparticipante;
     }
 
@@ -31,13 +33,13 @@ public class ParticipanteService {
     }
 
     public Participante modify(long id, Participante participante) {
-        Participante oldparticipante = participanteRepository.findById(id).orElseThrow();
+        Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         modelMapper.map(participante, oldparticipante);
         return participanteRepository.save(oldparticipante);
     }
 
     public void delete(long id) {
-        Participante participante = findById(id);
+        Participante participante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         participanteRepository.delete(participante);
     }
 }

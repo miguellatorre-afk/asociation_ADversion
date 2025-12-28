@@ -1,5 +1,6 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ public class ActividadService {
     }
 
     public Actividad findById(long id) {
-        Actividad foundactividad = actividadRepository.findById(id).orElseThrow();
+        Actividad foundactividad = actividadRepository.findById(id).orElseThrow(() -> new ActividadNotFoundException("Actividad con ID:" + id + "not found"));
         return foundactividad;
     }
 
@@ -31,13 +32,13 @@ public class ActividadService {
     }
 
     public Actividad modify(long id, Actividad actividad) {
-        Actividad oldactividad = actividadRepository.findById(id).orElseThrow();
+        Actividad oldactividad = actividadRepository.findById(id).orElseThrow(() -> new ActividadNotFoundException("Actividad con ID:" + id + "not found"));
         modelMapper.map(actividad, oldactividad);
         return actividadRepository.save(oldactividad);
     }
 
     public void delete(long id) {
-        Actividad actividad = findById(id);
+        Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new ActividadNotFoundException("Actividad con ID:" + id + "not found"));
         actividadRepository.delete(actividad);
     }
 }

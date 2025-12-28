@@ -17,8 +17,8 @@ public class TrabajadorController {
 
     @GetMapping("/trabajadores")
     public ResponseEntity<List<Trabajador>> getAll(){
-        List<Trabajador> alltrabajadors = trabajadorService.findAll();
-        return ResponseEntity.ok(alltrabajadors);
+        List<Trabajador> alltrabajadores = trabajadorService.findAll();
+        return ResponseEntity.ok(alltrabajadores);
     }
 
     @GetMapping("/trabajadores/{id}")

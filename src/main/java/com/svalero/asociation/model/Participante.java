@@ -23,7 +23,7 @@ public class Participante {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String surnames;
+    private String surname;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false, name = "birth_date")
@@ -36,5 +36,5 @@ public class Participante {
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "socio_id")
-    private Socio socioResponsable;
+    private Socio socioID;
 }

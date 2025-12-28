@@ -16,13 +16,13 @@ public class ParticipanteController {
     private ParticipanteService participanteService;
 
     @GetMapping("/participantes")
-    public ResponseEntity<List<Participante>> getAll(){
-        List<Participante> allparticipants = participanteService.findAll();
-        return ResponseEntity.ok(allparticipants);
+    public ResponseEntity<List<Participante>> getAll() {
+        List<Participante> allparticipantes = participanteService.findAll();
+        return ResponseEntity.ok(allparticipantes);
     }
 
     @GetMapping("/participantes/{id}")
-    public ResponseEntity<Participante> getParticipanteById(@PathVariable long id){
+    public ResponseEntity<Participante> getParticipanteById(@PathVariable long id) {
         Participante selectedparticipante = participanteService.findById(id);
         return new ResponseEntity<>(selectedparticipante, HttpStatus.ACCEPTED);
     }
