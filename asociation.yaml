@@ -39,7 +39,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     post:
-      summary: Subir un nuevo socio
+      summary: Sube un nuevo socio
       operationId: PostSocio
       responses:
         201:
@@ -71,6 +71,7 @@ paths:
 
   /socios/{id}:
     get:
+      summary: Devuelve socio por id
       description: Busca el socio individual que tiene el id indicado
       responses:
         200 :
@@ -92,7 +93,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     put:
-      summary: editar socio cuyo id coincide con la búsqueda
+      summary: Editar socio por id
+      description:  Editar socio cuyo id coincide con la búsqueda
       operationId: PutSocio
       responses:
         '200':
@@ -126,7 +128,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     delete:
-      summary: borrar socio cuyo id coincide con la búsqueda
+      summary: Borrar socio cuyo id coincide con la búsqueda
       operationId: getSocioById
       responses:
         204:
