@@ -2,9 +2,11 @@ package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +30,13 @@ public class ActividadController {
     }
 
     @PostMapping("/actividades")
-    public ResponseEntity<Actividad> addActividad(@RequestBody Actividad actividad){
+    @Validated public ResponseEntity<Actividad> addActividad(@Valid@RequestBody Actividad actividad){
         Actividad newactividad = actividadService.add(actividad);
         return new ResponseEntity<>(newactividad, HttpStatus.CREATED);
     }
 
     @PutMapping("/actividade/{id}")
-    public ResponseEntity<Actividad> editActividad(@PathVariable long id, @RequestBody Actividad actividad){
+    public ResponseEntity<Actividad> editActividad(@PathVariable long id, @Valid@RequestBody Actividad actividad){
         Actividad updatedactividad = actividadService.modify(id, actividad);
         return ResponseEntity.ok(updatedactividad);
     }
