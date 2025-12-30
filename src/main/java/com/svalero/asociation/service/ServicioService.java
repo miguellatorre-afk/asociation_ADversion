@@ -6,6 +6,7 @@ import com.svalero.asociation.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -25,12 +26,12 @@ public class ServicioService {
         Servicio foundservicio = servicioRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Servicio con la ID:"+ id+ "no encontrado"));
         return foundservicio;
     }
-    public Servicio add(Servicio servicio) {
+    public Servicio add(Servicio servicio)  throws MethodArgumentNotValidException {
         servicioRepository.save(servicio);
         return servicio;
     }
 
-    public Servicio modify(long id, Servicio servicio) {
+    public Servicio modify(long id, Servicio servicio) throws MethodArgumentNotValidException {
         Servicio oldservicio = servicioRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Servicio con la ID:"+ id+ "no encontrado"));
         modelMapper.map(servicio, oldservicio);
         return servicioRepository.save(oldservicio);

@@ -31,7 +31,7 @@ public class SocioService {
         return socio;
     }
 
-    public Socio modify(long id, Socio socio) {
+    public Socio modify(long id, Socio socio) throws MethodArgumentNotValidException{
         Socio oldsocio = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         modelMapper.map(socio, oldsocio);
         return socioRepository.save(oldsocio);

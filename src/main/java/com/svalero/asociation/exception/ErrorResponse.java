@@ -15,6 +15,7 @@ public class ErrorResponse {
     private String title;
     private Map<String, String> error = new HashMap<>();
 
+
     public static ErrorResponse generalError(int code, String message, String title){
         return new ErrorResponse(code, message, title, new HashMap<>());
     }

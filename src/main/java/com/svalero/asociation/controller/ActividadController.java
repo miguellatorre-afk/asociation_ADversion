@@ -35,13 +35,13 @@ public class ActividadController {
         return new ResponseEntity<>(newactividad, HttpStatus.CREATED);
     }
 
-    @PutMapping("/actividade/{id}")
+    @PutMapping("/actividades/{id}")
     public ResponseEntity<Actividad> editActividad(@PathVariable long id, @Valid@RequestBody Actividad actividad){
         Actividad updatedactividad = actividadService.modify(id, actividad);
         return ResponseEntity.ok(updatedactividad);
     }
 
-    @DeleteMapping("/actividade/{id}")
+    @DeleteMapping("/actividades/{id}")
     public ResponseEntity<Void> deleteActividad (@PathVariable long id){
         actividadService.delete(id);
         return ResponseEntity.noContent().build();

@@ -17,15 +17,14 @@ public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String description;
-    @Column(nullable = true)
+    @Column()
     private String periodicity;
-    @Column(nullable = true)
+    @Column()
     private String requisites;
     @Column(precision = 2)
     @Positive
-    @NotBlank
     private float duration;
 }

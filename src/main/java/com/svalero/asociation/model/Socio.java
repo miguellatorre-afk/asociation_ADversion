@@ -1,5 +1,6 @@
 package com.svalero.asociation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -18,31 +19,31 @@ public class Socio {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id; // bugfix a futuro, en postman se puede cambiar toda un registro con POST si editas la id
-    @Column(nullable = false, unique = true, length = 9)
-    @Pattern(regexp = "^\\\\d{8}[A-Z]$")
+    @Column(unique = true)
     @NotBlank
     private String dni;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String name;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String surname;
     @Column(nullable = true)
     @NotBlank
     private String email;
-    @Column(nullable = false)
+    @Column()
     private String address;
-    @Column(nullable = false, length = 9, unique = true, name = "phone_number")
-    @Pattern(regexp="\\d{3}\\d{3}-\\d{3}")
+    @Column(name = "phone_number")
+    @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
     @NotBlank
     private String phoneNumber;
     @Column(nullable = true, name = "family_model")
     private String FamilyModel;
-    @Column(nullable = true, name = "is-active")
+    @Column(name = "is_active")
     private boolean isActive;
-    @Column(nullable = false, name = "entry-date")
-    private LocalDate entryDate;
+    @Column(name = "entry_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate entryDate = LocalDate.now();
     @Column(nullable = true)
     @Null
     private LocalDate outDate;

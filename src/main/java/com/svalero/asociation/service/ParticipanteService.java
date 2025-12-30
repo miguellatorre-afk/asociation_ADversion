@@ -7,6 +7,7 @@ import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -27,12 +28,12 @@ public class ParticipanteService {
         return foundparticipante;
     }
 
-    public Participante add(Participante participante) {
+    public Participante add(Participante participante) throws MethodArgumentNotValidException {
         participanteRepository.save(participante);
         return participante;
     }
 
-    public Participante modify(long id, Participante participante) {
+    public Participante modify(long id, Participante participante) throws MethodArgumentNotValidException {
         Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         modelMapper.map(participante, oldparticipante);
         return participanteRepository.save(oldparticipante);

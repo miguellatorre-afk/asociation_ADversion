@@ -2,6 +2,7 @@ package com.svalero.asociation.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,9 +24,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         ErrorResponse error = ErrorResponse.generalError(400, "Validation failed for one or more fields", "Bad Request");
-        ex.getBindingResult().getFieldErrors().forEach(f ->
-                error.addError(f.getField(), f.getDefaultMessage())
-        );
+        ex.getBindingResult().getAllErrors().forEach(f -> {
+            // Verificamos si es un error de campo antes de hacer el cast
+            if (f instanceof FieldError fieldError) {
+                error.addError(fieldError.getField(), f.getDefaultMessage());
+            } else {
+                error.addError(f.getObjectName(), f.getDefaultMessage());
+            }
+        });
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

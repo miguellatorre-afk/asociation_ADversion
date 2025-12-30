@@ -2,6 +2,7 @@ package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.SocioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +29,13 @@ public class SocioController {
     }
 
     @PostMapping("/socios")
-    public ResponseEntity<Socio> addSocio(@RequestBody Socio socio) throws MethodArgumentNotValidException{
+     public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio) throws MethodArgumentNotValidException{
         Socio newsocio = socioService.add(socio);
         return new ResponseEntity<>(newsocio, HttpStatus.CREATED);
     }
 
     @PutMapping("/socios/{id}")
-    public ResponseEntity<Socio> editSocio(@PathVariable long id, @RequestBody Socio socio){
+    public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio) throws MethodArgumentNotValidException{
         Socio updatedsocio = socioService.modify(id, socio);
         return ResponseEntity.ok(updatedsocio);
     }

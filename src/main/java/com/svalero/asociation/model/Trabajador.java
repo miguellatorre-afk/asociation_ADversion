@@ -1,5 +1,6 @@
 package com.svalero.asociation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -17,28 +18,27 @@ public class Trabajador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, unique = true, length = 9)
-    @Pattern(regexp = "^\\\\d{8}[A-Z]$")
+    @Column()
+    @Pattern(regexp = "^\\d{8}[A-Z]$")
     @NotBlank
     private String dni;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String name;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String surname;
-    @Column(nullable = false, unique = true)
+    @Column()
     @NotBlank
     private String email;
-    @Column(nullable = false, length = 9, unique = true, name = "phone_number")
-    @Pattern(regexp="\\d{3}\\d{3}-\\d{3}")
-    @NotBlank
+    @Column(name = "phone_number")
+    @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
     private String phoneNumber;
     @Column(nullable = true, name = "birth_date")
-    @NotBlank
     @Past
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
-    @Column(nullable = false, name = "entry_date")
-    @PastOrPresent
+    @Column( name = "entry_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate entryDate;
 }

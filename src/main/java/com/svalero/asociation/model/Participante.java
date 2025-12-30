@@ -1,9 +1,11 @@
 package com.svalero.asociation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -21,31 +23,36 @@ public class Participante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, unique = true, length = 9)
-    @Pattern(regexp = "^\\\\d{8}[A-Z]$")
+    @Column()
+    @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String name;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String surname;
-    @Column(nullable = false)
+    @Column()
     @NotBlank
     private String email;
-    @Column(nullable = false, name = "birth_date")
+    @Column(name = "phone_number")
+    @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
     @NotBlank
+    private String phoneNumber;
+    @Column(name = "birth_date")
     @Past
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
-    @Column(nullable = false, name = "entry_date")
-    @NotBlank
-    private LocalDate entryDate;
+    @Column(name = "entry_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate entryDate = LocalDate.now();
     @Column(columnDefinition = "TEXT")
     private String needs;
     private String typeRel;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "socio_id")
-    private Socio socioID;
+//    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "socio_id")
+//    @Null
+//    private Socio socioID;
 }

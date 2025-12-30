@@ -1,10 +1,14 @@
 package com.svalero.asociation.controller;
 
+import com.svalero.asociation.exception.ErrorResponse;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.service.TrabajadorService;
+import jakarta.validation.Valid;
+import org.hibernate.validator.internal.engine.messageinterpolation.parser.MessageDescriptorFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +32,13 @@ public class TrabajadorController {
     }
 
     @PostMapping("/trabajadores")
-    public ResponseEntity<Trabajador> addTrabajador(@RequestBody Trabajador trabajador){
+    public ResponseEntity<Trabajador> addTrabajador(@Valid@RequestBody Trabajador trabajador){
         Trabajador newtrabajador = trabajadorService.add(trabajador);
         return new ResponseEntity<>(newtrabajador, HttpStatus.CREATED);
     }
 
     @PutMapping("/trabajadores/{id}")
-    public ResponseEntity<Trabajador> editTrabajador(@PathVariable long id, @RequestBody Trabajador trabajador){
+    public ResponseEntity<Trabajador> editTrabajador(@PathVariable long id, @Valid@RequestBody Trabajador trabajador){
         Trabajador updatedtrabajador = trabajadorService.modify(id, trabajador);
         return ResponseEntity.ok(updatedtrabajador);
     }
@@ -44,4 +48,5 @@ public class TrabajadorController {
         trabajadorService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }
