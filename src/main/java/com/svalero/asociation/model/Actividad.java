@@ -1,7 +1,9 @@
 package com.svalero.asociation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,17 +19,23 @@ public class Actividad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column()
+    @NotBlank
     private String description;
-    @Column(nullable = false)
+    @Column(name = "day_activity")
+    @FutureOrPresent
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dayActivity;
-    @Column (nullable = false)
+    @Column (name = "type_activity")
+    @NotBlank
     private String typeActivity;
-    @Column(nullable = false, precision = 2)
+    @Column(precision = 2)
+    @Positive
     private float duration;
-    @Column(nullable = false)
+    @Column(name = "can_join")
     private boolean canJoin;
-    @Column(nullable = true, precision = 2)
+    @Column(precision = 2)
+    @Positive
     private int capacity;
     @Column(nullable = true)
     private double xCoord;

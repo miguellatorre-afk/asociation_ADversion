@@ -1,9 +1,12 @@
 package com.svalero.asociation.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 @Data
 @AllArgsConstructor
@@ -14,12 +17,14 @@ public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column()
+    @NotBlank
     private String description;
-    @Column(nullable = true)
+    @Column()
     private String periodicity;
-    @Column(nullable = true)
+    @Column()
     private String requisites;
     @Column(precision = 2)
+    @Positive
     private float duration;
 }

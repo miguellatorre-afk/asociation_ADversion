@@ -1,11 +1,14 @@
 package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Servicio;
+import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ServicioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +31,14 @@ public class ServicioController {
     }
 
     @PostMapping("/servicios")
-    public ResponseEntity<Servicio> addServicio(@RequestBody Servicio servicio){
+    public ResponseEntity<Servicio> addServicio(@Valid@RequestBody Servicio servicio) throws MethodArgumentNotValidException {
         Servicio newservicio = servicioService.add(servicio);
         return new ResponseEntity<>(newservicio, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/servicios/{id}")
-    public ResponseEntity<Servicio> editServicio(@PathVariable long id, @RequestBody Servicio servicio){
+    public ResponseEntity<Servicio> editServicio(@PathVariable long id, @Valid @RequestBody Servicio servicio) throws MethodArgumentNotValidException{
         Servicio updatedservicio = servicioService.modify(id, servicio);
         return ResponseEntity.ok(updatedservicio);
     }
