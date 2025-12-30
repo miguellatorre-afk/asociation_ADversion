@@ -26,12 +26,12 @@ public class ServicioService {
         Servicio foundservicio = servicioRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Servicio con la ID:"+ id+ "no encontrado"));
         return foundservicio;
     }
-    public Servicio add(Servicio servicio)  throws MethodArgumentNotValidException {
+    public Servicio add(Servicio servicio) {
         servicioRepository.save(servicio);
         return servicio;
     }
 
-    public Servicio modify(long id, Servicio servicio) throws MethodArgumentNotValidException {
+    public Servicio modify(long id, Servicio servicio) {
         Servicio oldservicio = servicioRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Servicio con la ID:"+ id+ "no encontrado"));
         modelMapper.map(servicio, oldservicio);
         return servicioRepository.save(oldservicio);

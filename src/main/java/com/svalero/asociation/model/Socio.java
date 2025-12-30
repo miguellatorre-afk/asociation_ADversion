@@ -20,6 +20,7 @@ public class Socio {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id; // bugfix a futuro, en postman se puede cambiar toda un registro con POST si editas la id
     @Column(unique = true)
+    @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;
     @Column()

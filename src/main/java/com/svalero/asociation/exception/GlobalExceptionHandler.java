@@ -25,7 +25,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         ErrorResponse error = ErrorResponse.generalError(400, "Validation failed for one or more fields", "Bad Request");
         ex.getBindingResult().getAllErrors().forEach(f -> {
-            // Verificamos si es un error de campo antes de hacer el cast
             if (f instanceof FieldError fieldError) {
                 error.addError(fieldError.getField(), f.getDefaultMessage());
             } else {
@@ -38,17 +37,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessRuleException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestManual(BusinessRuleException ex) {
-        // Aquí el HashMap se queda vacío porque es un error general, no de un campo específico
-        ErrorResponse error =  ErrorResponse.generalError(400, ex.getMessage(), "Ya hay un usuario con esas credenciales");
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error =  ErrorResponse.generalError(409, ex.getMessage(), "Ya hay un usuario con esas credenciales");
+        return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     // --- HANDLE 500 (Internal Server Error) ---
-    // This catches everything else that you didn't specifically plan for
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleGlobalError(Exception ex) {
         ErrorResponse error =  ErrorResponse.generalError(500, "An unexpected error occurred", "Internal Server Error");
-        // Log the actual error for debugging
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

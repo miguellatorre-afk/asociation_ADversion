@@ -23,7 +23,7 @@ public class Participante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column()
+    @Column(unique = true)
     @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;

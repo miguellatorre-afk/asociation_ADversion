@@ -29,7 +29,7 @@ public class SocioController {
     }
 
     @PostMapping("/socios")
-     public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio) throws MethodArgumentNotValidException{
+     public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio){
         Socio newsocio = socioService.add(socio);
         return new ResponseEntity<>(newsocio, HttpStatus.CREATED);
     }

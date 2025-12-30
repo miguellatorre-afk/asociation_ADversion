@@ -1,5 +1,6 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ServicioNotFoundException;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
@@ -27,6 +28,9 @@ public class TrabajadorService {
     }
 
     public Trabajador add(Trabajador trabajador) {
+        if(trabajadorRepository.existsBydni(trabajador.getDni())){
+            throw new BusinessRuleException("Un socio con DNI "+trabajador.getDni()+" ya existe");
+        }
         trabajadorRepository.save(trabajador);
         return trabajador;
     }

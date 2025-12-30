@@ -1,6 +1,7 @@
 package com.svalero.asociation.service;
 
 import com.svalero.asociation.exception.ActividadNotFoundException;
+import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
 import org.hibernate.query.ParameterLabelException;
@@ -28,12 +29,15 @@ public class ParticipanteService {
         return foundparticipante;
     }
 
-    public Participante add(Participante participante) throws MethodArgumentNotValidException {
+    public Participante add(Participante participante){
+        if(participanteRepository.existsBydni(participante.getDni())){
+            throw new BusinessRuleException("Un socio con DNI "+participante.getDni()+" ya existe");
+        }
         participanteRepository.save(participante);
         return participante;
     }
 
-    public Participante modify(long id, Participante participante) throws MethodArgumentNotValidException {
+    public Participante modify(long id, Participante participante){
         Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         modelMapper.map(participante, oldparticipante);
         return participanteRepository.save(oldparticipante);
