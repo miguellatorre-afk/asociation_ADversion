@@ -1,6 +1,5 @@
 package com.svalero.asociation.service;
 
-import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
@@ -8,8 +7,8 @@ import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,7 +19,16 @@ public class ParticipanteService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Participante> findAll(){
+    public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
+        if(birthDate!= null){
+            return participanteRepository.findByBirthDateAfter(birthDate);
+        }
+        if(name!=null){
+            return participanteRepository.findByNameStartingWithIgnoreCase(name);
+        }
+        if(typeRel!= null) {
+            return participanteRepository.findByTypeRel(typeRel);
+        }
         return participanteRepository.findAll();
     }
 

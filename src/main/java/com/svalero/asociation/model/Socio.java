@@ -39,9 +39,9 @@ public class Socio {
     @NotBlank
     private String phoneNumber;
     @Column(nullable = true, name = "family_model")
-    private String FamilyModel;
-    @Column(name = "is_active")
-    private boolean isActive;
+    private String familyModel;
+    @Column(name = "active")
+    private Boolean active;
     @Column(name = "entry_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate entryDate = LocalDate.now();

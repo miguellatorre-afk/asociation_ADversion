@@ -4,11 +4,12 @@ import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -17,8 +18,11 @@ public class SocioController {
     private SocioService socioService;
 
     @GetMapping("/socios")
-    public ResponseEntity<List<Socio>> getAll(@RequestParam(value = "divorced", defaultValue = "true") boolean isDivorced){
-        List<Socio> allsocios = socioService.findAll();
+    public ResponseEntity<List<Socio>> getAll(@RequestParam(value = "familyModel", required = false) String familyModel,
+                                              @RequestParam(value = "active", required = false) Boolean isActive,
+                                              @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
+
+        List<Socio> allsocios = socioService.findAll(familyModel, isActive, entryDate);
         return ResponseEntity.ok(allsocios);
     }
 
@@ -35,7 +39,7 @@ public class SocioController {
     }
 
     @PutMapping("/socios/{id}")
-    public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio) throws MethodArgumentNotValidException{
+    public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio){
         Socio updatedsocio = socioService.modify(id, socio);
         return ResponseEntity.ok(updatedsocio);
     }

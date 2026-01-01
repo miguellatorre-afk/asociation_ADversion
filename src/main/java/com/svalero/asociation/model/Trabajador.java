@@ -41,4 +41,6 @@ public class Trabajador {
     @Column( name = "entry_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate entryDate;
+    @Column
+    private String contractType;
 }

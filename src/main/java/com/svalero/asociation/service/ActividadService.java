@@ -5,8 +5,10 @@ import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,8 +18,18 @@ public class ActividadService {
     private ActividadRepository actividadRepository;
     @Autowired
     private ModelMapper modelMapper;
-    
-    public List<Actividad> findAll() {
+
+    public List<Actividad> findAll(LocalDate dayActivity, Boolean canjoin, Float duration) {
+
+        if (dayActivity!=null){
+            return actividadRepository.findByDayActivity(dayActivity);
+        }
+        if(canjoin!=null){
+            return actividadRepository.findByCanJoin(canjoin);
+        }
+        if (duration!= null){
+            return actividadRepository.findByDuration(duration);
+        }
         return actividadRepository.findAll();
     }
 
@@ -41,4 +53,6 @@ public class ActividadService {
         Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new ActividadNotFoundException("Actividad con ID:" + id + "not found"));
         actividadRepository.delete(actividad);
     }
+
+
 }

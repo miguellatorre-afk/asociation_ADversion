@@ -4,11 +4,13 @@ import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,8 +20,11 @@ public class ActividadController {
     private ActividadService actividadService;
 
     @GetMapping("/actividades")
-    public ResponseEntity<List<Actividad>> getAll(){
-        List<Actividad> allactividades = actividadService.findAll();
+    public ResponseEntity<List<Actividad>> getAll(
+            @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
+            @RequestParam(value = "duration", required = false) Float duration,
+            @RequestParam(value = "canjoin", required = false) Boolean canjoin){
+        List<Actividad> allactividades = actividadService.findAll(dayActivity, canjoin, duration);
         return ResponseEntity.ok(allactividades);
     }
 

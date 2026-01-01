@@ -3,6 +3,7 @@ package com.svalero.asociation.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,12 +32,12 @@ public class Actividad {
     private String typeActivity;
     @Column(precision = 2)
     @Positive
-    private float duration;
+    private Float duration;
     @Column(name = "can_join")
-    private boolean canJoin;
+    private Boolean canJoin;
     @Column(precision = 2)
     @Positive
-    private int capacity;
+    private Integer capacity;
     @Column(nullable = true)
     private double xCoord;
     private double yCoord;

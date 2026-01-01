@@ -4,11 +4,13 @@ import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ParticipanteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,8 +20,12 @@ public class ParticipanteController {
     private ParticipanteService participanteService;
 
     @GetMapping("/participantes")
-    public ResponseEntity<List<Participante>> getAll() {
-        List<Participante> allparticipantes = participanteService.findAll();
+    public ResponseEntity<List<Participante>> getAll(
+            @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "typeRel",required = false) String typeRel)
+    {
+        List<Participante> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
         return ResponseEntity.ok(allparticipantes);
     }
 

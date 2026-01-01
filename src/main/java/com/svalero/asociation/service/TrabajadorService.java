@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,7 +19,16 @@ public class TrabajadorService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Trabajador> findAll(){
+    public List<Trabajador> findAll(LocalDate entryDate, String name, String contractType){
+        if(entryDate!= null){
+            return trabajadorRepository.findByEntryDateAfter(entryDate);
+        }
+        if(name!=null){
+            return trabajadorRepository.findByNameStartingWithIgnoreCase(name);
+        }
+        if(contractType!= null) {
+            return trabajadorRepository.findByContractType(contractType);
+        }
         return trabajadorRepository.findAll();
     }
 

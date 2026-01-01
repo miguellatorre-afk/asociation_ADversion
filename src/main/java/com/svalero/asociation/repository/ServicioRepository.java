@@ -10,4 +10,9 @@ import java.util.List;
 public interface ServicioRepository extends CrudRepository<Servicio, Long>{
     List<Servicio> findAll();
 
+    List<Servicio> findByDuration(Float duration);
+
+    List<Servicio> findByPeriodicity(String periodicity);
+
+    List<Servicio> findByCapacity(Integer capacity);
 }

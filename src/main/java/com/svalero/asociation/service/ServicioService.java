@@ -6,7 +6,6 @@ import com.svalero.asociation.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -18,7 +17,16 @@ public class ServicioService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Servicio> findAll(){
+    public List<Servicio> findAll(String periodicity, Integer capacity, Float duration){
+        if(periodicity!= null) {
+            return servicioRepository.findByPeriodicity(periodicity);
+        }
+        if (capacity!= null){
+            return servicioRepository.findByCapacity(capacity);
+        }
+        if (duration!= null){
+            return servicioRepository.findByDuration(duration);
+        }
         return servicioRepository.findAll();
     }
 
@@ -43,4 +51,8 @@ public class ServicioService {
         servicioRepository.delete(servicio);
     }
 
+
 }
+
+
+

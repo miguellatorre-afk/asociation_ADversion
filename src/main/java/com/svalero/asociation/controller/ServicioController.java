@@ -1,13 +1,11 @@
 package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Servicio;
-import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ServicioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +17,11 @@ public class ServicioController {
     private ServicioService servicioService;
 
     @GetMapping("/servicios")
-    public ResponseEntity<List<Servicio>> getAll(){
-        List<Servicio> allservicios = servicioService.findAll();
+    public ResponseEntity<List<Servicio>> getAll(
+            @RequestParam(value = "periodicity", required = false)String periodicity,
+            @RequestParam(value="capacity", required = false) Integer capacity,
+            @RequestParam(value="duration", required = false) Float duration ){
+        List<Servicio> allservicios = servicioService.findAll(periodicity, capacity, duration);
         return ResponseEntity.ok(allservicios);
     }
 

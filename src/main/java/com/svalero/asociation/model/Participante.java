@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -50,6 +49,7 @@ public class Participante {
     @Column(columnDefinition = "TEXT")
     private String needs;
     private String typeRel;
+
 
 //    @ManyToOne(optional = true, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "socio_id")

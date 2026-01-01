@@ -26,5 +26,8 @@ public class Servicio {
     private String requisites;
     @Column(precision = 2)
     @Positive
-    private float duration;
+    private Float duration;
+    @Column(precision = 2)
+    @Positive
+    private Integer capacity;
 }
