@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -43,4 +44,12 @@ public class Trabajador {
     private LocalDate entryDate;
     @Column
     private String contractType;
+
+    @ManyToOne
+    @JoinColumn(name="actividad_id")
+    private Actividad actividadAsginada;
+
+    @ManyToOne
+    @JoinColumn(name="servicio_id")
+    private Actividad servicioAsignado;
 }

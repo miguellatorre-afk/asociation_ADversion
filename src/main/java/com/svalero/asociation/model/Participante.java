@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -51,8 +53,14 @@ public class Participante {
     private String typeRel;
 
 
-//    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "socio_id")
-//    @Null
-//    private Socio socioID;
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "socio_id")
+    @Null
+    private Socio socioID;
+
+    @ManyToMany(mappedBy = "participante")
+    private List<Actividad> actividadesInscritas;
+
+    @ManyToMany(mappedBy = "participante")
+    private List<Servicio> serviciosSolicitados;
 }

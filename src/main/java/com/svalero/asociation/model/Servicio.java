@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +32,10 @@ public class Servicio {
     @Column(precision = 2)
     @Positive
     private Integer capacity;
+
+    @ManyToMany(mappedBy = "servicio")
+    private List<Participante> participantesInscritos;
+
+    @OneToMany(mappedBy = "servicio")
+    private List<Trabajador> trabajadoresAsignados;
 }
