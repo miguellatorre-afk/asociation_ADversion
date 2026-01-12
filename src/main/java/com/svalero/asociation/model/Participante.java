@@ -58,9 +58,15 @@ public class Participante {
     @Null
     private Socio socioID;
 
-    @ManyToMany(mappedBy = "participante")
+    @ManyToMany
+    @JoinTable(name ="incripcion_actividad",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "actividad_id"))
     private List<Actividad> actividadesInscritas;
 
-    @ManyToMany(mappedBy = "participante")
+    @ManyToMany
+    @JoinTable(name ="incripcion_servicio",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "servicio_id"))
     private List<Servicio> serviciosSolicitados;
 }

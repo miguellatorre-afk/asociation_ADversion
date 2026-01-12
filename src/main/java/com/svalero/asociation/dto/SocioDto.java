@@ -1,7 +1,6 @@
 package com.svalero.asociation.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -14,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocioDto {
+    private long id;
     @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;
@@ -30,6 +30,4 @@ public class SocioDto {
     @NotBlank
     private String familyModel;
     private Boolean active;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate entryDate = LocalDate.now();
 }

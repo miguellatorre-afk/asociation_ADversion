@@ -44,10 +44,10 @@ public class Actividad {
     private double xCoord;
     private double yCoord;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "actividades")
     private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "actividad")
-    private Trabajador rabajadoresAsignados;
+    private List<Trabajador> trabajadoresAsignados;
 
 }

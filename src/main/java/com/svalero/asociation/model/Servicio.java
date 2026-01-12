@@ -33,7 +33,7 @@ public class Servicio {
     @Positive
     private Integer capacity;
 
-    @ManyToMany(mappedBy = "servicio")
+    @ManyToMany(mappedBy = "servicios")
     private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "servicio")

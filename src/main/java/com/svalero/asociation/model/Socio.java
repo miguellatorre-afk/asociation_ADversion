@@ -54,4 +54,6 @@ public class Socio {
         @OneToMany(mappedBy = "socio")
         @JsonBackReference
         private List<Participante> participanteList;
+
+
 }
