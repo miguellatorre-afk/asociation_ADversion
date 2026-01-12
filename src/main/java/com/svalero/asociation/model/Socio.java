@@ -7,7 +7,6 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,8 +14,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Socio")
-@Entity(name = "socios")
+@Table(name = "socio")
+@Entity(name = "socio")
 public class Socio {
         @Id
         @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -50,6 +49,7 @@ public class Socio {
         @Column(nullable = true)
         @Null
         private LocalDate outDate;
+
 
         @OneToMany(mappedBy = "socio")
         @JsonBackReference

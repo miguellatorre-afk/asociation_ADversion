@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocioDto {
-    private long id;
+    private Long id;
     @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;
@@ -23,11 +23,14 @@ public class SocioDto {
     private String surname;
     @NotBlank
     private String email;
-    private String address;
     @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
     @NotBlank
     private String phoneNumber;
     @NotBlank
-    private String familyModel;
     private Boolean active;
+
+
+    public Long getId(){
+        return id;
+    }
 }

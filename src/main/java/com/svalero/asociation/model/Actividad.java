@@ -48,6 +48,7 @@ public class Actividad {
     private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "actividad")
+    @JsonBackReference(value = "actividad_trabajadores")
     private List<Trabajador> trabajadoresAsignados;
 
 }

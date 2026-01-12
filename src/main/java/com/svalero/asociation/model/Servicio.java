@@ -1,5 +1,6 @@
 package com.svalero.asociation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -36,6 +37,7 @@ public class Servicio {
     @ManyToMany(mappedBy = "servicios")
     private List<Participante> participantesInscritos;
 
-    @OneToMany(mappedBy = "servicio")
+    @OneToMany(mappedBy = "servicios")
+    @JsonBackReference(value = "servicio_trabajadores")
     private List<Trabajador> trabajadoresAsignados;
 }

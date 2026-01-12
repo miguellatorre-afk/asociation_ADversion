@@ -1,5 +1,6 @@
 package com.svalero.asociation.controller;
 
+import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
@@ -18,17 +19,17 @@ public class SocioController {
     private SocioService socioService;
 
     @GetMapping("/socios")
-    public ResponseEntity<List<Socio>> getAll(@RequestParam(value = "familyModel", required = false) String familyModel,
-                                              @RequestParam(value = "active", required = false) Boolean isActive,
-                                              @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
+    public ResponseEntity<List<SocioDto>> getAll(@RequestParam(value = "familyModel", required = false) String familyModel,
+                                                 @RequestParam(value = "active", required = false) Boolean isActive,
+                                                 @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
 
-        List<Socio> allsocios = socioService.findAll(familyModel, isActive, entryDate);
+        List<SocioDto> allsocios = socioService.findAll(entryDate, familyModel, isActive);
         return ResponseEntity.ok(allsocios);
     }
 
     @GetMapping("/socios/{id}")
-    public ResponseEntity<Socio> getSocioById(@PathVariable long id){
-        Socio selectedsocio = socioService.findById(id);
+    public ResponseEntity<SocioDto> getSocioById(@PathVariable long id){
+        SocioDto selectedsocio = socioService.findById(id);
         return new ResponseEntity<>(selectedsocio, HttpStatus.ACCEPTED);
     }
 
