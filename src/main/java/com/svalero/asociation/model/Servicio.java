@@ -1,5 +1,6 @@
 package com.svalero.asociation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,4 +33,11 @@ public class Servicio {
     @Column(precision = 2)
     @Positive
     private Integer capacity;
+
+    @ManyToMany(mappedBy = "servicios")
+    private List<Participante> participantesInscritos;
+
+    @OneToMany(mappedBy = "servicios")
+    @JsonBackReference(value = "servicio_trabajadores")
+    private List<Trabajador> trabajadoresAsignados;
 }
