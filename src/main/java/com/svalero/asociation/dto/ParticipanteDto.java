@@ -19,8 +19,4 @@ public class ParticipanteDto {
     private String needs;
     private String typeRel;
     private long socioID;
-
-    public long getSocioID(){
-        return socioID;
-    }
 }

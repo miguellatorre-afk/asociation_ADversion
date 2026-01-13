@@ -55,6 +55,7 @@ public class ParticipanteService {
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un socio con DNI "+participante.getDni()+" ya existe");
         }
+        participante.setSocio(socioRepository.findById(socioDto.getId()).orElseThrow(() -> new ParameterLabelException("Socio con ID:" + socioDto.getId() + " no encontrado")));
         participanteRepository.save(participante);
         return participante;
     }
