@@ -21,7 +21,7 @@ public class ActividadService {
 
     public List<Actividad> findAll(LocalDate dayActivity, Boolean canjoin, Float duration) {
 
-        if (dayActivity!=null){
+        if(dayActivity!=null){// necesita convertir LocalDate a String
             return actividadRepository.findByDayActivity(dayActivity);
         }
         if(canjoin!=null){

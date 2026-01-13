@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipanteDto {
+    private long id;
     private String dni;
     private String name;
     private String surname;
