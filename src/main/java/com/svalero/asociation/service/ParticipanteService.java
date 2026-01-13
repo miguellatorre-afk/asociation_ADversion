@@ -1,10 +1,14 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.ParticipanteDto;
+import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
+import com.svalero.asociation.repository.SocioRepository;
 import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +22,40 @@ public class ParticipanteService {
     private ParticipanteRepository participanteRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private  SocioRepository socioRepository;
 
-    public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
+    public List<ParticipanteDto> findAll(LocalDate birthDate, String name, String typeRel){
+        List<Participante>participantes;
         if(birthDate!= null){
-            return participanteRepository.findByBirthDateAfter(birthDate);
+            participantes = participanteRepository.findByBirthDateAfter(birthDate);
         }
-        if(name!=null){
-            return participanteRepository.findByNameStartingWithIgnoreCase(name);
+        else if(name!=null){
+            participantes = participanteRepository.findByNameStartingWithIgnoreCase(name);
         }
-        if(typeRel!= null) {
-            return participanteRepository.findByTypeRel(typeRel);
+        else if(typeRel!= null) {
+            participantes = participanteRepository.findByTypeRel(typeRel);
         }
-        return participanteRepository.findAll();
+        else {
+            participantes = participanteRepository.findAll();
+        }
+        return modelMapper.map(participantes, new TypeToken<List<ParticipanteDto>>(){}.getType());
     }
 
-    public Participante findById(long id) {
-        Participante foundparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
-        return foundparticipante;
+    public ParticipanteDto findById(long id) {
+        Participante participanteSelected = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
+        ParticipanteDto participanteDto = modelMapper.map(participanteSelected, ParticipanteDto.class);
+        return participanteDto;
     }
 
-    public Participante add(Participante participante){
+    public  Participante add(ParticipanteDto participanteDto, SocioDto socioDto){
+
+        Participante participante = new Participante();
+        modelMapper.map(participanteDto, participante);
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un socio con DNI "+participante.getDni()+" ya existe");
         }
+        participante.setSocio(socioRepository.findById(socioDto.getId()).orElseThrow(() -> new ParameterLabelException("Socio con ID:" + socioDto.getId() + " no encontrado")));
         participanteRepository.save(participante);
         return participante;
     }

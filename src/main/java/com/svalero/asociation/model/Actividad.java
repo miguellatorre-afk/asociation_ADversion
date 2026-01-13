@@ -1,6 +1,7 @@
 package com.svalero.asociation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -41,4 +43,12 @@ public class Actividad {
     @Column(nullable = true)
     private double xCoord;
     private double yCoord;
+
+//    @ManyToMany(mappedBy = "actividades")
+//    private List<Participante> participantesInscritos;
+
+    @OneToMany(mappedBy = "actividad")
+    @JsonBackReference(value = "actividad_trabajadores")
+    private List<Trabajador> trabajadoresAsignados;
+
 }
