@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
-// mensaje de error customizado es dado como input String a los metodos NotFound mediante Elsethrow in capa service,
-// los cuales son hijos de ResourceNotFound, el handler lo maneja haciendo un objeto ErrorResponse
+// mensaje de error customizado implantado en los Elsethrow in capa service va 'subiendo' por *NotFoundException,
+// los cuales son hijos de ResourceNotFound y este de RunTimeExcepction, el handler lo maneja haciendo un objeto ErrorResponse
+//Exception clase reemplazado por RunTime , evitar tener que hacer un throw excepcion en los metodos que necesitas manejar
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // --- HANDLE 404 (Not Found) ---
+
     @ExceptionHandler(ResourceNotFoundException.class)//si el .class deja de ser el padre, se produce error 500
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex) {
         ErrorResponse error = ErrorResponse.generalError(404, ex.getMessage(), "Resource Not Found");
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    // --- HANDLE 400 (Bad Request / Validation) ---
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         ErrorResponse error = ErrorResponse.generalError(400, "Validation failed for one or more fields", "Bad Request");
@@ -41,7 +42,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    // --- HANDLE 500 (Internal Server Error) ---
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleGlobalError(Exception ex) {
         ErrorResponse error =  ErrorResponse.generalError(500, "An unexpected error occurred", "Internal Server Error");

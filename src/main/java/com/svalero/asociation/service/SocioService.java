@@ -40,7 +40,6 @@ public class SocioService {
     }
 
     public SocioDto findById(long id) {
-
         Socio socioSelected = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         SocioDto socioDto = modelMapper.map(socioSelected, SocioDto.class);
         return socioDto;
@@ -62,10 +61,11 @@ public class SocioService {
 
 
     public void delete(long id){
-        // se utilize en vez de ::new porque hay un constructor en la clase SocioNotFoundException
+
         Socio socio = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         socioRepository.delete(socio);
     }
+
 
 
 }
