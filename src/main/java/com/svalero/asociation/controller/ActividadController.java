@@ -35,7 +35,7 @@ public class ActividadController {
     }
 
     @PostMapping("/actividades")
-    @Validated public ResponseEntity<Actividad> addActividad(@Valid@RequestBody Actividad actividad){
+    public ResponseEntity<Actividad> addActividad(@Valid@RequestBody Actividad actividad){
         Actividad newactividad = actividadService.add(actividad);
         return new ResponseEntity<>(newactividad, HttpStatus.CREATED);
     }

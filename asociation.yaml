@@ -81,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Socio'
         '404':
-          description: not found
+          description: Not Found
           content:
             application/json:
               schema:

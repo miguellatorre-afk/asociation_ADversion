@@ -30,7 +30,7 @@ public class SocioController {
     @GetMapping("/socios/{id}")
     public ResponseEntity<SocioDto> getSocioById(@PathVariable long id){
         SocioDto selectedsocio = socioService.findById(id);
-        return new ResponseEntity<>(selectedsocio, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(selectedsocio, HttpStatus.OK);
     }
 
     @PostMapping("/socios")
