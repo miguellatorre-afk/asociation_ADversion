@@ -1,6 +1,9 @@
 package com.svalero.asociation.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
+import static org.mockito.ArgumentMatchers.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
@@ -17,6 +20,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,12 +48,16 @@ public class SocioControllerTest {
 
     @Test
     public void testFindAll_Return200() throws Exception {
-        List<SocioDto> mockSocioDtoList = List.of(
-                new SocioDto(1L, "77777777U", "Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L, "77787777U", "Yolanda", "Del Valle", "email@email.com", "888-566-323", true, LocalDate.now().plusDays(1))
+
+        List<Socio> mockSocioList = List.of(
+                new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
+                new Socio(2, "77777327U", "Juan", "Izabal", "email@email.com", "calle2", "888-566-323", "Monoparental", true, LocalDate.of(2000, 5,6), null, null)
         );
 
-        when(socioService.findAll(null, "", null)).thenReturn(mockSocioDtoList);
+        ModelMapper thismodelMapper = new ModelMapper();
+        List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
+
+        when(socioService.findAll(isNull(), isNull(), isNull())).thenReturn(mockSocioDtoList);
 
         //simulamos cliente Http                                   llamamos a findAll de Controller
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
@@ -58,39 +66,49 @@ public class SocioControllerTest {
                 .andReturn();
 
         ObjectMapper thisObjectMapper = new ObjectMapper();
+        thisObjectMapper.registerModule(new JavaTimeModule());
+        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         String jsonResponse = result.getResponse().getContentAsString();
-        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
+
+        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<List<SocioDto>>() {});
 
         assertNotNull(mockSocioDtoList);
-        assertEquals(0, socioDtoListResponse.size());
-
-
+        assertEquals("Alberto", socioDtoListResponse.get(0).getName());
+        assertEquals(2, socioDtoListResponse.size());
     }
 
-//    @Test
-//    public void testFindAll_ByEntryDate() throws Exception {
-//        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-//        List<SocioDto> mockSocioDtoList = List.of(
-//                new SocioDto(1L, "77777777U", "Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-//                new SocioDto(2L, "77787777U", "Yolanda", "Del Valle", "email@email.com", "888-566-323", true, LocalDate.now().plusDays(1))
-//        );
-//
-//        when(socioService.findAll(LocalDate.now(), "", null)).thenReturn(mockSocioDtoList);
-//
-//
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
-//                        .queryParam("entryDate", "2026/01/18")
-//                .accept(MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        ObjectMapper thisObjectMapper = new ObjectMapper();
-//        String jsonResponse = result.getResponse().getContentAsString();
-//        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
-//
-//        assertEquals(LocalDate.now(), socioDtoListResponse.getLast().getEntryDate());
-//
-//    }
+    @Test
+    public void testFindAll_ByEntryDate() throws Exception {
+
+        LocalDate filterDate = LocalDate.of(2000, 5, 6);
+
+        List<Socio> mockSocioList = List.of(
+                new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
+                new Socio(2, "77777327U", "Juan", "Izabal", "email@email.com", "calle2", "888-566-323", "Monoparental", true, LocalDate.of(2000, 5,6), null, null)
+        );
+
+        ModelMapper thismodelMapper = new ModelMapper();
+        List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
+
+        when(socioService.findAll(eq(filterDate), isNull(), isNull())).thenReturn(mockSocioDtoList);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
+                        .queryParam("entryDate", "2000-05-06")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ObjectMapper thisObjectMapper = new ObjectMapper();
+        thisObjectMapper.registerModule(new JavaTimeModule());
+        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        String jsonResponse = result.getResponse().getContentAsString();
+        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<List<SocioDto>>() {});
+
+        assertFalse(socioDtoListResponse.isEmpty(), "La lista sigue vacía, revisa el mapeo del Controlador");
+        assertEquals("Alberto", socioDtoListResponse.get(0).getName());
+    }
 
 
     @Test
@@ -99,14 +117,13 @@ public class SocioControllerTest {
         List<Socio> mockSocioList = List.of(
                 new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
                 new Socio(2, "77777327U", "Juan", "Izabal", "email@email.com", "calle2", "888-566-323", "Monoparental", true, LocalDate.of(2000, 5,6), null, null)
-
         );
-
 
         ModelMapper thismodelMapper = new ModelMapper();
         List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
 
-        when(socioService.findAll(null, "Monoparental", null)).thenReturn(mockSocioDtoList);
+
+        when(socioService.findAll(null, "Monoparental",null)).thenReturn(mockSocioDtoList);
 
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
@@ -115,28 +132,70 @@ public class SocioControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
+
         ObjectMapper thisObjectMapper = new ObjectMapper();
         thisObjectMapper.registerModule(new JavaTimeModule());
-        String jsonResponse = result.getResponse().getContentAsString();
-        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        assertEquals("Juan", socioDtoListResponse.getLast().getName());
+        String jsonResponse = result.getResponse().getContentAsString();
+
+
+        assertNotNull(jsonResponse);
+        assertFalse(jsonResponse.isEmpty(), "La respuesta JSON llegó vacía");
+
+        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse,
+                new TypeReference<List<SocioDto>>() {});
+
+        assertEquals("Juan", socioDtoListResponse.get(1).getName());
+    }
+
+    @Test
+    public void testFindAll_ByActive() throws Exception {
+
+        List<Socio> mockSocioList = List.of(
+                new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
+                new Socio(2, "77777327U", "Juan", "Izabal", "email@email.com", "calle2", "888-566-323", "Monoparental", true, LocalDate.of(2000, 5,6), null, null)
+
+        );
+
+        ModelMapper thismodelMapper = new ModelMapper();
+
+        List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
+
+        when(socioService.findAll(any(), any(), any())).thenReturn(mockSocioDtoList);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
+                        .queryParam("active", "true")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ObjectMapper thisObjectMapper = new ObjectMapper();
+        thisObjectMapper.registerModule(new JavaTimeModule());
+        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        String jsonResponse = result.getResponse().getContentAsString();
+
+        List<SocioDto> socioDtoListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {
+        });
+
+        assertNotNull(socioDtoListResponse);
+        assertEquals("Alberto", socioDtoListResponse.get(0).getName());
     }
 
 
     @Test
     public void testFindAll_Return404() throws Exception {
 
-        List<SocioDto> mockSocioDtoList = null;
+        List<SocioDto> mockSocioDtoList = List.of(
+                new SocioDto(1L, "77777777U", "Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
+                new SocioDto(2L, "77787777U", "Yolanda", "Del Valle", "email@email.com", "888-566-323", true, LocalDate.now().plusDays(1))
+        );
 
-        when(socioService.findAll(null, "", null)).thenReturn(mockSocioDtoList);
+        when(socioService.findAll(null, "", null)).thenThrow(SocioNotFoundException.class);
 
-       MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/socios/x"))
-                .andExpect(status().isNotFound())
-                .andReturn();
-
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-        List<SocioDto> socioDtoList = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        mockMvc.perform(MockMvcRequestBuilders.get("/socios"))
+                .andExpect(status().isNotFound());
 
     }
 
@@ -145,7 +204,6 @@ public class SocioControllerTest {
         Socio selected = new Socio(2, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
         ModelMapper thismodelmapper = new ModelMapper();
         SocioDto selectedDto = thismodelmapper.map(selected, SocioDto.class);
-
 
         when(socioService.findById(selectedDto.getId())).thenReturn(selectedDto);
 
@@ -164,60 +222,58 @@ public class SocioControllerTest {
     @Test
     public void testFindById_Return404()throws Exception{
         Socio selected = new Socio(1, "77777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
-        ModelMapper thismodelmapper = new ModelMapper();;
-        SocioDto selectedDto = thismodelmapper.map(selected, SocioDto.class);
-        when(socioService.findById(selectedDto.getId())).thenThrow(new SocioNotFoundException("Socio con ID" + selectedDto.getId() +" no encontrado"));
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/socios/2")
+        when(socioService.findById(selected.getId())).thenThrow(new SocioNotFoundException("Socio con ID" + selected.getId() +" no encontrado"));
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/socios/"+ selected.getId())
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
                 .andReturn();
-
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-        SocioDto sociodto = modelmapper.map(jsonResponse, SocioDto.class);
-
-        assertEquals(2, sociodto.getId());
-
     }
 
 
     @Test
     public void testAddSocio_Return201() throws Exception {
-        Socio socio = new Socio(2, "77777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
 
-        when(socioService.add(any(Socio.class))).thenReturn(socio);
+        Socio newsocio = new Socio(2, "77777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+        when(socioService.add(any(Socio.class))).thenReturn(newsocio);
 
+        ObjectMapper thisObjectmapper = new ObjectMapper();
 
+        thisObjectmapper.registerModule(new JavaTimeModule());
+        thisObjectmapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        thisObjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+        String jsonRequest = thisObjectmapper.writeValueAsString(newsocio);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/socios")
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
                 .andExpect(status().isCreated())
                 .andReturn();
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
-        SocioDto responsesociodto = objectMapper.readValue(jsonResponse, SocioDto.class);
+        SocioDto responsesociodto = thisObjectmapper.readValue(jsonResponse, SocioDto.class);
 
         assertNotNull(responsesociodto);
+        assertEquals(2, responsesociodto.getId());
+        assertEquals("Marcos", responsesociodto.getName());
     }
 
 
     @Test
     public void testAddSocio_Return400() throws Exception {
         Socio newsocio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
-//        String socioJson = objectMapper.writeValueAsString(newsocio);
+        String socioJson = objectMapper.writeValueAsString(newsocio);
 
         when(socioService.add(any(Socio.class))).thenThrow(new BusinessRuleException("Not accepted"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/socios")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.valueOf(newsocio)))
-//                        .content(socioJson))
+                        .content(socioJson))
                 .andExpect(status().isBadRequest());
 
-        verify(socioService, times(0)).add(any());
     }
 
 

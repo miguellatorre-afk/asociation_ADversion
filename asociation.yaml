@@ -176,7 +176,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Participante'
     post:
-      summary: Crear participante (requiere socioId)
+      summary: Crear participante
       requestBody:
         required: true
         content:

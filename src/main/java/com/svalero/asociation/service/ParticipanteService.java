@@ -1,7 +1,6 @@
 package com.svalero.asociation.service;
 
-import com.svalero.asociation.dto.ParticipanteDto;
-import com.svalero.asociation.dto.SocioDto;
+
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
@@ -25,33 +24,29 @@ public class ParticipanteService {
     @Autowired
     private  SocioRepository socioRepository;
 
-    public List<ParticipanteDto> findAll(LocalDate birthDate, String name, String typeRel){
+    public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
         List<Participante>participantes;
         if(birthDate!= null){
             participantes = participanteRepository.findByBirthDateAfter(birthDate);
         }
-        else if(name!=null){
+        else if(name!=null && !name.isEmpty()){
             participantes = participanteRepository.findByNameStartingWithIgnoreCase(name);
         }
-        else if(typeRel!= null) {
+        else if(typeRel!= null && !typeRel.isEmpty()) {
             participantes = participanteRepository.findByTypeRel(typeRel);
         }
         else {
             participantes = participanteRepository.findAll();
         }
-        return modelMapper.map(participantes, new TypeToken<List<ParticipanteDto>>(){}.getType());
+        return participantes;
     }
 
-    public ParticipanteDto findById(long id) {
+    public Participante findById(long id) {
         Participante participanteSelected = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
-        ParticipanteDto participanteDto = modelMapper.map(participanteSelected, ParticipanteDto.class);
-        return participanteDto;
+        return participanteSelected;
     }
 
-    public  Participante add(ParticipanteDto participanteDto, SocioDto socioDto){
-
-        Participante participante = new Participante();
-        modelMapper.map(participanteDto, participante);
+    public  Participante add(Participante participante){
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un socio con DNI "+participante.getDni()+" ya existe");
         }

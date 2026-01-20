@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.time.LocalDate;
@@ -32,8 +32,6 @@ public class SocioServiceTest {
 
     @Mock
     private ModelMapper mapper;
-
-
 
     @Test
     public void testFindAll() {
@@ -86,10 +84,8 @@ public class SocioServiceTest {
         verify(socioRepository, times(1)).findByEntryDateAfter(LocalDate.now());
     };
 
-
-
     @Test
-    void testAdd() {
+    public void testAdd() {
         Socio mockNewSocio = new Socio(3,"99932405D","Oscar", "Lanuza", "email@email.com", "C Subida 128", "991-003-323","Monoparental",false, LocalDate.now().plusDays(1), null, null);
         when(socioRepository.save(any(Socio.class))).thenReturn(mockNewSocio);
 
@@ -101,12 +97,10 @@ public class SocioServiceTest {
     }
 
     @Test
-    void testModify() {
+    public void testModify() {
 
         Socio mockSocio = new Socio(3,"77732405D","Eduardo", "Lanuza", "email@email.com", "C Subida 128", "991-003-323","Monoparental",false, LocalDate.now().plusDays(1), null, null);
-            when(socioRepository.findById(anyLong())).thenReturn(Optional.of(mockSocio));
-
-        SocioDto mappedMockSocio = socioService.findById(mockSocio.getId());
+        when(socioRepository.findById(anyLong())).thenReturn(Optional.of(mockSocio));
 
         Socio updatedMockSocio = new Socio(3,"77732405D","Jorge", "Lanuza", "email@email.com", "C Subida 128", "991-003-323","Monoparental",false, LocalDate.now().plusDays(1), null, null);
         when(socioRepository.save(any(Socio.class))).thenReturn(updatedMockSocio);

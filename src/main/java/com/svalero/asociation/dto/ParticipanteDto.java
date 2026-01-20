@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipanteDto {
+    private long id;
     private String dni;
     private String name;
     private String surname;
@@ -22,5 +23,9 @@ public class ParticipanteDto {
 
     public long getSocioID(){
         return socioID;
+    }
+
+    public long getId() {
+        return id;
     }
 }
