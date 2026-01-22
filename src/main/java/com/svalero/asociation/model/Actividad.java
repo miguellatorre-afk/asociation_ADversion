@@ -44,8 +44,8 @@ public class Actividad {
 ////    private double xCoord;
 ////    private double yCoord;
 
-    @ManyToMany(mappedBy = "actividades")
-    private List<Participante> participantesInscritos;
+//    @ManyToMany(mappedBy = "actividades")
+//    private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "actividad")
     @JsonBackReference(value = "actividad_trabajadores")

@@ -33,8 +33,8 @@ public class Servicio {
     @Positive
     private Integer capacity;
 
-    @ManyToMany(mappedBy = "servicios")
-    private List<Participante> participantesInscritos;
+//    @ManyToMany(mappedBy = "servicios")
+//    private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "servicios")
     @JsonBackReference(value = "servicio_trabajadores")

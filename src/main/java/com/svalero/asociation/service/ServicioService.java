@@ -18,7 +18,7 @@ public class ServicioService {
     private ModelMapper modelMapper;
 
     public List<Servicio> findAll(String periodicity, Integer capacity, Float duration){
-        if(periodicity!= null) {
+        if(periodicity!= null && !periodicity.isBlank()) {
             return servicioRepository.findByPeriodicity(periodicity);
         }
         if (capacity!= null){
