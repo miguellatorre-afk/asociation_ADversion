@@ -24,13 +24,17 @@ public class SocioController {
                                                  @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
 
         List<SocioDto> allsocios = socioService.findAll(entryDate, familyModel, isActive);
+
+        if (allsocios.isEmpty()){
+            ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(allsocios);
     }
 
     @GetMapping("/socios/{id}")
     public ResponseEntity<SocioDto> getSocioById(@PathVariable long id){
         SocioDto selectedsocio = socioService.findById(id);
-        return new ResponseEntity<>(selectedsocio, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(selectedsocio, HttpStatus.OK);
     }
 
     @PostMapping("/socios")

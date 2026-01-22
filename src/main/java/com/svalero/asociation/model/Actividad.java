@@ -40,9 +40,9 @@ public class Actividad {
     @Column(precision = 2)
     @Positive
     private Integer capacity;
-    @Column(nullable = true)
-    private double xCoord;
-    private double yCoord;
+//    @Column(nullable = true)
+////    private double xCoord;
+////    private double yCoord;
 
 //    @ManyToMany(mappedBy = "actividades")
 //    private List<Participante> participantesInscritos;

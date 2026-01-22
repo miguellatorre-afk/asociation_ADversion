@@ -30,7 +30,7 @@ public class Socio {
         @Column()
         @NotBlank
         private String surname;
-        @Column(nullable = true)
+        @Column(nullable = false)
         @NotBlank
         private String email;
         @Column()
