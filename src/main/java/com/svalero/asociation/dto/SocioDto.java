@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocioDto {
-    private Long id; /*si se rompre camnbiar a Long*/
+    private long id;
     @Pattern(regexp = "\\d{8}[A-Z]")
     @NotBlank
     private String dni;
@@ -28,6 +28,7 @@ public class SocioDto {
     private String phoneNumber;
     @NotBlank
     private Boolean active;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate entryDate;
 
 

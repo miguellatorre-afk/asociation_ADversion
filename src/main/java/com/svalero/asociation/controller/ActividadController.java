@@ -22,8 +22,8 @@ public class ActividadController {
     @GetMapping("/actividades")
     public ResponseEntity<List<Actividad>> getAll(
             @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
-            @RequestParam(value = "duration", required = false) Float duration,
-            @RequestParam(value = "canjoin", required = false) Boolean canjoin){
+            @RequestParam(value = "canjoin", required = false) Boolean canjoin,
+            @RequestParam(value = "duration", required = false) Float duration){
         List<Actividad> allactividades = actividadService.findAll(dayActivity, canjoin, duration);
         return ResponseEntity.ok(allactividades);
     }
@@ -31,7 +31,10 @@ public class ActividadController {
     @GetMapping("/actividades/{id}")
     public ResponseEntity<Actividad> getActividadById(@PathVariable long id){
         Actividad selectedactividad = actividadService.findById(id);
-        return new ResponseEntity<>(selectedactividad, HttpStatus.ACCEPTED);
+        if (selectedactividad == null){
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(selectedactividad, HttpStatus.OK);
     }
 
     @PostMapping("/actividades")
@@ -43,6 +46,9 @@ public class ActividadController {
     @PutMapping("/actividades/{id}")
     public ResponseEntity<Actividad> editActividad(@PathVariable long id, @Valid@RequestBody Actividad actividad){
         Actividad updatedactividad = actividadService.modify(id, actividad);
+        if (updatedactividad == null){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updatedactividad);
     }
 

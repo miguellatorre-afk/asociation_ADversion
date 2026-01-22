@@ -1,7 +1,5 @@
 package com.svalero.asociation.controller;
 
-import com.svalero.asociation.dto.ParticipanteDto;
-import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ParticipanteService;
 import com.svalero.asociation.service.SocioService;
@@ -22,29 +20,25 @@ public class ParticipanteController {
     @Autowired
     private ParticipanteService participanteService;
 
-    @Autowired
-    private SocioService socioService;
-
     @GetMapping("/participantes")
-    public ResponseEntity<List<ParticipanteDto>> getAll(
+    public ResponseEntity<List<Participante>> getAll(
             @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "typeRel",required = false) String typeRel)
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "typeRel",required = false, defaultValue = "") String typeRel)
     {
-        List<ParticipanteDto> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
+        List<Participante> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
         return ResponseEntity.ok(allparticipantes);
     }
 
     @GetMapping("/participantes/{id}")
-    public ResponseEntity<ParticipanteDto> getParticipanteById(@PathVariable long id) {
-        ParticipanteDto selectedparticipante = participanteService.findById(id);
-        return new ResponseEntity<>(selectedparticipante, HttpStatus.ACCEPTED);
+    public ResponseEntity<Participante> getParticipanteById(@PathVariable long id) {
+        Participante selectedparticipante = participanteService.findById(id);
+        return new ResponseEntity<>(selectedparticipante, HttpStatus.OK);
     }
 
     @PostMapping("/participantes")
-    public ResponseEntity<Participante> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto) throws MethodArgumentNotValidException {
-        SocioDto socioDto = socioService.findById(participanteDto.getSocioID());
-        Participante newparticipante = participanteService.add(participanteDto, socioDto);
+    public ResponseEntity<Participante> addParticipante(@Valid@RequestBody Participante participante) throws MethodArgumentNotValidException {
+        Participante newparticipante = participanteService.add(participante);
         return new ResponseEntity<>(newparticipante, HttpStatus.CREATED);
     }
 

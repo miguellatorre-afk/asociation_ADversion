@@ -59,9 +59,7 @@ public class SocioService {
         return socioRepository.save(oldsocio);
     }
 
-
     public void delete(long id){
-
         Socio socio = socioRepository.findById(id).orElseThrow(() -> new SocioNotFoundException("Socio con ID " + id + " no encontrado"));
         socioRepository.delete(socio);
     }

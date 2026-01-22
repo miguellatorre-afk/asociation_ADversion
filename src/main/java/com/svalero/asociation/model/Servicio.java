@@ -21,7 +21,6 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column()
-    @NotBlank
     private String description;
     @Column()
     private String periodicity;

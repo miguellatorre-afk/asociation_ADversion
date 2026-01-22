@@ -23,10 +23,10 @@ public class TrabajadorService {
         if(entryDate!= null){
             return trabajadorRepository.findByEntryDateAfter(entryDate);
         }
-        if(name!=null){
+        if(name!=null && !name.isEmpty()){
             return trabajadorRepository.findByNameStartingWithIgnoreCase(name);
         }
-        if(contractType!= null) {
+        if(contractType!= null && !contractType.isEmpty()) {
             return trabajadorRepository.findByContractType(contractType);
         }
         return trabajadorRepository.findAll();
