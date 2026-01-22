@@ -26,20 +26,20 @@ public class Participante {
     private long id;
     @Column(unique = true)
     @Pattern(regexp = "\\d{8}[A-Z]")
-    @NotBlank
+    @NotBlank(message = "debe tener dni")
     private String dni;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "debe tener nombre")
     private String name;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "debe tener apellido")
     private String surname;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "debe tener email")
     private String email;
     @Column(name = "phone_number")
     @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
-    @NotBlank
+    @NotBlank(message = "debe tener nº de teléfono")
     private String phoneNumber;
     @Column(name = "birth_date")
     @Past

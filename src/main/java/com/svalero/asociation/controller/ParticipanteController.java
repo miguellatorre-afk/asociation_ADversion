@@ -20,9 +20,6 @@ public class ParticipanteController {
     @Autowired
     private ParticipanteService participanteService;
 
-    @Autowired
-    private SocioService socioService;
-
     @GetMapping("/participantes")
     public ResponseEntity<List<Participante>> getAll(
             @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
@@ -36,7 +33,7 @@ public class ParticipanteController {
     @GetMapping("/participantes/{id}")
     public ResponseEntity<Participante> getParticipanteById(@PathVariable long id) {
         Participante selectedparticipante = participanteService.findById(id);
-        return new ResponseEntity<>(selectedparticipante, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(selectedparticipante, HttpStatus.OK);
     }
 
     @PostMapping("/participantes")

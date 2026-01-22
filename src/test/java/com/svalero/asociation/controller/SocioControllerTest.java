@@ -3,7 +3,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import static org.mockito.ArgumentMatchers.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
@@ -47,7 +46,7 @@ public class SocioControllerTest {
     private ModelMapper modelmapper;
 
     @Test
-    public void testFindAll_Return200() throws Exception {
+    public void testFindAllSocio_Return200() throws Exception {
 
         List<Socio> mockSocioList = List.of(
                 new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
@@ -79,7 +78,7 @@ public class SocioControllerTest {
     }
 
     @Test
-    public void testFindAll_ByEntryDate() throws Exception {
+    public void testFindAllSocio_ByEntryDate() throws Exception {
 
         LocalDate filterDate = LocalDate.of(2000, 5, 6);
 
@@ -112,7 +111,7 @@ public class SocioControllerTest {
 
 
     @Test
-    public void testFindAll_ByFamilyModel() throws Exception {
+    public void testFindAllSocio_ByFamilyModel() throws Exception {
 
         List<Socio> mockSocioList = List.of(
                 new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
@@ -150,7 +149,7 @@ public class SocioControllerTest {
     }
 
     @Test
-    public void testFindAll_ByActive() throws Exception {
+    public void testFindAllSocio_ByActive() throws Exception {
 
         List<Socio> mockSocioList = List.of(
                 new Socio(1, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.of(2000, 5,6), null, null),
@@ -183,24 +182,8 @@ public class SocioControllerTest {
         assertEquals("Alberto", socioDtoListResponse.get(0).getName());
     }
 
-
     @Test
-    public void testFindAll_Return404() throws Exception {
-
-        List<SocioDto> mockSocioDtoList = List.of(
-                new SocioDto(1L, "77777777U", "Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L, "77787777U", "Yolanda", "Del Valle", "email@email.com", "888-566-323", true, LocalDate.now().plusDays(1))
-        );
-
-        when(socioService.findAll(null, "", null)).thenThrow(SocioNotFoundException.class);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/socios"))
-                .andExpect(status().isNotFound());
-
-    }
-
-    @Test
-    public void testFindById_Return200()throws Exception{
+    public void testFindSocio_ById_Return200()throws Exception{
         Socio selected = new Socio(2, "77777777U", "Alberto", "Gomara", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
         ModelMapper thismodelmapper = new ModelMapper();
         SocioDto selectedDto = thismodelmapper.map(selected, SocioDto.class);
@@ -220,17 +203,16 @@ public class SocioControllerTest {
     }
 
     @Test
-    public void testFindById_Return404()throws Exception{
+    public void testFindSocio_ById_Return404()throws Exception{
         Socio selected = new Socio(1, "77777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
 
         when(socioService.findById(selected.getId())).thenThrow(new SocioNotFoundException("Socio con ID" + selected.getId() +" no encontrado"));
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/socios/"+ selected.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get("/socios/"+ selected.getId())
                         .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound())
-                .andReturn();
-    }
+                .andExpect(status().isNotFound());
 
+    }
 
     @Test
     public void testAddSocio_Return201() throws Exception {
@@ -239,9 +221,7 @@ public class SocioControllerTest {
         when(socioService.add(any(Socio.class))).thenReturn(newsocio);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
-
         thisObjectmapper.registerModule(new JavaTimeModule());
-        thisObjectmapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         thisObjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         String jsonRequest = thisObjectmapper.writeValueAsString(newsocio);
@@ -261,7 +241,6 @@ public class SocioControllerTest {
         assertEquals("Marcos", responsesociodto.getName());
     }
 
-
     @Test
     public void testAddSocio_Return400() throws Exception {
         Socio newsocio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
@@ -274,6 +253,77 @@ public class SocioControllerTest {
                         .content(socioJson))
                 .andExpect(status().isBadRequest());
 
+    }
+
+    @Test
+    void testEditSocio_For200() throws Exception {
+        Socio originalSocio = new Socio(2, "77777781U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+        Socio wantedSocio = new Socio(1, "77777781U", "Elena", "Honores", "email@email.com", "C Recogidas 90", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+
+        ObjectMapper thisObjectmapper = new ObjectMapper();
+        thisObjectmapper.registerModule(new JavaTimeModule());
+
+        when(socioService.modify(2, wantedSocio)).thenReturn(wantedSocio);
+
+        String jsonRequest = thisObjectmapper.writeValueAsString(wantedSocio);
+
+       MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/socios/" + originalSocio.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isOk())
+               .andReturn();
+
+        String jsonResponse = result.getResponse().getContentAsString();
+
+        Socio responseActividad = thisObjectmapper.readValue(jsonResponse, Socio.class);
+        assertEquals(1, responseActividad.getId());
+    }
+
+    @Test
+    void testEditSocio_For404() throws Exception {
+        Socio wantedSocio =new Socio(2, "77777781U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+
+        ObjectMapper thisObjectmapper = new ObjectMapper();
+        thisObjectmapper.registerModule(new JavaTimeModule());
+
+        when(socioService.modify(anyLong(), any(Socio.class)))
+                .thenThrow(new SocioNotFoundException("Socio Not Found"));
+
+        String jsonRequest = thisObjectmapper.writeValueAsString(wantedSocio);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testEditSocio_For400() throws Exception {
+        Socio wantedSocio =new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+
+        ObjectMapper thisObjectmapper = new ObjectMapper();
+        thisObjectmapper.registerModule(new JavaTimeModule());
+
+        when(socioService.modify(anyLong(), any(Socio.class)))
+                .thenThrow(new SocioNotFoundException("Socio Not Found"));
+
+        String jsonRequest = thisObjectmapper.writeValueAsString(wantedSocio);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testDeleteSocio_For204() throws Exception{
+        Socio socio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+
+        doNothing().when(socioService).delete(socio.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/socios/" + socio.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
 

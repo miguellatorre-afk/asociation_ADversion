@@ -1,6 +1,7 @@
 package com.svalero.asociation.service;
 
 import com.svalero.asociation.model.Actividad;
+import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,6 +110,17 @@ public class ActividadServiceTest {
         verify(actividadRepository, times(0)).findByDayActivity(null);
         verify(actividadRepository, times(0)).findByCanJoin(null);
         verify(actividadRepository, times(1)).findByDuration(40f);
+    }
+
+    @Test
+    public void testFindById(){
+        Actividad selectedActividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+
+        when(actividadRepository.findById(selectedActividad.getId())).thenReturn(Optional.of(selectedActividad));
+
+        Actividad result = actividadService.findById(selectedActividad.getId());
+
+        assertEquals("Club de lectura", result.getDescription());
     }
 
     @Test

@@ -43,7 +43,7 @@ class ServicioControllerTest {
     private ModelMapper modelmapper;
 
     @Test
-    void testGetAll_Return200() throws Exception {
+    void testGetAllServicio_Return200() throws Exception {
 
         List<Servicio> serviciosList = List.of(
                 new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
@@ -72,7 +72,7 @@ class ServicioControllerTest {
     }
 
     @Test
-    void testGetAll_ByPeridiocity() throws Exception {
+    void testGetAllServicio_ByPeridiocity() throws Exception {
 
         List<Servicio> serviciosList = List.of(
                 new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
@@ -98,7 +98,7 @@ class ServicioControllerTest {
     }
 
     @Test
-    void testGetAll_ByCapacity() throws Exception {
+    void testGetAllServicio_ByCapacity() throws Exception {
 
         List<Servicio> serviciosList = List.of(
                 new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
@@ -124,7 +124,7 @@ class ServicioControllerTest {
     }
 
     @Test
-    void testGetAll_ByDuration() throws Exception {
+    void testGetAllServicio_ByDuration() throws Exception {
 
         List<Servicio> serviciosList = List.of(
                 new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),

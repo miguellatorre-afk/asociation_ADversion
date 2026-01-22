@@ -1,6 +1,6 @@
 package com.svalero.asociation.service;
 
-import com.svalero.asociation.model.Servicio;
+
 import com.svalero.asociation.model.Servicio;
 import com.svalero.asociation.repository.ServicioRepository;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -111,6 +111,13 @@ class ServicioServiceTest {
     
     @Test
     void findById() {
+        Servicio selectedServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+
+        when(servicioRepository.findById(selectedServicio.getId())).thenReturn(Optional.of(selectedServicio));
+
+        Servicio result = servicioService.findById(selectedServicio.getId());
+
+        assertEquals("trabajo social", result.getDescription());
     }
 
     @Test

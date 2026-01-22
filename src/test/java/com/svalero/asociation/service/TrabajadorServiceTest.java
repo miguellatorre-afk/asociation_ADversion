@@ -1,5 +1,6 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
 import org.junit.jupiter.api.Test;
@@ -109,12 +110,16 @@ public class TrabajadorServiceTest{
     void findById() {
         Trabajador selectedTrabajador =   new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
 
+        when(trabajadorRepository.findById(selectedTrabajador.getId())).thenReturn(Optional.of(selectedTrabajador));
 
+        Trabajador result = trabajadorService.findById(selectedTrabajador.getId());
+
+        assertEquals("Hector", result.getName());
 
     }
 
     @Test
-    void add() {
+    void testAdd() {
         Trabajador newTrabajador =   new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
 
         when(trabajadorRepository.save(newTrabajador)).thenReturn(newTrabajador);
@@ -125,7 +130,7 @@ public class TrabajadorServiceTest{
     }
 
     @Test
-    void modify() {
+    void testModify() {
 
         Trabajador oldTrabajador =   new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
         Trabajador wantedTrabajador =   new Trabajador(1, "1112777K", "Gustavo", "Aladia", "email@email", "982-966-710", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
@@ -145,7 +150,7 @@ public class TrabajadorServiceTest{
     }
 
     @Test
-    void delete() {
+    void testDelete() {
         Trabajador trabajador =   new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
 
         when(trabajadorRepository.findById(trabajador.getId())).thenReturn(Optional.of(trabajador));

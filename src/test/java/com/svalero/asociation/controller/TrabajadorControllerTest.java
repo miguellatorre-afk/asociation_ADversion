@@ -3,9 +3,10 @@ package com.svalero.asociation.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.exception.TrabajadorNotFoundException;
+import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.service.TrabajadorService;
 import org.junit.jupiter.api.Test;
@@ -153,6 +154,7 @@ class TrabajadorControllerTest {
         thisObjectMapper.registerModule(new JavaTimeModule());
         thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+
         String jsonResponse = result.getResponse().getContentAsString();
 
         assertNotNull(jsonResponse);
@@ -167,16 +169,11 @@ class TrabajadorControllerTest {
     @Test
     public void testFindAll_Return404() throws Exception {
 
-        List<Trabajador> mockTrabajadorList = List.of(
-                new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null),
-                new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
-        );
+        when(trabajadorService.findAll(any(), any(), any()))
+                .thenThrow(new TrabajadorNotFoundException("No trabajadores"));
 
-        when(trabajadorService.findAll(isNull(), isNull(), isNull())).thenThrow(TrabajadorNotFoundException.class);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/socios"))
-                .andExpect(status().isNotFound())
-                .andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/trabajadores"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -194,18 +191,16 @@ class TrabajadorControllerTest {
         Trabajador trabajadorResult = objectMapper.readValue(jsonResponse, Trabajador.class);
 
         assertEquals(1, trabajadorResult.getId());
-
     }
 
     @Test
     public void testAddTrabajador_Return201() throws Exception {
-        Trabajador newTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null);
+        Trabajador newTrabajador = new Trabajador(0, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now().minusDays(1), LocalDate.now(), "Tiempo Completo", null, null);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
-        thisObjectmapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        when(trabajadorService.add(any(Trabajador.class))).thenReturn(newTrabajador);
+        when(trabajadorService.add(newTrabajador)).thenReturn(newTrabajador);
 
         String jsonRequest = thisObjectmapper.writeValueAsString(newTrabajador);
 
@@ -221,13 +216,14 @@ class TrabajadorControllerTest {
         Trabajador responseTrabajador = thisObjectmapper.readValue(jsonResponse, Trabajador.class);
 
         assertNotNull(responseTrabajador);
-        assertEquals(2, responseTrabajador.getId());
+        assertEquals(0, responseTrabajador.getId());
         assertEquals("Diana", responseTrabajador.getName());
     }
 
     @Test
     public void testAddTrabajador_Return400() throws Exception {
-        Trabajador newTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null);
+
+        Trabajador newTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Contrato Temporal", null, null);
         String socioJson = objectMapper.writeValueAsString(newTrabajador);
 
         when(trabajadorService.add(any(Trabajador.class))).thenThrow(new TrabajadorNotFoundException("Not found"));
@@ -239,7 +235,47 @@ class TrabajadorControllerTest {
     }
 
     @Test
-    public void testModifyTrabajador() throws Exception {
+    void testEditTrabajador_For200() throws Exception {
+        Trabajador wantedTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.of(1995, 5, 10), LocalDate.now(), "Contrato Temporal", null, null);
+
+        ObjectMapper thisObjectmapper = new ObjectMapper();
+        thisObjectmapper.registerModule(new JavaTimeModule());
+
+        when(trabajadorService.modify(eq(1L), any(Trabajador.class))).thenReturn(wantedTrabajador);
+
+        String jsonRequest = thisObjectmapper.writeValueAsString(wantedTrabajador);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/trabajadores/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isOk());
+
+
+        Trabajador responseActividad = thisObjectmapper.readValue(jsonRequest, Trabajador.class);
+        assertEquals(1, responseActividad.getId());
+    }
+
+    @Test
+    void testEditTrabajador_For404() throws Exception {
+        Trabajador wantedTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email.com", "888-566-323", LocalDate.of(1995, 5, 10), LocalDate.now(), "Contrato Temporal", null, null);
+
+        ObjectMapper thisObjectmapper = new ObjectMapper();
+        thisObjectmapper.registerModule(new JavaTimeModule());
+
+        when(trabajadorService.modify(anyLong(), any(Trabajador.class)))
+                .thenThrow(new TrabajadorNotFoundException("Trabajador Not Found"));
+
+        String jsonRequest = thisObjectmapper.writeValueAsString(wantedTrabajador);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/trabajadores/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    void testDeleteTrabajador_For204() throws Exception{
         Trabajador selected = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null);
 
         doNothing().when(trabajadorService).delete(selected.getId());

@@ -108,23 +108,24 @@ class ActividadControllerTest {
                 new Actividad(2, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
         );
 
-        when(actividadService.findAll(isNull(), eq(true), isNull())).thenReturn(actividadesList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
-                        .queryParam("canJoin", "true")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
+        when(actividadService.findAll(any(), any(), any())).thenReturn(actividadesList);
 
         ObjectMapper thisObjectMapper = new ObjectMapper();
         thisObjectMapper.registerModule(new JavaTimeModule());
         thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
+                        .queryParam("canjoin", "true")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
 
         List<Actividad> actividadesListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
         assertNotNull(actividadesListresponse);
+        assertEquals(2, actividadesListresponse.size());
         assertEquals("Partido de baloncesto", actividadesListresponse.get(1).getDescription());
     }
 
@@ -157,7 +158,7 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testGetActividadById_For200() throws Exception {
+    void testGetById_For200() throws Exception {
         Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
 
 
@@ -180,7 +181,7 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testGetActividadById_For404() throws Exception {
+    void testGetById_For404() throws Exception {
         when(actividadService.findById(4)).thenThrow(new ActividadNotFoundException("Not found"));
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/4")
@@ -190,16 +191,16 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testAddActividad_For201() throws Exception {
+    void testAddFor201() throws Exception {
 
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+        Actividad newActividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
 
-        when(actividadService.add(any(Actividad.class))).thenReturn(selected);
+        when(actividadService.add(any(Actividad.class))).thenReturn(newActividad);
 
-        String jsonRequest = thisObjectmapper.writeValueAsString(selected);
+        String jsonRequest = thisObjectmapper.writeValueAsString(newActividad);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -217,7 +218,7 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testAddActividad_For400() throws Exception {
+    void testAdd_For400() throws Exception {
 
         Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
 
@@ -245,7 +246,7 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testEditActividad_For200() throws Exception {
+    void testEdit_For200() throws Exception {
 
         Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
         Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Individual", 40f, true, 7, null, null);
@@ -271,9 +272,8 @@ class ActividadControllerTest {
         assertEquals(1, responseActividad.getId());
     }
 
-
     @Test
-    void testEditActividad_For404() throws Exception {
+    void testEdit_For404() throws Exception {
 
         Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
         Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Individual", 40f, true, 7, null, null);
@@ -291,12 +291,10 @@ class ActividadControllerTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonRequest))
                 .andExpect(status().isNotFound());
-
     }
 
-
     @Test
-    void testDeleteActividad_For204() throws Exception{
+    void testDelete_For204() throws Exception{
     Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
 
         doNothing().when(actividadService).delete(selected.getId());

@@ -109,6 +109,16 @@ public class ParticipanteServiceTest {
         verify(participanteRepository, times(1)).findByTypeRel("hijo");
     }
 
+    @Test
+    public void testFindById(){
+        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
+
+        when(participanteRepository.findById(selectedParticipante.getId())).thenReturn(Optional.of(selectedParticipante));
+
+        Participante result = participanteService.findById(selectedParticipante.getId());
+
+        assertEquals("Alberto", result.getName());
+    }
 
     @Test
     public void testAdd(){

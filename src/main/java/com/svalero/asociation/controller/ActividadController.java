@@ -22,8 +22,8 @@ public class ActividadController {
     @GetMapping("/actividades")
     public ResponseEntity<List<Actividad>> getAll(
             @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
-            @RequestParam(value = "duration", required = false) Float duration,
-            @RequestParam(value = "canjoin", required = false) Boolean canjoin){
+            @RequestParam(value = "canjoin", required = false) Boolean canjoin,
+            @RequestParam(value = "duration", required = false) Float duration){
         List<Actividad> allactividades = actividadService.findAll(dayActivity, canjoin, duration);
         return ResponseEntity.ok(allactividades);
     }
