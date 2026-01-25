@@ -41,8 +41,8 @@ public class SocioServiceTest {
                 new Socio(2,"77777777U","Yolanda", "Del Valle", "email@email.com", "C Octavio Cuartero 35c","888-566-323", "Monoparental", true, LocalDate.now() ,null, null));
 
         List<SocioDto> mockSocioDtoList=List.of(
-                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true,LocalDate.now()));
+                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true,"monoparental" ,LocalDate.now()),
+                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true, "monoparental",LocalDate.now()));
 
         when(socioRepository.findAll()).thenReturn(mockSocioList);
         when(mapper.map(mockSocioList, new TypeToken<List<SocioDto>>(){}.getType())).thenReturn(mockSocioDtoList);
@@ -65,9 +65,8 @@ public class SocioServiceTest {
                 new Socio(2,"77777777U","Yolanda", "Del Valle", "email@email.com", "C Octavio Cuartero 35c","888-566-323", "Monoparental", true, LocalDate.now() ,null, null));
 
         List<SocioDto> mockSocioDtoList=List.of(
-                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true,LocalDate.now()));
-
+                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true,"monoparental" ,LocalDate.now()),
+                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true, "monoparental",LocalDate.now()));
         when(socioRepository.findByFamilyModel("Nuclear")).thenReturn(mockSocioList);
         when(mapper.map(mockSocioList, new TypeToken<List<SocioDto>>(){}.getType())).thenReturn(mockSocioDtoList);
 
@@ -90,8 +89,8 @@ public class SocioServiceTest {
                 new Socio(2,"77777777U","Yolanda", "Del Valle", "email@email.com", "C Octavio Cuartero 35c","888-566-323", "Monoparental", true, LocalDate.now() ,null, null));
 
         List<SocioDto> mockSocioDtoList=List.of(
-                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true,LocalDate.now()));
+                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true,"monoparental" ,LocalDate.now()),
+                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true, "monoparental",LocalDate.now()));
 
         when(socioRepository.findByActive(true)).thenReturn(mockSocioList);
         when(mapper.map(mockSocioList, new TypeToken<List<SocioDto>>(){}.getType())).thenReturn(mockSocioDtoList);
@@ -116,8 +115,8 @@ public class SocioServiceTest {
                 new Socio(3,"77777777U","Yolanda", "Del Valle", "email@email.com", "C Octavio Cuartero 35c","888-566-323", "Monoparental", true, LocalDate.now().plusDays(1) ,null, null));
 
         List<SocioDto> mockSocioDtoList=List.of(
-                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now()),
-                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true, LocalDate.now().plusDays(1)));
+                new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true,"monoparental" ,LocalDate.now()),
+                new SocioDto(2L,"77787777U","Yolanda", "Del Valle", "email@email.com", "888-566-323", true, "monoparental",LocalDate.now()));
 
         when(socioRepository.findByEntryDateAfter(LocalDate.now())).thenReturn(mockSocioList);
         when(mapper.map(mockSocioList, new TypeToken<List<SocioDto>>(){}.getType())).thenReturn(mockSocioDtoList);
@@ -126,7 +125,7 @@ public class SocioServiceTest {
 
         assertEquals(2, socioDtoList.size());
         assertEquals("77777777U", socioDtoList.getFirst().getDni());
-        assertEquals(LocalDate.now().plusDays(1), socioDtoList.get(1).getEntryDate());
+        assertEquals(LocalDate.now(), socioDtoList.get(1).getEntryDate());
 
         verify(socioRepository, times(0)).findAll();
         verify(socioRepository, times(0)).findByFamilyModel("");
@@ -136,8 +135,8 @@ public class SocioServiceTest {
 
     @Test
     public void testFindById(){
-       Socio selectedSocio =  new Socio(2,"77777777U","Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323","Nuclear",true, LocalDate.now().plusDays(1), null, null);
-       SocioDto selectedSocioDto =   new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, LocalDate.now());
+       Socio selectedSocio =  new Socio(2,"77777777U","Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323","nuclear",true, LocalDate.now().plusDays(1), null, null);
+       SocioDto selectedSocioDto =   new SocioDto(1L,"77777777U","Marcos", "García", "email@email.com", "888-566-323", true, "homoparental",LocalDate.now());
 
        when(socioRepository.findById(selectedSocio.getId())).thenReturn(Optional.of(selectedSocio));
        when(mapper.map(selectedSocio, SocioDto.class)).thenReturn(selectedSocioDto);

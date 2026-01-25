@@ -1,15 +1,12 @@
 package com.svalero.asociation.controller;
 
-import com.svalero.asociation.exception.ErrorResponse;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.service.TrabajadorService;
 import jakarta.validation.Valid;
-import org.hibernate.validator.internal.engine.messageinterpolation.parser.MessageDescriptorFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;

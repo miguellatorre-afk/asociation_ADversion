@@ -22,15 +22,16 @@ public class Actividad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "necesita una descripción")
     private String description;
     @Column(name = "day_activity")
+    @NotBlank(message = "necesita una una fecha")
     @FutureOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dayActivity;
     @Column (name = "type_activity")
-    @NotBlank
+    @NotBlank(message = "necesita una tipo de Actividad")
     private String typeActivity;
     @Column(precision = 2)
     @Positive
@@ -40,12 +41,12 @@ public class Actividad {
     @Column(precision = 2)
     @Positive
     private Integer capacity;
-//    @Column(nullable = true)
-////    private double xCoord;
-////    private double yCoord;
+    @Column(nullable = true)
+//    private double xCoord;
+//    private double yCoord;
 
-//    @ManyToMany(mappedBy = "actividades")
-//    private List<Participante> participantesInscritos;
+    @ManyToMany(mappedBy = "actividades")
+    private List<Participante> participantesInscritos;
 
     @OneToMany(mappedBy = "actividad")
     @JsonBackReference(value = "actividad_trabajadores")

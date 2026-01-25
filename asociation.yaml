@@ -9,14 +9,34 @@ paths:
   /socios:
     get:
       summary: Devuelve lista de socios
-      description: Devuelve una lista de todos los socios miembros de la asociacion
+      description: | 
+                  Devuelve una lista de todos los socios miembros de la asociacion
+                  se permite filtrar por 3 campos simultáneamente: 
+                    -familyModel
+                    -active
+                    -entryDate
       parameters:
-        - in : query
-          name: civilState
-          description: Filtro por estado civil
+        - name: familyModel
+          in : query
+          description: Filtro por modelo familiar
           required: false
           schema:
             type: string
+
+        - name: active
+          in: query
+          description: Filtro por estado de activo
+          required: false
+          schema:
+            type: boolean
+
+        - name: entryDate
+          in: query
+          description: Filtro por fecha de entrada (filtra todos los socios que entraron después)
+          required: false
+          schema:
+            type: date (yyyy-MM-dd)
+
       responses:
         '200':
           description: OK
@@ -25,7 +45,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Socio'
+                  $ref: '#/components/schemas/SocioDto'
         '404':
           description: Not found
           content:
@@ -40,24 +60,30 @@ paths:
                 $ref: '#/components/schemas/InternalServerError 500'
     post:
       summary: Sube un nuevo socio
-      operationId: PostSocio
+      description: Añadir nuevo socio al registro
+      requestBody:
+        description: Datos del Socio
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socio'
       responses:
         201:
-          description: Recurso creado
+          description: Socio creado
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Socio'
+                  $ref: '#/components/schemas/SocioDto'
         400:
-          description: Bad request
+          description: Error en campos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
         409:
-          description: Resource already exists
+          description: Socio ya existe
           content:
             application/json:
               schema:
@@ -68,7 +94,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
-
   /socios/{id}:
     get:
       summary: Devuelve socio por id
@@ -95,7 +120,6 @@ paths:
     put:
       summary: Editar socio por id
       description:  Editar socio cuyo id coincide con la búsqueda
-      operationId: PutSocio
       responses:
         '200':
           description: ok
@@ -104,47 +128,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/Participante'
         400:
-          description: invalid update data
+          description: Datos editados inválidos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
         404:
-          description: Resource already gone
+          description: Socio no encontrado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
         409:
-          description: Update conflicts with the current state
+          description: Conflicto con data ya existente
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
         500:
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     delete:
-      summary: Borrar socio cuyo id coincide con la búsqueda
-      operationId: getSocioById
+      summary: Borrar socio por id
+      description: Borrar socio cuyo id coincide con la búsqueda
       responses:
         204:
-          description: borrado exitoso
+          description: Borrado exitoso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NoContent 204'
         404:
-          description: not found
+          description: Socio no encontrado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
         409:
-          description: Resource can’t be deleted due to dependencies
+          description: No se pudo borrar debido a dependencias
           content:
             application/json:
               schema:
@@ -155,45 +179,121 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
-
   /participantes:
     get:
-      summary: Listar participantes
+      summary: Devuelve lista de participantes
+      description: |
+        Devuelve una lista de todos los participantes miembros de la asociacion
+        se permite filtrar por 3 campos simultáneamente: 
+          -typeRel
+          -name
+          -birthDate
       parameters:
-        - in: query
-          name: socioId
-          description: filtro por id de socio
+        - name: typeRel
+          in: query
+          description: Filtro por tipo de relación
           required: false
           schema:
-            type: integer
+            type: string
+
+        - name: name
+          in: query
+          description: Filtro por nombre (iniciales)
+          required: false
+          schema:
+            type: string
+
+        - name: birthDate
+          in: query
+          description: Filtro por fecha de nacimiento (filtra todos los que nacieron después)
+          required: false
+          schema:
+            type: date (yyyy-MM-dd)
+
       responses:
         '200':
-          description: Lista de participantes
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Participante'
+        '404':
+          description: Participante no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
     post:
-      summary: Crear participante
+      summary: Sube un nuevo participante
+      description: Añadir nuevo participante al registro
       requestBody:
-        required: true
+        description: Datos del participantes
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Participante'
       responses:
-        '201':
+        201:
           description: Participante creado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SocioDto'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        409:
+          description: Participante ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
 
   /participantes/{id}:
     get:
-      summary: Obtener participante por ID
+      summary: Devuelve participante por id
+      description: Busca el participante individual con el id indicado
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participante'
+        '404':
+          description: Participante no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    put:
+      summary: Editar participante por id
+      description: Editar participante cuyo id coincide con la búsqueda
       responses:
         '200':
           description: ok
@@ -201,66 +301,152 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Participante'
-    put:
-      summary: Actualizar participante
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Participante'
-      responses:
-        '200':
-          description: Participante actualizado
+        400:
+          description: Datos editados inválidos
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participante'
+                $ref: '#/components/schemas/BadRequest 400'
+        404:
+          description: Participante no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Conflicto con data ya existente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
     delete:
-      summary: Baja del participante
+      summary: Borrar participante por id
+      description: Borrar participante cuyo id coincide con la búsqueda
       responses:
-        '204':
-          description: Participante desactivado
+        204:
+          description: Borrado exitoso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NoContent 204'
-
+        404:
+          description: Participante no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: No se pudo borrar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+                
   /actividades:
     get:
-      summary: Listar actividades
+      summary: Devuelve lista de actividades
+      description: |
+        Devuelve una lista de todos las actividades que están anunciadas en la asociacion
+        se permite filtrar por 3 campos simultáneamente: 
+          -duration
+          -canjoin
+          -dayActivity
       parameters:
-        - in: query
-          name: tipo
+        - name: duration
+          in: query
+          description: Filtro por la duración
+          required: false
           schema:
-            type: string
+            type: float
+
+        - name: canjoin
+          in: query
+          description: Filtro por si es posible apuntarse o no
+          required: false
+          schema:
+            type: boolean
+
+        - name: dayActivity
+          in: query
+          description: Filtro por fecha de dia (filtra todos las que sucedan ese día)
+          required: false
+          schema:
+            type: date (yyyy-MM-dd)
+
       responses:
         '200':
-          description: ok
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Actividad'
+        '404':
+          description: Actividad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
     post:
-      summary: Crear actividad
+      summary: Sube una nueva actividad
+      description: Añadir nueva actividad al registro
       requestBody:
-        required: true
+        description: Datos de actividad
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Actividad'
       responses:
-        '201':
+        201:
           description: Actividad creada
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Actividad'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        409:
+          description: Actividad ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+
   /actividades/{id}:
     get:
-      description: Busca la actividad que tiene el id indicado
+      summary: Devuelve actividad por id
+      description: Busca la actividad individual con el id indicado
       responses:
         200:
           description: OK
@@ -269,171 +455,433 @@ paths:
               schema:
                 $ref: '#/components/schemas/Actividad'
         '404':
-          description: not found
+          description: Actividad no encontrada
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
         '500':
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     put:
-      summary: editar actividad cuyo id coincide con la búsqueda
+      summary: Editar actividad por id
+      description: Editar actividad cuyo id coincide con la búsqueda
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participante'
+                $ref: '#/components/schemas/Actividad'
         400:
-          description: invalid update data
+          description: Datos editados inválidos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
         404:
-          description: Resource already gone
+          description: Actividad no encontrada
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
         409:
-          description: Update conflicts with the current state
+          description: Conflicto con data ya existente
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
         500:
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
     delete:
-      summary: borrar actividad cuyo id coincide con la búsqueda
+      summary: Borrar actividad por id
+      description: Borrar actividad cuyo id coincide con la búsqueda
       responses:
         204:
-          description: borrado exitoso
+          description: Borrado exitoso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NoContent 204'
         404:
-          description: not found
+          description: Actividad no encontrada
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
         409:
-          description: Resource can’t be deleted due to dependencies
+          description: No se pudo borrar
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
         '500':
-          description: server error
+          description: Server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
   /servicios:
     get:
-      summary: Listar servicios
+      summary: Devuelve lista de servicios
+      description: |
+        Devuelve una lista de todos los servicios disponibles en la asociacion
+        se permite filtrar por 3 campos simultáneamente: 
+          -periodicity
+          -capacity
+          -duration
+      parameters:
+        - name: periodicity
+          in: query
+          description: Filtro por la periodicidad de actividad
+          required: false
+          schema:
+            type: string
+
+        - name: capacity
+          in: query
+          description: Filtro por el número de gente que puede estar presente
+          required: false
+          schema:
+            type: integer
+
+        - name: duration
+          in: query
+          description: Filtro por fecha de nacimiento (filtra todos los que nacieron después)
+          required: false
+          schema:
+            type: float
+
       responses:
         '200':
-          description: ok
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Servicio'
+        '404':
+          description: Servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
     post:
-      summary: Crear servicio
+      summary: Sube un nuevo servicio
+      description: Añadir nuevo servicio al registro
       requestBody:
-        required: true
+        description: Datos del servicio
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Servicio'
       responses:
-        '201':
+        201:
           description: Servicio creado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
-
-  /inscripciones-actividad:
-    post:
-      summary: Inscribir participante en actividad
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Inscripcion-Actividad'
-      responses:
-        '201':
-          description: Inscripción creada
+                type: array
+                items:
+                  $ref: '#/components/schemas/Servicio'
+        400:
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
-
-  /inscripciones-servicio:
-    post:
-      summary: Inscribir participante en servicio
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Contratación-Servicio'
-      responses:
-        '201':
-          description: Inscripción creada
+                $ref: '#/components/schemas/BadRequest 400'
+        409:
+          description: Servicio ya existe
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
-  /trabajador:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+
+  /servicios/{id}:
     get:
-      summary: Listar trabajadores
+      summary: Devuelve servicio por id
+      description: Busca el servicio individual con el id indicado
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicio'
+        '404':
+          description: Servicio no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    put:
+      summary: Editar servicio por id
+      description: Editar servicio cuyo id coincide con el búsqueda
       responses:
         '200':
-          description: Lista de trabajadores
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicio'
+        400:
+          description: Datos editados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        404:
+          description: Servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Conflicto con data ya existente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    delete:
+      summary: Borrar servicio por id
+      description: Borrar servicio cuyo id coincide con el búsqueda
+      responses:
+        204:
+          description: Borrado exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent 204'
+        404:
+          description: Servicio no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: No se pudo borrar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'     
+  /trabajadores:
+    get:
+      summary: Devuelve lista de trabajadores
+      description: |
+        Devuelve una lista de todos los trabajadores que están anunciadas en el asociacion
+        se permite filtrar por 3 campos simultáneamente: 
+          -duration
+          -canjoin
+          -dayActivity
+
+      parameters:
+        - name: entryDate
+          in: query
+          description: Filtro por fecha de entrada (filtra todos los socios que entraron después)
+          required: false
+          schema:
+            type: date (yyyy-MM-dd)
+
+        - name: name
+          in: query
+          description: Filtro por nombre (iniciales)
+          required: false
+          schema:
+            type: string
+
+        - name: contractType
+          in: query
+          description: Filtro por tipo de contrato
+          required: false
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Trabajador'
+        '404':
+          description: Trabajador no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
     post:
-      summary: Crear trabajador
+      summary: Sube un nuevo trabajador
+      description: Añadir nuevo trabajador al registro
       requestBody:
-        required: true
+        description: Datos del trabajador
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Trabajador'
       responses:
-        '201':
+        201:
           description: Trabajador creado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Created 201'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trabajador'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        409:
+          description: Trabajador ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
 
+  /trabajadores/{id}:
+    get:
+      summary: Devuelve trabajador por id
+      description: Busca el trabajador individual con el id indicado
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trabajador'
+        '404':
+          description: Trabajador no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    put:
+      summary: Editar trabajador por id
+      description: Editar trabajador cuyo id coincide con el búsqueda
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trabajador'
+        400:
+          description: Datos editados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest 400'
+        404:
+          description: Trabajador no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Conflicto con data ya existente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+    delete:
+      summary: Borrar trabajador por id
+      description: Borrar trabajador cuyo id coincide con el búsqueda
+      responses:
+        204:
+          description: Borrado exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent 204'
+        404:
+          description: Trabajador no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: No se pudo borrar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
 components:
   schemas:
     Socio:
       type: object
-      required: [dni, name, surname, email, phoneNumber]
+      required: [dni, name, surname, email, phoneNumber, entryDate, active, familyModel]
       properties:
         id:
           type: integer
@@ -458,13 +906,12 @@ components:
           description: direccion de vivienda de socio
         phoneNumber:
           type: string
-          pattern: '^+34 [0-9]{9}$'
+          pattern: '^+34 [0-3][0-3][0-3]$'
           description: nº de telefono de socio
         FamilyModel:
           type: string
-          enum: [nuclear, monoparental, homoparental, no descendants]
           description: tipo de modelo familiar
-        isActive:
+        active:
           type: boolean
           description: socio está activo o no
         entryDate:
@@ -472,40 +919,75 @@ components:
           format: date
           description: fecha de alta de socio
 
-    Participante:
+    SocioDto:
       type: object
-      required: [dni, name, surname, email]
+      required: [ dni, name, surname, email, phoneNumber, entryDate ,active, familyModel ]
       properties:
         id:
+          description: identificador de socio
           type: integer
-          format: int64
-          description: id de participante
-          readOnly: true
-        socioResponsableId:
-          type: integer
-          format: int64
-          nullable: true
-          description: >
-            ID del socio responsable. Si es null, el participante es su propio socio.
+          format: int32
         dni:
+          description: dni de socio
           type: string
           pattern: '^[0-9]{8}[A-Z]$'
-          description: dni de participante
         name:
+          description: nombre de socio
           type: string
+        surname:
+          description: apellidos de socio
+          type: string
+        email:
+          description: email de socio
+          type: string
+          format: email
+        phoneNumber:
+          description: nº de telefono de socio
+          type: string
+          pattern: '^+34 [0-3][0-3][0-3]$'
+        FamilyModel:
+          description: tipo de modelo familiar
+          type: string
+        active:
+          description: socio está activo o no
+          type: boolean
+        entryDate:
+          description: fecha de alta de socio
+          type: string
+          format: date
+
+    Participante:
+      type: object
+      required: [dni, name, surname, email, phoneNumber, ]
+      properties:
+        id:
+          description: id de participante
+          type: integer
+          format: int64
+          readOnly: true
+        dni:
+          description: dni de participante
+          type: string
+          pattern: '^[0-9]{8}[A-Z]$'
+        name:
           description: nombre de participante
+          type: string
         surname:
           description: apellido de participante
           type: string
         email:
-          description: email de participante
           type: string
+          description: email de participante
         phoneNumber:
+          description: nº de telefono de participante
           type: string
           pattern: '^+34 [0-9]{9}$'
-          description: nº de telefono de participante
         birthDate:
           description: fecha de nacimiento de participante
+          type: string
+          format: date
+        entryDate:
+          description: fecha de alta de participante
           type: string
           format: date
         needs:
@@ -514,149 +996,92 @@ components:
         typeRel:
           description: tipo de relación del participante respecto a su socio
           type : string
-        isActive:
-          type: boolean
-          description: participante está activo o no
-        entryDate:
-          type: string
-          format: date
-          description: fecha de alta de participante
-
-    Inscripcion-Actividad:
-      type: object
-      required: [participanteId, actividadId]
-      description: "Entidad que relaciona un Participante con una Actividad"
-      properties:
-        id:
-          type: integer
-        participante_id:
-          type: integer
-          description: Fk que apunta a Socio
-        actividad_id:
-          type: integer
-          description: Fk que apunta a Actividad
-        dateReserve:
-          type: string
-          format: date
-          description: fecha en la que se hizo la reserva
-        state:
-          type: string
-          enum: [pendiente, pagada, cancelada]
-        price:
-          type: float
-          description: precio de la inscripción
-
-    Contratación-Servicio:
-      type: object
-      required: [participante_id, servicio_id]
-      description: "Entidad que relaciona un Participante con un Sevicio"
-      properties:
-        id:
-          type: integer
-        participante_id:
-          type: integer
-          description: Fk que apunta a Socio
-        servicio_id:
-          type: integer
-          description: Fk que apunta a Actividad
-        dateReserve:
-          type: string
-          format: date
-          description: fecha en la que se hizo la reserva
-        state:
-          type: string
-          enum: [pendiente, pagada, cancelada]
-        price:
-          type: float
-          description: precio de la inscripción
 
     Actividad:
       type: object
+      required: [description, dayActivity, typeActivity]
       properties:
         id:
-          type: integer
           description: id de la actividad
-        description:
-          type: string
-          description: descripción de la actividad
-        date:
-          type: string
-          format: 'date-time'
-          description: dia y hora de la actividad
-        duration:
-          type: float
-          description: tiempo de duración
-        isOpen:
-          type: boolean
-          description: el plazo para apuntarse a la actividad está abierto o no
-        capacity:
           type: integer
+        description:
+          description: descripción de la actividad
+          type: string
+        dayActivity:
+          description: dia de la actividad
+          type: string
+          format: date
+        typeActivity:
+          description: tipo de actividad
+          type: string
+        duration:
+          description: tiempo de duración
+          type: float
+        canJoin:
+          description: el plazo para apuntarse a la actividad está abierto o no
+          type: boolean
+        capacity:
           description: máximo de personas posible
-        location:
-          $ref: '#/components/schemas/Location'
+          type: integer
 
     Servicio:
       type: object
       properties:
         id:
-          type: integer
           description: id del servicio
+          type: integer
         description:
-          type: string
           description: titulo y descripcion del servicio
+          type: string
         periodicity:
-          type: string
           description: periodicidad en la que el servicio se contrata
-        requisites:
           type: string
+        requisites:
           description: requisitos necesarios del solicitante
+          type: string
         duration:
-          type: float
           description: duración del servicio
-        location:
-          $ref: '#/components/schemas/Location'
+          type: float
+        capacity:
+          description: máximo de personas posible
+          type: integer
 
     Trabajador:
       type: object
       properties:
         id:
-          type: integer
           description: id del trabajador
+          type: integer
         dni:
-          type: string
           description: dni del trabajador
+          type: string
         name:
-          type: string
           description: nombre de trabajador
-        surname:
           type: string
+        surname:
           description: apellidos de trabajador
+          type: string
         email:
+          description: email del trabajador
           type: string
           format: email
-        specialty:
-          type: string
         phoneNumber:
+          description: nº de telefono de trabajador
           type: string
           pattern: '^+34 [0-9]{9}$'
-          description: nº de telefono de trabajador
-        entryDate:
+        birthDate:
+          description: fecha de nacimiento de participante
           type: string
           format: date
+        entryDate:
           description: fecha de alta de trabajador
-
-    Location:
-      type: object
-      properties:
-        address:
           type: string
-        latitude:
-          type: number
-        longitude:
-          type: number
+          format: date
+        contractType:
+          description: tipo de contrato del trabajador
+          type: string
 
-
-    Created 201:
+    Http:
       allOf:
         - $ref: '#/components/schemas/Response'
       example:

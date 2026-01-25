@@ -22,22 +22,22 @@ public class Socio {
         private long id; // bugfix a futuro, en postman se puede cambiar toda un registro con POST si editas la id
         @Column(unique = true)
         @Pattern(regexp = "\\d{8}[A-Z]")
-        @NotBlank
+        @NotBlank(message = "necesita un DNI")
         private String dni;
-        @Column()
-        @NotBlank
+        @Column
+        @NotBlank(message = "necesita un nombre")
         private String name;
-        @Column()
-        @NotBlank
+        @Column
+        @NotBlank(message = "necesita un apellido")
         private String surname;
         @Column(nullable = false)
-        @NotBlank
+        @NotBlank(message = "necesita un email")
         private String email;
-        @Column()
+        @Column
         private String address;
         @Column(name = "phone_number")
         @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
-        @NotBlank
+        @NotBlank(message = "necesita un tlfno")
         private String phoneNumber;
         @Column(nullable = true, name = "family_model")
         private String familyModel;

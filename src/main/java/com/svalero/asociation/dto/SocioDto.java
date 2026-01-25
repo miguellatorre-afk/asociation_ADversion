@@ -28,6 +28,9 @@ public class SocioDto {
     private String phoneNumber;
     @NotBlank
     private Boolean active;
+    @NotBlank
+    private String familyModel;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate entryDate;
 

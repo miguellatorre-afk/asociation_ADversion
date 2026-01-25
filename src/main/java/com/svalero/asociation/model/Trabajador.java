@@ -22,19 +22,20 @@ public class Trabajador {
     private long id;
     @Column(unique = true)
     @Pattern(regexp = "^\\d{8}[A-Z]$")
-    @NotBlank
+    @NotBlank(message = "necesita un DNI")
     private String dni;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "necesita un nombre")
     private String name;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "necesita un apellido")
     private String surname;
-    @Column()
-    @NotBlank
+    @Column
+    @NotBlank(message = "necesita una email")
     private String email;
     @Column(name = "phone_number")
     @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
+    @NotBlank(message = "necesita una tlfno")
     private String phoneNumber;
     @Column(nullable = true, name = "birth_date")
     @Past
@@ -42,8 +43,10 @@ public class Trabajador {
     private LocalDate birthDate;
     @Column( name = "entry_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotBlank(message = "necesita una fecha")
     private LocalDate entryDate;
     @Column
+    @NotBlank(message = "necesita una tipo de contrato")
     private String contractType;
 
     @ManyToOne

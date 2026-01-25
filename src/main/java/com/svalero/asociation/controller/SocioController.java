@@ -19,7 +19,7 @@ public class SocioController {
     private SocioService socioService;
 
     @GetMapping("/socios")
-    public ResponseEntity<List<SocioDto>> getAll(@RequestParam(value = "familyModel", required = false) String familyModel,
+    public ResponseEntity<List<SocioDto>> getAllByAllFilters(@RequestParam(value = "familyModel", required = false) String familyModel,
                                                  @RequestParam(value = "active", required = false) Boolean isActive,
                                                  @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
 

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.exception.ActividadNotFoundException;
+import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
+import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
@@ -24,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ActividadController.class)
@@ -45,8 +50,8 @@ class ActividadControllerTest {
     void testGetAll_Return200() throws Exception {
 
         List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(2, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
+                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
+                new Actividad(2, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
 
         );
 
@@ -76,8 +81,8 @@ class ActividadControllerTest {
         LocalDate filterDate = LocalDate.now();
 
         List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
+                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
+                new Actividad(1, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
         );
 
         when(actividadService.findAll(eq(filterDate), any(), any())).thenReturn(actividadesList);
@@ -104,8 +109,8 @@ class ActividadControllerTest {
     void testGetAll_ByJoin() throws Exception {
 
         List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(2, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
+                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
+                new Actividad(2, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
         );
 
         when(actividadService.findAll(any(), any(), any())).thenReturn(actividadesList);
@@ -133,8 +138,8 @@ class ActividadControllerTest {
     void testGetAll_ByDuration() throws Exception {
 
         List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
+                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
+                new Actividad(1, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
         );
 
         when(actividadService.findAll(any(), any(), anyFloat())).thenReturn(actividadesList);
@@ -159,7 +164,7 @@ class ActividadControllerTest {
 
     @Test
     void testGetById_For200() throws Exception {
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
 
 
         when(actividadService.findById(selected.getId())).thenReturn(selected);
@@ -193,63 +198,48 @@ class ActividadControllerTest {
     @Test
     void testAddFor201() throws Exception {
 
-        Actividad newActividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+        Actividad newActividad = new Actividad(1, "Club de lectura", LocalDate.now(),
+                "Grupal", 40f, true, 7, null, null);
+
+        when(actividadService.add(any(Actividad.class))).thenReturn(newActividad);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
 
-        when(actividadService.add(any(Actividad.class))).thenReturn(newActividad);
-
-        String jsonRequest = thisObjectmapper.writeValueAsString(newActividad);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
+       MvcResult result = (MvcResult) mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isCreated())
-                .andReturn();
+                        .content(thisObjectmapper.writeValueAsString(newActividad)))
+                .andExpect(status().isCreated());
 
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        String jsonResponse = result.getResponse().getContentAsString();
+        Actividad actividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
 
-        Actividad responseActividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
-
-        assertNotNull(responseActividad);
-        assertEquals("Club de lectura", responseActividad.getDescription());
+        assertEquals("Grupal", actividad.getTypeActivity());
     }
 
     @Test
     void testAdd_For400() throws Exception {
 
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
-//        thisObjectmapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        when(actividadService.add(any(Actividad.class))).thenReturn(selected);
+        when(actividadService.add(any(Actividad.class))).thenThrow(BusinessRuleException.class);
 
-        String jsonRequest = thisObjectmapper.writeValueAsString(selected);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
+         mockMvc.perform(post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isCreated())
-                .andReturn();
+                        .content(thisObjectmapper.writeValueAsString(selected)))
+                .andExpect(status().isBadRequest());
 
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-
-        Actividad responseActividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
-
-        assertNotNull(responseActividad);
-        assertEquals("Club de lectura", responseActividad.getDescription());
     }
 
     @Test
     void testEdit_For200() throws Exception {
 
-        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
-        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Individual", 40f, true, 7, null, null);
+        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Individual", 40f, true, 7, null, null);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
@@ -275,8 +265,8 @@ class ActividadControllerTest {
     @Test
     void testEdit_For404() throws Exception {
 
-        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
-        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now(), "Individual", 40f, true, 7, null, null);
+        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Individual", 40f, true, 7, null, null);
 
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
@@ -295,7 +285,7 @@ class ActividadControllerTest {
 
     @Test
     void testDelete_For204() throws Exception{
-    Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+    Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
 
         doNothing().when(actividadService).delete(selected.getId());
 

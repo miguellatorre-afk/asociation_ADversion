@@ -56,17 +56,17 @@ public class Participante {
     @JoinColumn(name = "socio_id")
     private Socio socio;
 
-//    @ManyToMany
-//    @JoinTable(name ="incripcion_actividad",
-//            joinColumns = @JoinColumn(name = "participante_id"),
-//            inverseJoinColumns = @JoinColumn(name = "actividad_id"))
-//    private List<Actividad> actividades;
-//
-//    @ManyToMany
-//    @JoinTable(name ="incripcion_servicio",
-//            joinColumns = @JoinColumn(name = "participante_id"),
-//            inverseJoinColumns = @JoinColumn(name = "servicio_id"))
-//    private List<Servicio> servicios;
+    @ManyToMany
+    @JoinTable(name ="incripcion_actividad",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "actividad_id"))
+    private List<Actividad> actividades;
+
+    @ManyToMany
+    @JoinTable(name ="incripcion_servicio",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "servicio_id"))
+    private List<Servicio> servicios;
 
 
 }
