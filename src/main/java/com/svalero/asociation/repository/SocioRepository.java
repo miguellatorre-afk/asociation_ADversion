@@ -22,12 +22,12 @@ public interface SocioRepository extends CrudRepository<Socio, Long> {
     boolean existsBydni(@Pattern(regexp = "\\d{8}[A-Z]") @NotBlank String dni);
 
     @Query("SELECT s FROM socio s WHERE " +
-            "(:entryDate IS NULL OR s.entryDate >= :entryDate) AND " +
             "(:familyModel IS NULL OR s.familyModel = :familyModel) AND " +
-            "(:isActive IS NULL OR s.active = :isActive)")
-    List<Socio> findByFilters(@Param("entryDate") LocalDate entryDate,
-                              @Param("familyModel") String familyModel,
-                              @Param("isActive") Boolean isActive);
+            "(:active IS NULL OR s.active = :active) AND " +
+            "(:entryDate IS NULL OR s.entryDate >= :entryDate)")
+    List<Socio> findByFilters(@Param("familyModel") String familyModel,
+                              @Param("active") Boolean active,
+                              @Param("entryDate") LocalDate entryDate);
 }
 
 

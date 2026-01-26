@@ -19,15 +19,17 @@ public class SocioController {
     private SocioService socioService;
 
     @GetMapping("/socios")
-    public ResponseEntity<List<SocioDto>> getAllByAllFilters(@RequestParam(value = "familyModel", required = false) String familyModel,
-                                                 @RequestParam(value = "active", required = false) Boolean isActive,
-                                                 @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate entryDate){
+    public ResponseEntity<List<SocioDto>> getAllByAllFilters(
+            @RequestParam(value = "familyModel", required = false) String familyModel,
+            @RequestParam(value = "active", required = false) Boolean active,
+            @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entryDate) {
 
-        List<SocioDto> allsocios = socioService.findAll(entryDate, familyModel, isActive);
+        List<SocioDto> allsocios = socioService.findAll(familyModel, active, entryDate);
 
-        if (allsocios.isEmpty()){
-            ResponseEntity.notFound().build();
+        if (allsocios.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.ok(allsocios);
     }
 

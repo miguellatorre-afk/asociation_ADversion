@@ -90,7 +90,7 @@ public class SocioControllerTest {
         ModelMapper thismodelMapper = new ModelMapper();
         List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
 
-        when(socioService.findAll(eq(filterDate), isNull(), isNull())).thenReturn(mockSocioDtoList);
+        when(socioService.findAll( isNull(), isNull(),eq(filterDate))).thenReturn(mockSocioDtoList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
                         .queryParam("entryDate", "2000-05-06")
@@ -122,7 +122,7 @@ public class SocioControllerTest {
         List<SocioDto> mockSocioDtoList = thismodelMapper.map(mockSocioList, new TypeToken<List<SocioDto>>() {}.getType());
 
 
-        when(socioService.findAll(null, "Monoparental",null)).thenReturn(mockSocioDtoList);
+        when(socioService.findAll("Monoparental",null, null)).thenReturn(mockSocioDtoList);
 
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/socios")
@@ -246,7 +246,7 @@ public class SocioControllerTest {
         Socio newsocio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
         String socioJson = objectMapper.writeValueAsString(newsocio);
 
-        when(socioService.add(any(Socio.class))).thenThrow(new BusinessRuleException("Not accepted"));
+        when(socioService.add(any(Socio.class))).thenThrow(BusinessRuleException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/socios")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

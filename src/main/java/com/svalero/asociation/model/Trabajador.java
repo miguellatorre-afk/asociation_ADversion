@@ -43,7 +43,7 @@ public class Trabajador {
     private LocalDate birthDate;
     @Column( name = "entry_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotBlank(message = "necesita una fecha")
+    @NotNull(message = "necesita una fecha")
     private LocalDate entryDate;
     @Column
     @NotBlank(message = "necesita una tipo de contrato")

@@ -1,10 +1,13 @@
 package com.svalero.asociation.repository;
 
+import com.svalero.asociation.model.Servicio;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.model.Trabajador;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -21,4 +24,12 @@ public interface TrabajadorRepository extends CrudRepository<Trabajador, Long> {
     List<Trabajador> findByNameStartingWithIgnoreCase(String name);
 
     List<Trabajador> findByContractType(String contractType);
+
+    @Query("SELECT s FROM trabajadores s WHERE " +
+            "(:entryDate IS NULL OR s.entryDate >= :entryDate) AND " +
+            "(:name IS NULL OR s.name = :name) AND " +
+            "(:contractType IS NULL OR s.contractType = :contractType)")
+    List<Trabajador> findByFilters(@Param("periodicity") LocalDate entryDate,
+                                 @Param("capacity") String name,
+                                 @Param("duration") String contractType);
 }

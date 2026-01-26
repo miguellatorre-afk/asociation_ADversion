@@ -2,7 +2,6 @@ package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ParticipanteService;
-import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ServicioNotFoundException;
 import com.svalero.asociation.model.Servicio;
 import static org.mockito.ArgumentMatchers.*;
+
+import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ServicioService;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -17,8 +20,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -179,14 +184,14 @@ class ServicioControllerTest {
     }
 
     @Test
-    void testAddServicio() throws Exception {
+    void testAddServicio_Return200() throws Exception {
 
-        Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        Servicio newServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
-        when(servicioService.add(any(Servicio.class))).thenReturn(selected);
+        when(servicioService.add(any(Servicio.class))).thenReturn(newServicio);
 
-        String jsonRequest = thisobjectmapper.writeValueAsString(selected);
+        String jsonRequest = thisobjectmapper.writeValueAsString(newServicio);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/servicios")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -201,6 +206,22 @@ class ServicioControllerTest {
 
         assertNotNull(responseServicio);
         assertEquals("trabajo social", responseServicio.getDescription());
+    }
+
+    @Test
+    public void testAddServicio_Return400() throws Exception {
+
+        Servicio newServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+
+        String jsonRequest = objectMapper.writeValueAsString(newServicio);
+
+        when(servicioService.add(any(Servicio.class))).thenThrow(BusinessRuleException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/servicios")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test

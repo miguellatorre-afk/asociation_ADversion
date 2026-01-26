@@ -8,7 +8,6 @@ import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
-import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
@@ -198,7 +196,9 @@ class ActividadControllerTest {
     @Test
     void testAddFor201() throws Exception {
 
-        Actividad newActividad = new Actividad(1, "Club de lectura", LocalDate.now(),
+        LocalDate date = LocalDate.parse("2026-05-20");
+
+        Actividad newActividad = new Actividad(1, "Club de lectura", date,
                 "Grupal", 40f, true, 7, null, null);
 
         when(actividadService.add(any(Actividad.class))).thenReturn(newActividad);
@@ -206,10 +206,11 @@ class ActividadControllerTest {
         ObjectMapper thisObjectmapper = new ObjectMapper();
         thisObjectmapper.registerModule(new JavaTimeModule());
 
-       MvcResult result = (MvcResult) mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
+       MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(thisObjectmapper.writeValueAsString(newActividad)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+               .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
         Actividad actividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
@@ -218,19 +219,18 @@ class ActividadControllerTest {
     }
 
     @Test
-    void testAdd_For400() throws Exception {
+    void testAddActivity_For400() throws Exception {
 
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+        Actividad newActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20),
+                "Grupal", 40f, true, 7, null, null);
 
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
+        String actividadJson = objectMapper.writeValueAsString(newActivity);
 
         when(actividadService.add(any(Actividad.class))).thenThrow(BusinessRuleException.class);
 
-         mockMvc.perform(post("/actividades")
+        mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(thisObjectmapper.writeValueAsString(selected)))
+                        .content(actividadJson))
                 .andExpect(status().isBadRequest());
 
     }

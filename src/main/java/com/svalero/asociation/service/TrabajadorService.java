@@ -1,10 +1,12 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ServicioNotFoundException;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +22,8 @@ public class TrabajadorService {
     private ModelMapper modelMapper;
 
     public List<Trabajador> findAll(LocalDate entryDate, String name, String contractType){
-        if(entryDate!= null){
-            return trabajadorRepository.findByEntryDateAfter(entryDate);
-        }
-        if(name!=null && !name.isEmpty()){
-            return trabajadorRepository.findByNameStartingWithIgnoreCase(name);
-        }
-        if(contractType!= null && !contractType.isEmpty()) {
-            return trabajadorRepository.findByContractType(contractType);
-        }
-        return trabajadorRepository.findAll();
+        List<Trabajador> trabajadores = trabajadorRepository.findByFilters(entryDate, name, contractType);
+        return trabajadores;
     }
 
     public Trabajador findById(long id) {

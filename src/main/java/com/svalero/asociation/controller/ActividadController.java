@@ -22,9 +22,9 @@ public class ActividadController {
     @GetMapping("/actividades")
     public ResponseEntity<List<Actividad>> getAll(
             @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
-            @RequestParam(value = "canjoin", required = false) Boolean canjoin,
+            @RequestParam(value = "canJoin", required = false) Boolean canJoin,
             @RequestParam(value = "duration", required = false) Float duration){
-        List<Actividad> allactividades = actividadService.findAll(dayActivity, canjoin, duration);
+        List<Actividad> allactividades = actividadService.findAll(dayActivity, canJoin, duration);
         return ResponseEntity.ok(allactividades);
     }
 

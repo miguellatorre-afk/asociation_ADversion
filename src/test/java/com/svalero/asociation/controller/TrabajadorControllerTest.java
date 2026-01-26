@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.svalero.asociation.exception.ActividadNotFoundException;
+import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.TrabajadorNotFoundException;
-import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.service.TrabajadorService;
 import org.junit.jupiter.api.Test;
@@ -224,13 +223,14 @@ class TrabajadorControllerTest {
     public void testAddTrabajador_Return400() throws Exception {
 
         Trabajador newTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Contrato Temporal", null, null);
-        String socioJson = objectMapper.writeValueAsString(newTrabajador);
 
-        when(trabajadorService.add(any(Trabajador.class))).thenThrow(new TrabajadorNotFoundException("Not found"));
+        String jsonRequest = objectMapper.writeValueAsString(newTrabajador);
+
+        when(trabajadorService.add(any(Trabajador.class))).thenThrow(BusinessRuleException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/trabajadores")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(socioJson))
+                        .content(jsonRequest))
                 .andExpect(status().isBadRequest());
     }
 

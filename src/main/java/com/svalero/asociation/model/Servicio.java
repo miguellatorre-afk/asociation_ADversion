@@ -3,6 +3,7 @@ package com.svalero.asociation.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +30,11 @@ public class Servicio {
     private String requisites;
     @Column(precision = 2)
     @Positive
-    @NotBlank(message = "necesita una duración")
+    @NotNull(message = "necesita una duración")
     private Float duration;
     @Column(precision = 2)
     @Positive
-    @NotBlank(message = "necesita una capacidad")
+    @NotNull(message = "necesita una capacidad")
     private Integer capacity;
 
     @ManyToMany(mappedBy = "servicios")

@@ -1,8 +1,10 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.ServicioNotFoundException;
 import com.svalero.asociation.model.Servicio;
 import com.svalero.asociation.repository.ServicioRepository;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -18,16 +20,8 @@ public class ServicioService {
     private ModelMapper modelMapper;
 
     public List<Servicio> findAll(String periodicity, Integer capacity, Float duration){
-        if(periodicity!= null && !periodicity.isBlank()) {
-            return servicioRepository.findByPeriodicity(periodicity);
-        }
-        if (capacity!= null){
-            return servicioRepository.findByCapacity(capacity);
-        }
-        if (duration!= null){
-            return servicioRepository.findByDuration(duration);
-        }
-        return servicioRepository.findAll();
+        List<Servicio> servicios = servicioRepository.findByFilters(periodicity, capacity, duration);
+        return servicios;
     }
 
     public Servicio findById(long id) {

@@ -1,11 +1,12 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,18 +20,9 @@ public class ActividadService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Actividad> findAll(LocalDate dayActivity, Boolean canjoin, Float duration) {
-
-        if(dayActivity!=null){// necesita convertir LocalDate a String
-            return actividadRepository.findByDayActivity(dayActivity);
-        }
-        if(canjoin!=null){
-            return actividadRepository.findByCanJoin(canjoin);
-        }
-        if (duration!= null){
-            return actividadRepository.findByDuration(duration);
-        }
-        return actividadRepository.findAll();
+    public List<Actividad> findAll(LocalDate dayActivity, Boolean canJoin, Float duration) {
+        List<Actividad> actividades = actividadRepository.findByFilters(dayActivity, canJoin, duration);
+        return actividades;
     }
 
     public Actividad findById(long id) {
