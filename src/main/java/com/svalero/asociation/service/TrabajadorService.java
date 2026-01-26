@@ -3,6 +3,7 @@ package com.svalero.asociation.service;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ServicioNotFoundException;
+import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
 import org.modelmapper.ModelMapper;

@@ -35,17 +35,15 @@ class ServicioServiceTest {
                 new Servicio(2, "terapia", "semanal", "ninguno", 10f, 1, null, null)
         );
 
-        when(servicioRepository.findAll()).thenReturn(mockServiciosList);
+        when(servicioRepository.findByFilters(null, null, null)).thenReturn(mockServiciosList);
 
         List<Servicio> servicioList = servicioService.findAll(null, null, null);
 
         assertEquals(2, servicioList.size());
         assertEquals("trabajo social", servicioList.getFirst().getDescription());
 
-        verify(servicioRepository, times(1)).findAll();
-        verify(servicioRepository, times(0)).findByPeriodicity(null);
-        verify(servicioRepository, times(0)).findByCapacity(null);
-        verify(servicioRepository, times(0)).findByDuration(null);
+        verify(servicioRepository, times(1)).findByFilters(null, null, null);
+
     }
 
     @Test
@@ -55,19 +53,16 @@ class ServicioServiceTest {
                 new Servicio(2, "terapia", "semanal", "ninguno", 10f, 1, null, null)
         );
 
-        when(servicioRepository.findByPeriodicity("anual")).thenReturn(mockServicioList);
+        when(servicioRepository.findByFilters("anual", null, null)).thenReturn(mockServicioList);
 
         List<Servicio>  servicioList = servicioService.findAll("anual", null, null);
 
         assertEquals(2, servicioList.size());
         assertEquals("trabajo social", servicioList.getFirst().getDescription());
 
-        verify(servicioRepository, times(0)).findAll();
-        verify(servicioRepository, times(1)).findByPeriodicity("anual");
-        verify(servicioRepository, times(0)).findByCapacity(null);
-        verify(servicioRepository, times(0)).findByDuration(null);
-    }
+        verify(servicioRepository, times(1)).findByFilters("anual", null, null);
 
+    }
 
     @Test
     public void testFindByCapacity(){
@@ -76,17 +71,15 @@ class ServicioServiceTest {
                 new Servicio(2, "terapia", "semanal", "ninguno", 10f, 1, null, null)
         );
 
-        when(servicioRepository.findByCapacity(3)).thenReturn(mockServicioList);
+        when(servicioRepository.findByFilters(null, 3, null)).thenReturn(mockServicioList);
 
         List<Servicio>  servicioList = servicioService.findAll(null, 3, null);
 
         assertEquals(2, servicioList.size());
         assertEquals("trabajo social", servicioList.getFirst().getDescription());
 
-        verify(servicioRepository, times(0)).findAll();
-        verify(servicioRepository, times(0)).findByPeriodicity(null);
-        verify(servicioRepository, times(1)).findByCapacity(3);
-        verify(servicioRepository, times(0)).findByDuration(null);
+        verify(servicioRepository, times(1)).findByFilters(null, 3, null);
+
     }
 
     @Test
@@ -96,17 +89,14 @@ class ServicioServiceTest {
                 new Servicio(2, "terapia", "semanal", "ninguno", 10f, 1, null, null)
         );
 
-        when(servicioRepository.findByDuration(40f)).thenReturn(mockServicioList);
+        when(servicioRepository.findByFilters(null, null, 40f)).thenReturn(mockServicioList);
 
         List<Servicio>  servicioList = servicioService.findAll(null, null, 40f);
 
         assertEquals(2, servicioList.size());
         assertEquals("trabajo social", servicioList.getFirst().getDescription());
 
-        verify(servicioRepository, times(0)).findAll();
-        verify(servicioRepository, times(0)).findByPeriodicity(null);
-        verify(servicioRepository, times(0)).findByDuration(null);
-        verify(servicioRepository, times(1)).findByDuration(40f);
+        verify(servicioRepository, times(1)).findByFilters(null, null, 40f);
     }
     
     @Test

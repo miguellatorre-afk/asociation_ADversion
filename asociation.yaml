@@ -908,7 +908,7 @@ components:
           type: string
           pattern: '^+34 [0-3][0-3][0-3]$'
           description: nº de telefono de socio
-        FamilyModel:
+        familyModel:
           type: string
           description: tipo de modelo familiar
         active:

@@ -1,7 +1,6 @@
 package com.svalero.asociation.repository;
 
 import com.svalero.asociation.model.Participante;
-import com.svalero.asociation.model.Socio;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +26,6 @@ public interface ParticipanteRepository extends CrudRepository<Participante, Lon
             "(:name IS NULL OR s.name = :name) AND " +
             "(:typeRel IS NULL OR s.typeRel = :typeRel)")
     List<Participante> findByFilters(@Param("birthDate") LocalDate birthDate,
-                              @Param("name") String name,
-                              @Param("typeRel") String typeRel);
+                                @Param("name") String name,
+                                @Param("typeRel") String typeRel);
 }

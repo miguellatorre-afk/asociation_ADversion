@@ -51,7 +51,7 @@ class TrabajadorControllerTest {
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
 
-        when(trabajadorService.findAll(null, "", "")).thenReturn(mockTrabajadorList);
+        when(trabajadorService.findAll(null, null, null)).thenReturn(mockTrabajadorList);
 
         //simulamos cliente Http                                   llamamos a findAll de Controller
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/trabajadores")
@@ -83,7 +83,7 @@ class TrabajadorControllerTest {
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
 
-        when(trabajadorService.findAll(filterDate, "","")).thenReturn(mockTrabajadorList);
+        when(trabajadorService.findAll(filterDate, null,null)).thenReturn(mockTrabajadorList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/trabajadores")
                         .queryParam("entryDate", LocalDate.now().toString())
@@ -98,7 +98,7 @@ class TrabajadorControllerTest {
         String jsonResponse = result.getResponse().getContentAsString();
         List<Trabajador> trabajadorListResponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
-        assertFalse(trabajadorListResponse.isEmpty());
+
         assertEquals("Hector", trabajadorListResponse.get(0).getName());
     }
 
@@ -110,7 +110,7 @@ class TrabajadorControllerTest {
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
 
-        when(trabajadorService.findAll(null, "Diana", "")).thenReturn(mockTrabajadorList);
+        when(trabajadorService.findAll(null, "Diana", null)).thenReturn(mockTrabajadorList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/trabajadores")
                         .queryParam("name", "Diana")
@@ -141,7 +141,7 @@ class TrabajadorControllerTest {
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
 
-        when(trabajadorService.findAll(null, "", "Tiempo Parcial")).thenReturn(mockTrabajadorList);
+        when(trabajadorService.findAll(null, null, "Tiempo Parcial")).thenReturn(mockTrabajadorList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/trabajadores")
                         .queryParam("contractType", "Tiempo Parcial")
@@ -224,9 +224,9 @@ class TrabajadorControllerTest {
 
         Trabajador newTrabajador = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Contrato Temporal", null, null);
 
-        String jsonRequest = objectMapper.writeValueAsString(newTrabajador);
+        newTrabajador.setName(null);
 
-        when(trabajadorService.add(any(Trabajador.class))).thenThrow(BusinessRuleException.class);
+        String jsonRequest = objectMapper.writeValueAsString(newTrabajador);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/trabajadores")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

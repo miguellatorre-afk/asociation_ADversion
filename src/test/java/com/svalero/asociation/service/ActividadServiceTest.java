@@ -35,17 +35,17 @@ public class ActividadServiceTest {
                 new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
         );
 
-        when(actividadRepository.findAll()).thenReturn(mockActividadList);
+        when(actividadRepository.findByFilters(null, null, null)).thenReturn(mockActividadList);
 
         List<Actividad> actividadList = actividadService.findAll(null, null, null);
 
         assertEquals(2, actividadList.size());
         assertEquals("Club de lectura", actividadList.getFirst().getDescription());
 
-        verify(actividadRepository, times(1)).findAll();
-        verify(actividadRepository, times(0)).findByDayActivity(null);
-        verify(actividadRepository, times(0)).findByCanJoin(null);
-        verify(actividadRepository, times(0)).findByDuration(null);
+        verify(actividadRepository, times(1)).findByFilters(null, null, null);
+//        verify(actividadRepository, times(0)).findByDayActivity(null);
+//        verify(actividadRepository, times(0)).findByCanJoin(null);
+//        verify(actividadRepository, times(0)).findByDuration(null);
 
     }
 
@@ -56,17 +56,14 @@ public class ActividadServiceTest {
                 new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
         );
 
-        when(actividadRepository.findByDayActivity(LocalDate.now())).thenReturn(mockActividadList);
+        when(actividadRepository.findByFilters(LocalDate.now(), null, null)).thenReturn(mockActividadList);
 
-        List<Actividad>  actividadList = actividadService.findAll(LocalDate.now(), null, null);
+        List<Actividad> actividadList = actividadService.findAll(LocalDate.now(), null, null);
 
         assertEquals(2, actividadList.size());
         assertEquals("Club de lectura", actividadList.getFirst().getDescription());
 
-        verify(actividadRepository, times(0)).findAll();
-        verify(actividadRepository, times(1)).findByDayActivity(LocalDate.now());
-        verify(actividadRepository, times(0)).findByCanJoin(null);
-        verify(actividadRepository, times(0)).findByDuration(null);
+        verify(actividadRepository, times(1)).findByFilters(LocalDate.now(), null, null);
 
     }
 
@@ -77,17 +74,14 @@ public class ActividadServiceTest {
                 new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
         );
 
-        when(actividadRepository.findByCanJoin(true)).thenReturn(mockActividadList);
+        when(actividadRepository.findByFilters(null, true, null)).thenReturn(mockActividadList);
 
         List<Actividad> actividadList = actividadService.findAll(null, true, null);
 
         assertEquals(2, actividadList.size());
         assertEquals("Club de lectura", actividadList.getFirst().getDescription());
 
-        verify(actividadRepository, times(0)).findAll();
-        verify(actividadRepository, times(0)).findByDayActivity(null);
-        verify(actividadRepository, times(1)).findByCanJoin(true);
-        verify(actividadRepository, times(0)).findByDuration(null);
+        verify(actividadRepository, times(1)).findByFilters(null, true, null);
     }
 
     @Test
@@ -95,21 +89,18 @@ public class ActividadServiceTest {
 
         List<Actividad> mockActividadList = List.of(
                 new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
+                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 40f, true, 10, null, null)
         );
 
 
-        when(actividadRepository.findByDuration(40f)).thenReturn(mockActividadList);
+        when(actividadRepository.findByFilters(null, null, 40f)).thenReturn(mockActividadList);
 
         List<Actividad>  actividadList = actividadService.findAll(null, null, 40f);
 
         assertEquals(2, actividadList.size());
         assertEquals("Club de lectura", actividadList.getFirst().getDescription());
 
-        verify(actividadRepository, times(0)).findAll();
-        verify(actividadRepository, times(0)).findByDayActivity(null);
-        verify(actividadRepository, times(0)).findByCanJoin(null);
-        verify(actividadRepository, times(1)).findByDuration(40f);
+        verify(actividadRepository, times(1)).findByFilters(null, null, 40f);
     }
 
     @Test

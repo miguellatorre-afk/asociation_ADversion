@@ -35,17 +35,15 @@ public class TrabajadorServiceTest{
                 new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null),
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
-        when(trabajadorRepository.findAll()).thenReturn(mockTrabajadorList);
+        when(trabajadorRepository.findByFilters(null, null, null)).thenReturn(mockTrabajadorList);
 
         List<Trabajador> trabajadorList = trabajadorService.findAll(null, null, null);
 
         assertEquals(2, trabajadorList.size());
         assertEquals("Diana", trabajadorList.getLast().getName());
 
-        verify(trabajadorRepository, times(1)).findAll();
-        verify(trabajadorRepository, times(0)).findByEntryDateAfter(null);
-        verify(trabajadorRepository, times(0)).findByNameStartingWithIgnoreCase(null);
-        verify(trabajadorRepository, times(0)).findByContractType(null);
+        verify(trabajadorRepository, times(1)).findByFilters(null, null, null);
+
     }
 
     @Test
@@ -54,18 +52,15 @@ public class TrabajadorServiceTest{
                 new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now().plusDays(1), "Tiempo Parcial", null, null),
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
-        when(trabajadorRepository.findByEntryDateAfter(LocalDate.now())).thenReturn(mockTrabajadorList);
+        when(trabajadorRepository.findByFilters(LocalDate.now(), null, null)).thenReturn(mockTrabajadorList);
 
         List<Trabajador> trabajadorList = trabajadorService.findAll(LocalDate.now(), null, null);
 
         assertEquals(2, trabajadorList.size());
         assertEquals("Diana", trabajadorList.getLast().getName());
 
-        verify(trabajadorRepository, times(0)).findAll();
-        verify(trabajadorRepository, times(1)).findByEntryDateAfter(LocalDate.now());
-        verify(trabajadorRepository, times(0)).findByNameStartingWithIgnoreCase(null);
-        verify(trabajadorRepository, times(0)).findByContractType(null);
 
+        verify(trabajadorRepository, times(1)).findByFilters(LocalDate.now(), null, null);
     }
 
     @Test
@@ -74,17 +69,15 @@ public class TrabajadorServiceTest{
                 new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null),
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
-        when(trabajadorRepository.findByNameStartingWithIgnoreCase("Diana")).thenReturn(mockTrabajadorList);
+        when(trabajadorRepository.findByFilters(null, "Diana", null)).thenReturn(mockTrabajadorList);
 
-        List<Trabajador> trabajadorList = trabajadorService.findAll(null, "Diana", "");
+        List<Trabajador> trabajadorList = trabajadorService.findAll(null, "Diana", null);
 
         assertEquals(2, trabajadorList.size());
         assertEquals("Hector", trabajadorList.getFirst().getName());
 
-        verify(trabajadorRepository, times(0)).findAll();
-        verify(trabajadorRepository, times(0)).findByEntryDateAfter(null);
-        verify(trabajadorRepository, times(1)).findByNameStartingWithIgnoreCase("Diana");
-        verify(trabajadorRepository, times(0)).findByContractType(null);
+        verify(trabajadorRepository, times(1)).findByFilters(null, "Diana", null);
+
     }
 
     @Test
@@ -93,17 +86,14 @@ public class TrabajadorServiceTest{
                 new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null),
                 new Trabajador(2, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null)
         );
-        when(trabajadorRepository.findByContractType("Tiempo Parcial")).thenReturn(mockTrabajadorList);
+        when(trabajadorRepository.findByFilters(null, null, "Tiempo Parcial")).thenReturn(mockTrabajadorList);
 
         List<Trabajador> trabajadorList = trabajadorService.findAll(null, null, "Tiempo Parcial");
 
         assertEquals(2, trabajadorList.size());
         assertEquals("Hector", trabajadorList.getFirst().getName());
 
-        verify(trabajadorRepository, times(0)).findAll();
-        verify(trabajadorRepository, times(0)).findByEntryDateAfter(LocalDate.now());
-        verify(trabajadorRepository, times(0)).findByNameStartingWithIgnoreCase("null");
-        verify(trabajadorRepository, times(1)).findByContractType("Tiempo Parcial");
+        verify(trabajadorRepository, times(1)).findByFilters(null, null, "Tiempo Parcial");
     }
 
     @Test

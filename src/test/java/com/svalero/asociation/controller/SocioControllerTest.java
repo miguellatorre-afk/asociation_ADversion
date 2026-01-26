@@ -243,10 +243,11 @@ public class SocioControllerTest {
 
     @Test
     public void testAddSocio_Return400() throws Exception {
-        Socio newsocio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
-        String socioJson = objectMapper.writeValueAsString(newsocio);
 
-        when(socioService.add(any(Socio.class))).thenThrow(BusinessRuleException.class);
+        Socio newsocio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+        newsocio.setEmail(null);
+
+        String socioJson = objectMapper.writeValueAsString(newsocio);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/socios")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

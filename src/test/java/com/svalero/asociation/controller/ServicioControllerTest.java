@@ -9,7 +9,6 @@ import com.svalero.asociation.exception.ServicioNotFoundException;
 import com.svalero.asociation.model.Servicio;
 import static org.mockito.ArgumentMatchers.*;
 
-import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ServicioService;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -20,10 +19,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -212,16 +210,14 @@ class ServicioControllerTest {
     public void testAddServicio_Return400() throws Exception {
 
         Servicio newServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        newServicio.setDescription(null);
 
         String jsonRequest = objectMapper.writeValueAsString(newServicio);
-
-        when(servicioService.add(any(Servicio.class))).thenThrow(BusinessRuleException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/servicios")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());
-
     }
 
     @Test

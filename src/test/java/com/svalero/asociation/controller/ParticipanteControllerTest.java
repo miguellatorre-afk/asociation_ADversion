@@ -250,15 +250,16 @@ class ParticipanteControllerTest {
 
     @Test
     public void testAddParticipante_Return400() throws Exception {
+
         Participante newparticipante =  new Participante(1, "777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
 
-        String socioJson = objectMapper.writeValueAsString(newparticipante);
+        newparticipante.setDni(null);
 
-        when(participanteService.add(newparticipante)).thenThrow(new BusinessRuleException("Not accepted"));
+        String jsonRequest = objectMapper.writeValueAsString(newparticipante);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/participantes")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(socioJson))
+                        .content(jsonRequest))
                 .andExpect(status().isBadRequest());
     }
 

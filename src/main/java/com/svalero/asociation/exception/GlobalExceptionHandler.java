@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
     @ExceptionHandler(ResourceNotFoundException.class)//si el .class deja de ser el padre, se produce error 500
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex) {
         ErrorResponse error = ErrorResponse.generalError(404, ex.getMessage(), "Resource Not Found");
@@ -38,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessRuleException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestManual(BusinessRuleException ex) {
-        ErrorResponse error =  ErrorResponse.generalError(409, ex.getMessage(), "Ya hay un usuario con esas credenciales");
+        ErrorResponse error =  ErrorResponse.generalError(405, ex.getMessage(), "Ya hay un usuario con esas credenciales");
         return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
     }
 

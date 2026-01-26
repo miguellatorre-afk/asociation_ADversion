@@ -23,12 +23,11 @@ public class ParticipanteService {
     private ParticipanteRepository participanteRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private  SocioRepository socioRepository;
+
 
     public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
         List<Participante> participantes = participanteRepository.findByFilters(birthDate, name, typeRel);
-        return modelMapper.map(participantes, new TypeToken<List<SocioDto>>(){}.getType());
+        return participantes;
     }
 
     public Participante findById(long id) {

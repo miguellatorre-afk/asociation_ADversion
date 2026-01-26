@@ -17,6 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ActividadController.class)
@@ -223,10 +222,9 @@ class ActividadControllerTest {
 
         Actividad newActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20),
                 "Grupal", 40f, true, 7, null, null);
+        newActivity.setDescription(null);
 
         String actividadJson = objectMapper.writeValueAsString(newActivity);
-
-        when(actividadService.add(any(Actividad.class))).thenThrow(BusinessRuleException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
                         .contentType(MediaType.APPLICATION_JSON)

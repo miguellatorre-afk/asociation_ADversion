@@ -34,16 +34,13 @@ public class ParticipanteServiceTest {
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteRepository.findAll()).thenReturn(mockParticipanteList);
+        when(participanteRepository.findByFilters(null, null, null)).thenReturn(mockParticipanteList);
 
-        List<Participante>  participanteList = participanteService.findAll(null, "", "");
+        List<Participante>  participanteList = participanteService.findAll(null, null, null);
         assertEquals(2, participanteList.size());
         assertEquals("Alberto", participanteList.getFirst().getName());
 
-        verify(participanteRepository, times(1)).findAll();
-        verify(participanteRepository, times(0)).findByBirthDateAfter(null);
-        verify(participanteRepository, times(0)).findByNameStartingWithIgnoreCase("");
-        verify(participanteRepository, times(0)).findByTypeRel("");
+        verify(participanteRepository, times(1)).findByFilters(null, null, null);
 
     }
 
@@ -54,17 +51,14 @@ public class ParticipanteServiceTest {
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteRepository.findByBirthDateAfter(LocalDate.now())).thenReturn(mockParticipanteList);
+        when(participanteRepository.findByFilters(LocalDate.now().plusDays(20), null, null  )).thenReturn(mockParticipanteList);
 
-        List<Participante>  participanteDtosList = participanteService.findAll(LocalDate.now(), "", "");
+        List<Participante>  participanteDtosList = participanteService.findAll(LocalDate.now().plusDays(20), null, null);
 
         assertEquals(2, participanteDtosList.size());
         assertEquals("Alberto", participanteDtosList.getFirst().getName());
 
-        verify(participanteRepository, times(0)).findAll();
-        verify(participanteRepository, times(1)).findByBirthDateAfter(LocalDate.now());
-        verify(participanteRepository, times(0)).findByNameStartingWithIgnoreCase("");
-        verify(participanteRepository, times(0)).findByTypeRel("");
+        verify(participanteRepository, times(1)).findByFilters(LocalDate.now().plusDays(20), null, null  );
 
     }
 
@@ -75,17 +69,15 @@ public class ParticipanteServiceTest {
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteRepository.findByNameStartingWithIgnoreCase("Roberto")).thenReturn(mockParticipanteList);
+        when(participanteRepository.findByFilters(null, "Roberto", null)).thenReturn(mockParticipanteList);
 
-        List<Participante> participanteList = participanteService.findAll(null, "Roberto", "");
+        List<Participante> participanteList = participanteService.findAll(null, "Roberto", null);
 
         assertEquals(2, participanteList.size());
         assertEquals("Alberto", participanteList.getFirst().getName());
 
-        verify(participanteRepository, times(0)).findAll();
-        verify(participanteRepository, times(0)).findByBirthDateAfter(null);
-        verify(participanteRepository, times(1)).findByNameStartingWithIgnoreCase("Roberto");
-        verify(participanteRepository, times(0)).findByTypeRel("");
+        verify(participanteRepository, times(1)).findByFilters(null, "Roberto", null);
+
 
     }
 
@@ -96,17 +88,13 @@ public class ParticipanteServiceTest {
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
+        when(participanteRepository.findByFilters(null, null, "hijo")).thenReturn(mockParticipanteList);
 
-        when(participanteRepository.findByTypeRel("hijo")).thenReturn(mockParticipanteList);
-
-        List<Participante>  participantesList = participanteService.findAll(null, "", "hijo");
+        List<Participante>  participantesList = participanteService.findAll(null, null, "hijo");
         assertEquals(2, participantesList.size());
         assertEquals("Alberto", participantesList.getFirst().getName());
 
-        verify(participanteRepository, times(0)).findAll();
-        verify(participanteRepository, times(0)).findByBirthDateAfter(null);
-        verify(participanteRepository, times(0)).findByNameStartingWithIgnoreCase("");
-        verify(participanteRepository, times(1)).findByTypeRel("hijo");
+        verify(participanteRepository, times(1)).findByFilters(null, null, "hijo");
     }
 
     @Test

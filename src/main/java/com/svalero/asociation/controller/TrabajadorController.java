@@ -21,8 +21,8 @@ public class TrabajadorController {
     @GetMapping("/trabajadores")
     public ResponseEntity<List<Trabajador>> getAll(
             @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entryDate,
-            @RequestParam(value = "name", required = false, defaultValue = "") String name,
-            @RequestParam(value = "contractType", required = false, defaultValue = "") String contractType){
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "contractType", required = false) String contractType){
         List<Trabajador> alltrabajadores = trabajadorService.findAll(entryDate, name, contractType);
         return ResponseEntity.ok(alltrabajadores);
     }
