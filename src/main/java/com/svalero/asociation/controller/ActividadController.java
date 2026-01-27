@@ -3,6 +3,8 @@ package com.svalero.asociation.controller;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,14 @@ public class ActividadController {
     @Autowired
     private ActividadService actividadService;
 
+    private final Logger logger = LoggerFactory.getLogger(ActividadController.class);
+
     @GetMapping("/actividades")
     public ResponseEntity<List<Actividad>> getAll(
             @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
             @RequestParam(value = "canJoin", required = false) Boolean canJoin,
             @RequestParam(value = "duration", required = false) Float duration){
+        logger.info("GET/actividades");
         List<Actividad> allactividades = actividadService.findAll(dayActivity, canJoin, duration);
         return ResponseEntity.ok(allactividades);
     }
@@ -32,14 +37,17 @@ public class ActividadController {
     public ResponseEntity<Actividad> getActividadById(@PathVariable long id){
         Actividad selectedactividad = actividadService.findById(id);
         if (selectedactividad == null){
+            logger.warn("Actividad of ID: {} not found", id);
             return ResponseEntity.notFound().build();
         }
+        logger.info("GET/actividades/{id}");
         return new ResponseEntity<>(selectedactividad, HttpStatus.OK);
     }
 
     @PostMapping("/actividades")
     public ResponseEntity<Actividad> addActividad(@Valid@RequestBody Actividad actividad){
         Actividad newactividad = actividadService.add(actividad);
+        logger.info("POST/actividades");
         return new ResponseEntity<>(newactividad, HttpStatus.CREATED);
     }
 
@@ -49,12 +57,14 @@ public class ActividadController {
         if (updatedactividad == null){
             return ResponseEntity.notFound().build();
         }
+        logger.info("PUT/actividades/{id}");
         return ResponseEntity.ok(updatedactividad);
     }
 
     @DeleteMapping("/actividades/{id}")
     public ResponseEntity<Void> deleteActividad (@PathVariable long id){
         actividadService.delete(id);
+        logger.info("DELETE/actividades/{id}");
         return ResponseEntity.noContent().build();
     }
 }

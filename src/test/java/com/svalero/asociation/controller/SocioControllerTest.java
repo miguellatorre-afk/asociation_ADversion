@@ -109,7 +109,6 @@ public class SocioControllerTest {
         assertEquals("Alberto", socioDtoListResponse.get(0).getName());
     }
 
-
     @Test
     public void testFindAllSocio_ByFamilyModel() throws Exception {
 

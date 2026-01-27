@@ -4,6 +4,8 @@ import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -18,12 +20,15 @@ public class SocioController {
     @Autowired
     private SocioService socioService;
 
+    private final Logger logger = LoggerFactory.getLogger(SocioController.class);
+
     @GetMapping("/socios")
     public ResponseEntity<List<SocioDto>> getAllByAllFilters(
             @RequestParam(value = "familyModel", required = false) String familyModel,
             @RequestParam(value = "active", required = false) Boolean active,
             @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entryDate) {
 
+        logger.info("GET/socios");
         List<SocioDto> allsocios = socioService.findAll(familyModel, active, entryDate);
 
         if (allsocios.isEmpty()) {
@@ -35,24 +40,32 @@ public class SocioController {
 
     @GetMapping("/socios/{id}")
     public ResponseEntity<SocioDto> getSocioById(@PathVariable long id){
+        logger.info("GET/socios/{id}");
         SocioDto selectedsocio = socioService.findById(id);
+        if (selectedsocio == null){
+            logger.warn("Socio of ID: {} not found", id);
+            return ResponseEntity.notFound().build();
+        }
         return new ResponseEntity<>(selectedsocio, HttpStatus.OK);
     }
 
     @PostMapping("/socios")
      public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio){
+        logger.info("POST/socios");
         Socio newsocio = socioService.add(socio);
         return new ResponseEntity<>(newsocio, HttpStatus.CREATED);
     }
 
     @PutMapping("/socios/{id}")
     public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio){
+        logger.info("PUT/socios");
         Socio updatedsocio = socioService.modify(id, socio);
         return ResponseEntity.ok(updatedsocio);
     }
 
     @DeleteMapping("/socios/{id}")
     public ResponseEntity<Void> deleteSocio(@PathVariable long id){
+        logger.info("DELETE/socios");
         socioService.delete(id);
         return ResponseEntity.noContent().build();
     }
