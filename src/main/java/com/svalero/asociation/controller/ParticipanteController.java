@@ -46,7 +46,7 @@ public class ParticipanteController {
     }
 
     @PostMapping("/participantes")
-    public ResponseEntity<Participante> addParticipante(@Valid@RequestBody Participante participante, long id) throws MethodArgumentNotValidException {
+    public ResponseEntity<Participante> addParticipante(@Valid@RequestBody Participante participante) throws MethodArgumentNotValidException {
 
         Participante newparticipante = participanteService.add(participante);
         logger.info("POST/participantes");

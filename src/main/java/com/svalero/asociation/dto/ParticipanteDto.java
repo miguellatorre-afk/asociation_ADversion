@@ -1,5 +1,6 @@
 package com.svalero.asociation.dto;
 
+import com.svalero.asociation.model.Socio;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,9 @@ public class ParticipanteDto {
     private LocalDate birthDate;
     private String needs;
     private String typeRel;
-    private long socioID;
+    private SocioDto socioID;
 
-    public long getSocioID(){
-        return socioID;
-    }
+
 
     public long getId() {
         return id;
