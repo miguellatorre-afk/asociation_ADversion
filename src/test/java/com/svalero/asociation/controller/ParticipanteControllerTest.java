@@ -75,13 +75,14 @@ class ParticipanteControllerTest {
     @Test
     public void testFindAllParticipante_ByBirthDate() throws Exception {
 
+        LocalDate date = LocalDate.now().minusYears(30);
 
         List<Participante> mockParticipanteList = List.of(
                 new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null),
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteService.findAll(LocalDate.now().minusYears(30), "", "")).thenReturn(mockParticipanteList);
+        when(participanteService.findAll(date, null, null)).thenReturn(mockParticipanteList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
                         .queryParam("birthDate", LocalDate.now().minusYears(30).toString())
@@ -102,14 +103,14 @@ class ParticipanteControllerTest {
 
 
     @Test
-    public void testFindAllParticipante_ByFamilyModel() throws Exception {
+    public void testFindAllParticipante_ByName() throws Exception {
 
         List<Participante> mockParticipanteList = List.of(
                 new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null),
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteService.findAll(null, "Roberto","")).thenReturn(mockParticipanteList);
+        when(participanteService.findAll(null, "Roberto",null)).thenReturn(mockParticipanteList);
 
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
@@ -134,14 +135,14 @@ class ParticipanteControllerTest {
     }
 
     @Test
-    public void testFindAllParticipante_ByActive() throws Exception {
+    public void testFindAllParticipante_ByTypeRel() throws Exception {
 
         List<Participante> mockParticipanteList = List.of(
                 new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null),
                 new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
         );
 
-        when(participanteService.findAll(any(), any(), any())).thenReturn(mockParticipanteList);
+        when(participanteService.findAll(null, null, "hijo")).thenReturn(mockParticipanteList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
                         .queryParam("typeRel", "hijo")

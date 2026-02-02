@@ -26,8 +26,8 @@ public class ParticipanteController {
     @GetMapping("/participantes")
     public ResponseEntity<List<Participante>> getAll(
             @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
-            @RequestParam(value = "name", required = false, defaultValue = "") String name,
-            @RequestParam(value = "typeRel",required = false, defaultValue = "") String typeRel)
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "typeRel",required = false) String typeRel)
     {
         List<Participante> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
         logger.info("GET/participantes");

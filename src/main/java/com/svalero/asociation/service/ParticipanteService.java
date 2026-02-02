@@ -29,7 +29,6 @@ public class ParticipanteService {
     public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
         List<Participante> participantes = participanteRepository.findByFilters(birthDate, name, typeRel);
         logger.info("Searching with filters: {} {} {}", birthDate, name, typeRel);
-
         return participantes;
     }
 

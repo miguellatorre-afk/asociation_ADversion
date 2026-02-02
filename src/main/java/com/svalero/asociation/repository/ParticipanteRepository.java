@@ -15,9 +15,7 @@ import java.util.List;
 @Repository
 public interface ParticipanteRepository extends CrudRepository<Participante, Long> {
     List <Participante> findAll();
-    List<Participante>findByBirthDateAfter(LocalDate birthDate);
-    List<Participante> findByTypeRel(String typeRel);
-    List<Participante> findByNameStartingWithIgnoreCase(String name);
+
     boolean existsBydni(@Pattern(regexp = "\\d{8}[A-Z]") @NotBlank String dni);
 
 
@@ -25,6 +23,7 @@ public interface ParticipanteRepository extends CrudRepository<Participante, Lon
             "(:birthDate IS NULL OR s.birthDate >= :birthDate) AND " +
             "(:name IS NULL OR s.name = :name) AND " +
             "(:typeRel IS NULL OR s.typeRel = :typeRel)")
+
     List<Participante> findByFilters(@Param("birthDate") LocalDate birthDate,
                                 @Param("name") String name,
                                 @Param("typeRel") String typeRel);
