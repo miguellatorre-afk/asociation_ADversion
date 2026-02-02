@@ -1,0 +1,11 @@
+[
+  {
+  "description": "Fisioterapia Deportiva",
+  "periodicity": "Semanal",
+  "requisites": "Traer toalla propia y calzado limpio",
+  "duration": 45.5,
+  "capacity": 1,
+  "participantesInscritos": null,
+  "trabajadoresAsignados": null
+}
+]

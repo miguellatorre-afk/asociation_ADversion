@@ -1,0 +1,30 @@
+[
+  {
+    "dni": "12345678X",
+    "name": "Alejandro",
+    "surname": "García",
+    "email": "ale.garcia@example.com",
+    "phoneNumber": "600-111-222",
+    "birthDate": "1992-05-10",
+    "entryDate": "2024-01-15",
+    "needs": "Standard ergonomic equipment",
+    "typeRel": "Full-Time",
+    "socio": 5,
+    "actividades": null,
+    "servicios": null
+  },
+  {
+    "dni": "87654321B",
+    "name": "Lucía",
+    "surname": "Martín",
+    "email": "lucia.mtn@example.com",
+    "phoneNumber": "655-333-444",
+    "birthDate": "1995-11-22",
+    "entryDate": "2024-02-01",
+    "needs": null,
+    "typeRel": "Freelance",
+    "socio": 4,
+    "actividades": null,
+    "servicios": null
+  }
+]

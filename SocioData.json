@@ -1,0 +1,26 @@
+[
+  {
+    "dni": "12345678X",
+    "name": "Alejandro",
+    "surname": "García",
+    "email": "ale@example.com",
+    "address": null,
+    "phoneNumber": "600-123-456",
+    "birthDate": "1992-05-10",
+    "familyModel": "Nuclear",
+    "active": "true",
+    "entryDate": "2020-08-01"
+  },
+  {
+    "dni": "87654321B",
+    "name": "Lucía",
+    "surname": "Martín",
+    "email": "lucia@example.com",
+    "address": null,
+    "phoneNumber": "655-999-888",
+    "birthDate": "1995-11-22",
+    "familyModel": "Nuclear",
+    "active": "false",
+    "entryDate": "2019-04-08"
+  }
+]

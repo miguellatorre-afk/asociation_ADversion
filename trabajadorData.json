@@ -1,0 +1,14 @@
+[
+  {
+  "dni": "12345678Z",
+  "name": "Carlos",
+  "surname": "Ruiz",
+  "email": "carlos.ruiz@gym.com",
+  "phoneNumber": "600-000-111",
+  "birthDate": "1985-06-15",
+  "entryDate": "2024-01-10",
+  "contractType": "Indefinido",
+  "actividad": null,
+  "servicios": null
+}
+]

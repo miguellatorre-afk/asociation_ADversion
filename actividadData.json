@@ -1,0 +1,13 @@
+[
+  {
+  "type": "actividad",
+  "description": "Yoga Matinal",
+  "dayActivity": "2026-05-20",
+  "typeActivity": "Wellness",
+  "duration": 1.5,
+  "canJoin": true,
+  "capacity": 20,
+    "participantesInscritos": null,
+    "trabajadoresAsignados": null
+}
+]
