@@ -190,7 +190,6 @@ class ParticipanteControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/participante/"+ selectedParticipante.getId())
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
@@ -322,6 +321,17 @@ class ParticipanteControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/participantes/" + selected.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testDelete_For404()throws Exception{
+        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
+
+        when(participanteService.findById(selectedParticipante.getId())).thenThrow(new ParticipanteNotFoundException("Participante con ID" + selectedParticipante.getId() +" no encontrado"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/participante/"+ selectedParticipante.getId())
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
     }
 
 }

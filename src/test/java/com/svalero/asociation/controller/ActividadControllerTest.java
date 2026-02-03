@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.exception.BusinessRuleException;
+import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.model.Actividad;
+import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ActividadService;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -184,9 +186,12 @@ class ActividadControllerTest {
 
     @Test
     void testGetById_For404() throws Exception {
-        when(actividadService.findById(4)).thenThrow(new ActividadNotFoundException("Not found"));
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/4")
+        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+
+        when(actividadService.findById(selected.getId())).thenThrow(new ActividadNotFoundException("Not found"));
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
                 .andReturn();
@@ -290,6 +295,18 @@ class ActividadControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/actividades/" + selected.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testDelete_For404()throws Exception{
+        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+
+        when(actividadService.findById(selected.getId())).thenThrow(new ActividadNotFoundException("Not found"));
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/1")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound())
+                .andReturn();
     }
 
 }

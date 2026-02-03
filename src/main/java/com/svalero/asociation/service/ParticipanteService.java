@@ -1,10 +1,12 @@
 package com.svalero.asociation.service;
 
 
+import com.svalero.asociation.dto.ParticipanteDto;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
+import com.svalero.asociation.repository.SocioRepository;
 import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -21,7 +23,11 @@ public class ParticipanteService {
     @Autowired
     private ParticipanteRepository participanteRepository;
     @Autowired
+    private SocioRepository socioRepository;
+    @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private SocioService socioService;
 
     private final Logger logger = LoggerFactory.getLogger(ParticipanteService.class);
 
@@ -45,6 +51,20 @@ public class ParticipanteService {
         participanteRepository.save(participante);
         logger.info("Successfully created new participante with ID: {}", participante.getId());
         return participante;
+    }
+
+    public  Participante addDto(ParticipanteDto participanteDto, long id){
+        Participante participante = new Participante();
+        modelMapper.map(participanteDto, participante);
+        if(participanteRepository.existsBydni(participante.getDni())){
+            throw new BusinessRuleException("Un participante con DNI "+participante.getDni()+" ya existe");
+        }
+
+        SocioDto socioDto = socioService.findById(id);
+        participante.setSocio(socioRepository.findById(socioDto.getId()).get());
+        logger.info("Successfully created new participante with ID: {}", participanteDto.getId());
+        return participanteRepository.save(participante);
+
     }
 
     public Participante modify(long id, Participante participante){

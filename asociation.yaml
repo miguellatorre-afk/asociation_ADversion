@@ -51,13 +51,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SocioDto'
+              example:
+                CasoÉxito:
+                  $ref: '#/components/examples/socioDtoExample1'
+                ",":
+                  $ref: '#/components/examples/socioDtoExample2'
         '404':
           description: Not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
-
         '500':
           description: Server error
           content:
@@ -73,12 +77,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Socio'
-            example:
-              1:
+            examples:
+              Caso1:
                 $ref: '#/components/examples/socioExample1'
-              2:
+              Caso2:
                 $ref: '#/components/examples/socioExample2'
-
       responses:
         201:
           description: Socio creado
@@ -88,51 +91,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SocioDto'
-                example:
-                  1:
-                    $ref: '#/components/examples/socioExample1'
-                  2:
-                    $ref: '#/components/examples/socioExample2'
+              examples:
+                  CasoÉxito1:
+                    $ref: '#/components/examples/socioDtoExample1'
+                  CasoÉxito2:
+                    $ref: '#/components/examples/socioDtoExample2'
         400:
           description: Error en campos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
-              example:
-                1:
-                  value:
-                    id: 1
-                    dni: 237104V
-                    name: ESTRELLA
-                    surname: ESPINOSA TIRADO
-                    email: plobcspc3@netscape.com
-                    address: CAMÍ REAL, 46
-                    phoneNumber: 646857166
-                    familyModel: Monoparental
-                    active: true
-                    entryDate: 1993-05-20
-                2:
-                  id: 2
-                  dni: 65546640K
-                  name:
-                  surname:
-                  email: 554lqsjtn@netscape.com
-                  address: SECTOR ANTONIO MACHADO, 66
-                  phoneNumber: 723619673
-                  familyModel: Nuclear
-                  active: false
-                  entryDate: 1990-05-20
-
         409:
           description: Socio ya existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
-              example:
-                1:
-                  $ref: '#/components/examples/socioExample1'
         '500':
           description: Server error
           content:
@@ -150,17 +125,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Socio'
-              example:
-                1:
+              examples:
+                Example1:
                   $ref: '#/components/examples/socioExample1'
-        '404':
+                Example2:
+                  $ref: '#/components/examples/socioExample2'
+        404:
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
-
-        '500':
+        500:
           description: Server error
           content:
             application/json:
@@ -169,6 +145,14 @@ paths:
     put:
       summary: Editar socio por id
       description:  Editar socio cuyo id coincide con la búsqueda
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Example1:
+                $ref: '#/components/examples/socioExample1'
+              Example2:
+                $ref: '#/components/examples/socioExample2'
       responses:
         '200':
           description: ok
@@ -177,29 +161,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/Socio'
               example:
-                1:
-                  $ref: '#/components/examples/socioDtoExample1'
-                2:
-                  $ref: '#/components/examples/socioDtoExample2'
+                Example1:
+                  id: 2
+                  dni: 65546640K
+                  name:
+                  surname:
+                  email: 554lqsjtn@netscape.com
+                  address:
+                  phoneNumber: 723619673
+                  familyModel: Nuclear
+                  active: false
+                  entryDate: 1990/05/20
+
         400:
           description: Datos editados inválidos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
-              example:
-                1:
-                value:
-                id: 2
-                dni: 65546640K
-                name:
-                surname:
-                email: 554lqsjtn@netscape.com
-                address: SECTOR ANTONIO MACHADO, 66
-                phoneNumber: 723619673
-                familyModel: Nuclear
-                active: false
-                entryDate: 1990-05-20
         404:
           description: Socio no encontrado
           content:
@@ -220,7 +199,7 @@ paths:
                 $ref: '#/components/schemas/InternalServerError 500'
     delete:
       summary: Borrar socio por id
-      description: Borrar socio cuyo id coincide con la búsqueda
+      description: Borrar socio cuyo id coincide con la búsquedaç
       responses:
         204:
           description: Borrado exitoso
@@ -246,7 +225,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError 500'
-
   /participantes:
     get:
       summary: Devuelve lista de participantes
@@ -264,7 +242,6 @@ paths:
           schema:
             type: string
           example: cónjuge
-
         - name: name
           in: query
           description: Filtro por nombre (iniciales)
@@ -272,7 +249,6 @@ paths:
           schema:
             type: string
           example: Juanjo
-
         - name: birthDate
           in: query
           description: Filtro por fecha de nacimiento (filtra todos los que nacieron después)
@@ -290,9 +266,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Participante'
               examples:
-                1:
+                CasoÉxito1:
                   $ref: '#/components/examples/participanteExample1'
-                2:
+                CasoÉxito2:
                   $ref: '#/components/examples/participanteExample2'
         '404':
           description: Participante no encontrado
@@ -315,6 +291,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Participante'
+            examples:
+              Example1:
+                $ref: '#/components/examples/participanteExample1'
+              Example2:
+                $ref: '#/components/examples/participanteExample2'
       responses:
         201:
           description: Participante creado
@@ -325,9 +306,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Participante'
               examples:
-                1:
+                CasoÉxito1:
                   $ref: '#/components/examples/participanteExample1'
-                2:
+                CasoÉxito2:
                   $ref: '#/components/examples/participanteExample2'
         400:
           description: Data not valid
@@ -336,8 +317,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
               example:
-               1:
-                value:
+               Caso1:
                   id: 2
                   dni: 88629258T
                   name: AROA
@@ -372,8 +352,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Participante'
-              example:
-                $ref: '#/components/examples/participanteExample1'
+              examples:
+                  CasoÉxito1:
+                    $ref: '#/components/examples/participanteExample1'
+                  CasoÉxito2:
+                    $ref: '#/components/examples/participanteExample2'
         '404':
           description: Participante no encontrado
           content:
@@ -398,9 +381,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Participante'
               examples:
-                1:
+                Example1:
                   $ref: '#/components/examples/participanteExample1'
-                2:
+                Example2:
                   $ref: '#/components/examples/participanteExample2'
         400:
           description: Datos editados inválidos
@@ -508,7 +491,7 @@ paths:
           example:
             value: 2026-03-03
       responses:
-        '200':
+        200:
           description: OK
           content:
             application/json:
@@ -517,19 +500,18 @@ paths:
                 items:
                   $ref: '#/components/schemas/Actividad'
               example:
-                1:
-                  value:
-                    $ref: '#/components/examples/actividadExample1'
-                2:
-                  value:
-                    $ref: '#/components/examples/actividadExample2'
-        '404':
+                type: array
+                Example1:
+                  $ref: '#/components/examples/actividadExample1'
+                Example2:
+                  $ref: '#/components/examples/actividadExample2'
+        404:
           description: Actividad no encontrada
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError 404'
-        '500':
+        500:
           description: Server error
           content:
             application/json:
@@ -544,6 +526,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Actividad'
+            examples:
+              Example1:
+                $ref: '#/components/examples/actividadExample1'
+              Example2:
+                $ref: '#/components/examples/actividadExample2'
       responses:
         201:
           description: Actividad creada
@@ -553,13 +540,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Actividad'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/actividadExample1'
-                2:
-                  value:
-                    $ref: '#/components/examples/actividadExample2'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/actividadExample1'
+                Example2:
+                  $ref: '#/components/examples/actividadExample2'
         400:
           description: Data not valid
           content:
@@ -630,10 +615,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Actividad'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/actividadExample1'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/actividadExample1'
+                Example2:
+                  $ref: '#/components/examples/actividadExample2'
         400:
           description: Datos editados inválidos
           content:
@@ -641,7 +627,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequest 400'
               example:
-                1:
                   value:
                     $ref: '#/components/examples/actividadExample1'
         404:
@@ -656,6 +641,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/actividadExample1'
+                Example2:
+                  $ref: '#/components/examples/actividadExample2'
         500:
           description: Server error
           content:
@@ -702,7 +692,7 @@ paths:
       parameters:
         - name: periodicity
           in: query
-          description: Filtro por la periodicidad de actividad
+          description: Filtro por la periodicidad de servicio
           required: false
           schema:
             type: string
@@ -736,12 +726,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/Servicio'
               example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
-                2:
-                  value:
-                    $ref: '#/components/examples/servicioExample2'
+                Example1:
+                  $ref: '#/components/examples/servicioExample1'
+                Example2:
+                  $ref: '#/components/examples/servicioExample2'
         '404':
           description: Servicio no encontrado
           content:
@@ -763,6 +751,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Servicio'
+            examples:
+              Example1:
+                $ref: '#/components/examples/servicioExample1'
+              Example2:
+                $ref: '#/components/examples/servicioExample2'
       responses:
         201:
           description: Servicio creado
@@ -772,10 +765,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Servicio'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/servicioExample1'
+                Example2:
+                  $ref: '#/components/examples/servicioExample2'
         400:
           description: Bad request
           content:
@@ -799,10 +793,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
         '500':
           description: Server error
           content:
@@ -821,10 +811,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Servicio'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/servicioExample1'
+                Example2:
+                  $ref: '#/components/examples/servicioExample2'
         '404':
           description: Servicio no encontrada
           content:
@@ -847,10 +838,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Servicio'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/servicioExample1'
+                Example2:
+                  $ref: '#/components/examples/servicioExample2'
         400:
           description: Datos editados inválidos
           content:
@@ -880,10 +872,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/servicioExample1'
         500:
           description: Server error
           content:
@@ -913,7 +901,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
               example:
-                1:
+                caso1:
                   value:
                     $ref: '#/components/examples/servicioExample1'
         '500':
@@ -931,7 +919,6 @@ paths:
           -duration
           -canjoin
           -dayActivity
-
       parameters:
         - name: entryDate
           in: query
@@ -966,13 +953,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Trabajador'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample1'
-                2:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample2'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/trabajadoresExample1'
+                Example2:
+                  $ref: '#/components/examples/trabajadoresExample2'
         '404':
           description: Trabajador no encontrado
           content:
@@ -994,10 +979,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Trabajador'
-            example:
-              1:
-                value:
-                  $ref: '#/components/examples/trabajadoresExample1'
+            examples:
+              Example1:
+                $ref: '#/components/examples/trabajadoresExample1'
+              Example2:
+                $ref: '#/components/examples/trabajadoresExample2'
       responses:
         201:
           description: Trabajador creado
@@ -1007,10 +993,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Trabajador'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample1'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/trabajadoresExample1'
+                Example2:
+                  $ref: '#/components/examples/trabajadoresExample2'
         400:
           description: Bad request
           content:
@@ -1035,10 +1022,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample1'
         '500':
           description: Server error
           content:
@@ -1059,7 +1042,6 @@ paths:
                 $ref: '#/components/schemas/Trabajador'
               example:
                 1:
-                  value:
                     $ref: '#/components/examples/trabajadoresExample1'
         '404':
           description: Trabajador no encontrado
@@ -1083,10 +1065,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Trabajador'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample1'
+              examples:
+                Caso1:
+                  $ref: '#/components/examples/trabajadoresExample1'
+                Caso2:
+                  $ref: '#/components/examples/trabajadoresExample2'
         400:
           description: Datos editados inválidos
           content:
@@ -1149,10 +1132,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
-              example:
-                1:
-                  value:
-                    $ref: '#/components/examples/trabajadoresExample1'
+              examples:
+                Caso1:
+                  $ref: '#/components/examples/trabajadoresExample1'
+                Caso2:
+                  $ref: '#/components/examples/trabajadoresExample2'
         '500':
           description: Server error
           content:

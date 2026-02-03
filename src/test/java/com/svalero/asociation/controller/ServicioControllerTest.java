@@ -268,7 +268,18 @@ class ServicioControllerTest {
 
 
     @Test
-    void testDeleteServicio() throws Exception{
+    void testDeleteServicio_204() throws Exception{
+        Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+
+        doNothing().when(servicioService).delete(selected.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/servicios/" + selected.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testDeleteServicio_404() throws Exception{
         Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
 
         doNothing().when(servicioService).delete(selected.getId());

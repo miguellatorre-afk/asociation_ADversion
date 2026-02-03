@@ -284,5 +284,16 @@ class TrabajadorControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void testDeleteTrabajador_For404() throws Exception{
+        Trabajador selected = new Trabajador(1, "11177777P", "Diana", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Completo", null, null);
+
+        doNothing().when(trabajadorService).delete(selected.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/trabajadores/" + selected.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }
 

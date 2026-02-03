@@ -1,8 +1,14 @@
 package com.svalero.asociation.controller;
 
+import com.svalero.asociation.dto.ParticipanteDto;
+import com.svalero.asociation.dto.SocioDto;
+import com.svalero.asociation.exception.ParticipanteNotFoundException;
+import com.svalero.asociation.exception.SocioNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ParticipanteService;
+import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,8 @@ public class ParticipanteController {
     @Autowired
     private ParticipanteService participanteService;
     private final Logger logger = LoggerFactory.getLogger(ParticipanteController.class);
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @GetMapping("/participantes")
@@ -36,6 +44,7 @@ public class ParticipanteController {
 
     @GetMapping("/participantes/{id}")
     public ResponseEntity<Participante> getParticipanteById(@PathVariable long id) {
+
         Participante selectedparticipante = participanteService.findById(id);
         if (selectedparticipante == null){
             logger.warn("Participante of ID: {} not found", id);
@@ -51,6 +60,15 @@ public class ParticipanteController {
         Participante newparticipante = participanteService.add(participante);
         logger.info("POST/participantes");
         return new ResponseEntity<>(newparticipante, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/socios/{id}/participante")
+    public ResponseEntity<ParticipanteDto> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto, @PathVariable long id) throws SocioNotFoundException, ParticipanteNotFoundException {
+
+        Participante newparticipante = participanteService.addDto(participanteDto, id);
+        logger.info("POST/participantes");
+       ParticipanteDto participanteDtoFinal = modelMapper.map(newparticipante, ParticipanteDto.class);
+        return new ResponseEntity<>(participanteDtoFinal, HttpStatus.CREATED);
     }
 
     @PutMapping("/participantes/{id}")

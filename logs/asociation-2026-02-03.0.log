@@ -1,0 +1,889 @@
+2026-02-03 13:05:59,794 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 13:05:59,839 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 19884 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 13:05:59,840 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 13:06:00,324 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 13:06:00,378 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 46 ms. Found 5 JPA repository interfaces.
+2026-02-03 13:06:00,782 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 13:06:00,793 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 13:06:00,796 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 13:06:00,797 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 13:06:00,861 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 13:06:00,861 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 986 ms
+2026-02-03 13:06:00,972 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 13:06:01,025 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 13:06:01,058 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 13:06:01,305 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 13:06:01,331 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 13:06:01,422 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@1d944fc0
+2026-02-03 13:06:01,423 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 13:06:01,449 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 13:06:01,462 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 13:06:02,269 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 13:06:02,317 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 13:06:02,513 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 13:06:02,955 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 13:06:03,029 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 27 mappings in 'requestMappingHandlerMapping'
+2026-02-03 13:06:03,082 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 13:06:03,104 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 13:06:03,144 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 13:06:03,201 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 13:06:03,217 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 13:06:03,222 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.837 seconds (process running for 4.171)
+2026-02-03 13:06:21,470 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 13:06:21,470 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-02-03 13:06:21,471 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected StandardServletMultipartResolver
+2026-02-03 13:06:21,471 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected AcceptHeaderLocaleResolver
+2026-02-03 13:06:21,471 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected FixedThemeResolver
+2026-02-03 13:06:21,472 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4f8e6101
+2026-02-03 13:06:21,472 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@4a9a0d9d
+2026-02-03 13:06:21,473 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 13:06:21,473 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
+2026-02-03 13:06:21,479 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/participantes", parameters={}
+2026-02-03 13:06:21,488 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 13:06:21,580 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-1] Searching with filters: null null null
+2026-02-03 13:06:21,581 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-1] GET/participantes
+2026-02-03 13:06:21,595 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 13:06:21,603 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [[Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com,  (truncated)...]
+2026-02-03 13:06:21,640 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 200 OK
+2026-02-03 13:12:25,934 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 13:12:25,940 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 13:12:25,943 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 13:12:25,944 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 13:12:25,947 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 21:19:54,753 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 21:19:54,800 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 22284 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 21:19:54,801 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 21:19:55,381 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 21:19:55,449 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 57 ms. Found 5 JPA repository interfaces.
+2026-02-03 21:19:55,853 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 21:19:55,865 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 21:19:55,867 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 21:19:55,867 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 21:19:55,930 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 21:19:55,931 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1095 ms
+2026-02-03 21:19:56,043 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 21:19:56,098 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 21:19:56,136 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 21:19:56,392 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 21:19:56,419 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 21:19:56,506 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@699e0bf0
+2026-02-03 21:19:56,508 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 21:19:56,533 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 21:19:56,548 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 21:19:57,354 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 21:19:57,401 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 21:19:57,611 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 21:19:58,051 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 21:19:58,127 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 21:19:58,181 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 21:19:58,203 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 21:19:58,242 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 21:19:58,295 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 21:19:58,316 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 21:19:58,322 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.996 seconds (process running for 4.31)
+2026-02-03 21:22:56,009 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 21:22:56,010 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-02-03 21:22:56,011 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected StandardServletMultipartResolver
+2026-02-03 21:22:56,011 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected AcceptHeaderLocaleResolver
+2026-02-03 21:22:56,012 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected FixedThemeResolver
+2026-02-03 21:22:56,012 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6a7a8e1e
+2026-02-03 21:22:56,013 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@75ee63f2
+2026-02-03 21:22:56,013 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 21:22:56,013 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
+2026-02-03 21:22:56,019 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/socios", parameters={}
+2026-02-03 21:22:56,028 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.SocioController#getAllByAllFilters(String, Boolean, LocalDate)
+2026-02-03 21:22:56,043 INFO c.s.a.c.SocioController [http-nio-8080-exec-1] GET/socios
+2026-02-03 21:22:56,117 INFO c.s.a.s.SocioService [http-nio-8080-exec-1] Searching with filters: null null null
+2026-02-03 21:22:56,146 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:22:56,150 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [[SocioDto(id=1, dni=85821159L, name=Ana, surname=Tolano Mendoza, email=dosemailsmas@gmail.com, phone (truncated)...]
+2026-02-03 21:22:56,183 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 200 OK
+2026-02-03 21:24:32,744 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] GET "/participantes", parameters={}
+2026-02-03 21:24:32,744 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-6] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:24:32,757 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-6] Searching with filters: null null null
+2026-02-03 21:24:32,757 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-6] GET/participantes
+2026-02-03 21:24:32,758 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:24:32,765 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] Writing [[Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com,  (truncated)...]
+2026-02-03 21:24:32,774 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-6] Completed 200 OK
+2026-02-03 21:25:19,362 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] POST "/socios/1/participante", parameters={}
+2026-02-03 21:25:19,362 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-3] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 21:25:19,399 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 21:25:19,431 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-3] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleBadRequestManual(BusinessRuleException)
+2026-02-03 21:25:19,433 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:25:19,435 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Writing [ErrorResponse(code=409, message=Un participante con DNI 21546634P ya existe, title=Ya hay un usuario (truncated)...]
+2026-02-03 21:25:19,438 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-3] Resolved [com.svalero.asociation.exception.BusinessRuleException: Un participante con DNI 21546634P ya existe]
+2026-02-03 21:25:19,438 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-3] Completed 405 METHOD_NOT_ALLOWED
+2026-02-03 21:25:29,533 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] POST "/socios/1/participante", parameters={}
+2026-02-03 21:25:29,533 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-7] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 21:25:29,534 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 21:25:29,538 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-7] Successfully created new participante with ID: 0
+2026-02-03 21:25:29,579 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-7] POST/participantes
+2026-02-03 21:25:29,581 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:25:29,586 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [java.lang.StackOverflowError]
+2026-02-03 21:25:29,587 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-7] Completed 201 CREATED
+2026-02-03 21:25:40,519 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] GET "/participantes", parameters={}
+2026-02-03 21:25:40,519 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-8] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:25:40,525 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-8] Searching with filters: null null null
+2026-02-03 21:25:40,525 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-8] GET/participantes
+2026-02-03 21:25:40,526 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:25:40,545 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [java.lang.StackOverflowError]
+2026-02-03 21:25:40,550 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-8] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:25:40,551 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Found 'Content-Type:application/json' in response
+2026-02-03 21:25:40,551 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:25:40,552 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-8] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:25:40,552 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-8] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:25:46,567 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-10] GET "/participantes", parameters={}
+2026-02-03 21:25:46,567 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-10] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:25:46,570 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-10] Searching with filters: null null null
+2026-02-03 21:25:46,570 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-10] GET/participantes
+2026-02-03 21:25:46,570 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-10] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:25:46,592 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-10] Writing [java.lang.StackOverflowError]
+2026-02-03 21:25:46,594 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-10] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:25:46,594 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-10] Found 'Content-Type:application/json' in response
+2026-02-03 21:25:46,595 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-10] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:25:46,596 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-10] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:25:46,597 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-10] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:26:06,311 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/participantes/6", parameters={}
+2026-02-03 21:26:06,312 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:26:06,317 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-1] GET/participantes/{id}
+2026-02-03 21:26:06,318 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:26:06,332 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [java.lang.StackOverflowError]
+2026-02-03 21:26:06,333 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-1] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:26:06,334 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Found 'Content-Type:application/json' in response
+2026-02-03 21:26:06,335 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:26:06,336 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-1] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:26:06,336 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:26:18,984 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] GET "/participantes/6", parameters={}
+2026-02-03 21:26:18,985 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-5] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:26:18,987 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-5] GET/participantes/{id}
+2026-02-03 21:26:18,987 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:26:19,000 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [java.lang.StackOverflowError]
+2026-02-03 21:26:19,001 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-5] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:26:19,001 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Found 'Content-Type:application/json' in response
+2026-02-03 21:26:19,001 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:26:19,001 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-5] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:26:19,002 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-5] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:27:41,795 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] GET "/actividades", parameters={}
+2026-02-03 21:27:41,796 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-3] Mapped to com.svalero.asociation.controller.ActividadController#getAll(LocalDate, Boolean, Float)
+2026-02-03 21:27:41,797 INFO c.s.a.c.ActividadController [http-nio-8080-exec-3] GET/actividades
+2026-02-03 21:27:41,801 INFO c.s.a.s.ActividadService [http-nio-8080-exec-3] Searching Actividad with filters: null null null
+2026-02-03 21:27:41,801 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:27:41,812 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Writing [[Actividad(id=1, description=Café de familias, dayActivity=2026-03-09, typeActivity=Individual, dura (truncated)...]
+2026-02-03 21:27:41,817 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-3] Completed 200 OK
+2026-02-03 21:27:46,013 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] GET "/socios", parameters={}
+2026-02-03 21:27:46,014 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-7] Mapped to com.svalero.asociation.controller.SocioController#getAllByAllFilters(String, Boolean, LocalDate)
+2026-02-03 21:27:46,014 INFO c.s.a.c.SocioController [http-nio-8080-exec-7] GET/socios
+2026-02-03 21:27:46,017 INFO c.s.a.s.SocioService [http-nio-8080-exec-7] Searching with filters: null null null
+2026-02-03 21:27:46,018 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:27:46,019 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [[SocioDto(id=1, dni=85821159L, name=Ana, surname=Tolano Mendoza, email=dosemailsmas@gmail.com, phone (truncated)...]
+2026-02-03 21:27:46,020 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-7] Completed 200 OK
+2026-02-03 21:28:09,295 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] GET "/participantes/2", parameters={}
+2026-02-03 21:28:09,295 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-8] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:28:09,297 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-8] GET/participantes/{id}
+2026-02-03 21:28:09,298 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:28:09,299 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com, p (truncated)...]
+2026-02-03 21:28:09,300 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-8] Completed 200 OK
+2026-02-03 21:28:14,894 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] GET "/participantes", parameters={}
+2026-02-03 21:28:14,894 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-9] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:28:14,896 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-9] Searching with filters: null null null
+2026-02-03 21:28:14,897 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-9] GET/participantes
+2026-02-03 21:28:14,897 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:28:14,912 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [java.lang.StackOverflowError]
+2026-02-03 21:28:14,913 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-9] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:28:14,913 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Found 'Content-Type:application/json' in response
+2026-02-03 21:28:14,914 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:28:14,914 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-9] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:28:14,914 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-9] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:29:35,293 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 21:29:35,299 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 21:29:35,302 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 21:29:35,304 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 21:29:35,306 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 21:29:40,699 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 21:29:40,734 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 2968 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 21:29:40,735 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 21:29:41,171 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 21:29:41,222 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 44 ms. Found 5 JPA repository interfaces.
+2026-02-03 21:29:41,596 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 21:29:41,608 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 21:29:41,611 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 21:29:41,611 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 21:29:41,669 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 21:29:41,670 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 904 ms
+2026-02-03 21:29:41,787 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 21:29:41,838 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 21:29:41,868 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 21:29:42,105 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 21:29:42,133 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 21:29:42,208 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@994544
+2026-02-03 21:29:42,210 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 21:29:42,237 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 21:29:42,252 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 21:29:43,138 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 21:29:43,189 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 21:29:43,375 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 21:29:43,809 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 21:29:43,876 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 21:29:43,931 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 21:29:43,952 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 21:29:43,985 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 21:29:44,040 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 21:29:44,058 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 21:29:44,063 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.736 seconds (process running for 3.999)
+2026-02-03 21:29:48,906 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 21:29:48,907 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Initializing Servlet 'dispatcherServlet'
+2026-02-03 21:29:48,907 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected StandardServletMultipartResolver
+2026-02-03 21:29:48,907 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected AcceptHeaderLocaleResolver
+2026-02-03 21:29:48,907 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected FixedThemeResolver
+2026-02-03 21:29:48,908 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@559d9517
+2026-02-03 21:29:48,908 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.support.SessionFlashMapManager@601c953c
+2026-02-03 21:29:48,909 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 21:29:48,909 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed initialization in 2 ms
+2026-02-03 21:29:48,915 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] GET "/participantes", parameters={}
+2026-02-03 21:29:48,923 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-2] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:29:49,014 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-2] Searching with filters: null null null
+2026-02-03 21:29:49,014 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-2] GET/participantes
+2026-02-03 21:29:49,026 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-2] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:29:49,067 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Writing [java.lang.StackOverflowError]
+2026-02-03 21:29:49,106 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-2] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:29:49,107 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-2] Found 'Content-Type:application/json' in response
+2026-02-03 21:29:49,110 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:29:49,113 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-2] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:29:49,114 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:35:15,230 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] GET "/participantes/2", parameters={}
+2026-02-03 21:35:15,231 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-4] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:15,245 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-4] GET/participantes/{id}
+2026-02-03 21:35:15,247 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:15,249 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] Writing [Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com, p (truncated)...]
+2026-02-03 21:35:15,250 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-4] Completed 200 OK
+2026-02-03 21:35:20,402 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] GET "/participantes/4", parameters={}
+2026-02-03 21:35:20,403 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-5] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:20,405 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-5] GET/participantes/{id}
+2026-02-03 21:35:20,405 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:20,406 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [Participante(id=4, dni=87654321B, name=Lucía, surname=Martín, email=lucia.mtn@example.com, phoneNumb (truncated)...]
+2026-02-03 21:35:20,407 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-5] Completed 200 OK
+2026-02-03 21:35:23,860 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] GET "/participantes/5", parameters={}
+2026-02-03 21:35:23,861 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-6] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:23,863 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-6] GET/participantes/{id}
+2026-02-03 21:35:23,863 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:23,864 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] Writing [Participante(id=5, dni=11223344J, name=Roberto, surname=Sanz, email=rsanz_pro@example.com, phoneNumb (truncated)...]
+2026-02-03 21:35:23,865 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-6] Completed 200 OK
+2026-02-03 21:35:26,435 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] GET "/participantes/6", parameters={}
+2026-02-03 21:35:26,435 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-7] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:26,437 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-7] GET/participantes/{id}
+2026-02-03 21:35:26,438 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:26,452 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [java.lang.StackOverflowError]
+2026-02-03 21:35:26,453 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-7] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:35:26,453 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Found 'Content-Type:application/json' in response
+2026-02-03 21:35:26,453 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:35:26,454 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-7] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:35:26,454 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-7] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:35:29,647 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] GET "/participantes/7", parameters={}
+2026-02-03 21:35:29,647 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-9] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:29,649 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-9] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:35:29,650 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:29,651 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:35:29,651 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-9] Resolved [org.hibernate.query.ParameterLabelException: Participante con ID:7no encontrado]
+2026-02-03 21:35:29,651 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-9] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:35:33,457 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/participantes/799", parameters={}
+2026-02-03 21:35:33,457 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#getParticipanteById(long)
+2026-02-03 21:35:33,459 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-1] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:35:33,459 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:33,460 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:35:33,460 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-1] Resolved [org.hibernate.query.ParameterLabelException: Participante con ID:799no encontrado]
+2026-02-03 21:35:33,461 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:35:53,686 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] GET "/actividades/775675", parameters={}
+2026-02-03 21:35:53,687 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-3] Mapped to com.svalero.asociation.controller.ActividadController#getActividadById(long)
+2026-02-03 21:35:53,691 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-3] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleNotFound(RuntimeException)
+2026-02-03 21:35:53,691 ERROR c.s.a.e.GlobalExceptionHandler [http-nio-8080-exec-3] Resource not found
+com.svalero.asociation.exception.ActividadNotFoundException: Actividad con ID:775675not found
+	at com.svalero.asociation.service.ActividadService.lambda$findById$0(ActividadService.java:32)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.svalero.asociation.service.ActividadService.findById(ActividadService.java:32)
+	at com.svalero.asociation.controller.ActividadController.getActividadById(ActividadController.java:38)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-02-03 21:35:53,693 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:35:53,693 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Writing [ErrorResponse(code=404, message=Actividad con ID:775675not found, title=Resource Not Found, error={} (truncated)...]
+2026-02-03 21:35:53,694 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-3] Resolved [com.svalero.asociation.exception.ActividadNotFoundException: Actividad con ID:775675not found]
+2026-02-03 21:35:53,694 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-3] Completed 404 NOT_FOUND
+2026-02-03 21:39:20,835 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] DELETE "/participantes/6", parameters={}
+2026-02-03 21:39:20,835 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-6] Mapped to com.svalero.asociation.controller.ParticipanteController#deleteParticipante(long)
+2026-02-03 21:39:20,838 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-6] Participante with ID: 6 deleted successfully
+2026-02-03 21:39:20,864 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-6] DELETE/participantes/{id}
+2026-02-03 21:39:20,865 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:39:20,865 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Nothing to write: null body
+2026-02-03 21:39:20,865 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-6] Completed 204 NO_CONTENT
+2026-02-03 21:39:23,833 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] GET "/participantes", parameters={}
+2026-02-03 21:39:23,833 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-7] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:39:23,836 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-7] Searching with filters: null null null
+2026-02-03 21:39:23,836 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-7] GET/participantes
+2026-02-03 21:39:23,837 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:39:23,839 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [[Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com,  (truncated)...]
+2026-02-03 21:39:23,840 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-7] Completed 200 OK
+2026-02-03 21:39:47,139 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] POST "/socios/1/participante", parameters={}
+2026-02-03 21:39:47,140 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-8] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 21:39:47,166 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 21:39:47,202 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-8] Successfully created new participante with ID: 0
+2026-02-03 21:39:47,224 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-8] POST/participantes
+2026-02-03 21:39:47,224 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:39:47,226 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [java.lang.StackOverflowError]
+2026-02-03 21:39:47,228 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-8] Completed 201 CREATED
+2026-02-03 21:39:54,666 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] GET "/participantes", parameters={}
+2026-02-03 21:39:54,667 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-9] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:39:54,669 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-9] Searching with filters: null null null
+2026-02-03 21:39:54,670 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-9] GET/participantes
+2026-02-03 21:39:54,670 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:39:54,686 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [java.lang.StackOverflowError]
+2026-02-03 21:39:54,687 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-9] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:39:54,687 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Found 'Content-Type:application/json' in response
+2026-02-03 21:39:54,688 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:39:54,688 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-9] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:39:54,689 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-9] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:39:58,825 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/participantes", parameters={}
+2026-02-03 21:39:58,826 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 21:39:58,828 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-1] Searching with filters: null null null
+2026-02-03 21:39:58,829 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-1] GET/participantes
+2026-02-03 21:39:58,829 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 21:39:58,849 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [java.lang.StackOverflowError]
+2026-02-03 21:39:58,851 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-1] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 21:39:58,852 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Found 'Content-Type:application/json' in response
+2026-02-03 21:39:58,852 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 21:39:58,853 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-1] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 21:39:58,854 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 21:45:51,935 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 21:45:51,941 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 21:45:51,944 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 21:45:51,946 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 21:45:51,949 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 22:33:12,570 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 22:33:12,606 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 356 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 22:33:12,607 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 22:33:13,039 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 22:33:13,088 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 42 ms. Found 5 JPA repository interfaces.
+2026-02-03 22:33:13,436 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 22:33:13,446 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 22:33:13,448 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 22:33:13,448 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 22:33:13,498 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 22:33:13,499 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 864 ms
+2026-02-03 22:33:13,608 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 22:33:13,648 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 22:33:13,674 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 22:33:13,881 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 22:33:13,904 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 22:33:13,974 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@1b791dca
+2026-02-03 22:33:13,976 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 22:33:13,997 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 22:33:14,013 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 22:33:14,752 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 22:33:14,805 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 22:33:14,971 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 22:33:15,378 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 22:33:15,442 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 22:33:15,493 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 22:33:15,513 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 22:33:15,550 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 22:33:15,602 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 22:33:15,616 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 22:33:15,621 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.399 seconds (process running for 3.664)
+2026-02-03 22:33:27,972 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 22:33:27,972 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-02-03 22:33:27,973 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected StandardServletMultipartResolver
+2026-02-03 22:33:27,973 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected AcceptHeaderLocaleResolver
+2026-02-03 22:33:27,974 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected FixedThemeResolver
+2026-02-03 22:33:27,975 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@1a02063a
+2026-02-03 22:33:27,975 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@5c934077
+2026-02-03 22:33:27,975 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 22:33:27,976 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 3 ms
+2026-02-03 22:33:27,981 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/socios", parameters={}
+2026-02-03 22:33:27,990 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.SocioController#getAllByAllFilters(String, Boolean, LocalDate)
+2026-02-03 22:33:28,007 INFO c.s.a.c.SocioController [http-nio-8080-exec-1] GET/socios
+2026-02-03 22:33:28,078 INFO c.s.a.s.SocioService [http-nio-8080-exec-1] Searching with filters: null null null
+2026-02-03 22:33:28,107 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 22:33:28,110 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [[SocioDto(id=1, dni=85821159L, name=Ana, surname=Tolano Mendoza, email=dosemailsmas@gmail.com, phone (truncated)...]
+2026-02-03 22:33:28,141 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 200 OK
+2026-02-03 22:33:31,365 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] GET "/participantes", parameters={}
+2026-02-03 22:33:31,366 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-5] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 22:33:31,375 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-5] Searching with filters: null null null
+2026-02-03 22:33:31,376 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-5] GET/participantes
+2026-02-03 22:33:31,376 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 22:33:31,415 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [java.lang.StackOverflowError]
+2026-02-03 22:33:31,428 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-5] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 22:33:31,428 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Found 'Content-Type:application/json' in response
+2026-02-03 22:33:31,431 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 22:33:31,434 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-5] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 22:33:31,434 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-5] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 22:33:38,877 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 22:33:38,883 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 22:33:38,885 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 22:33:38,887 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 22:33:38,889 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 23:35:42,732 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 23:35:42,766 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 11156 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 23:35:42,766 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 23:35:43,181 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 23:35:43,227 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 40 ms. Found 5 JPA repository interfaces.
+2026-02-03 23:35:43,572 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 23:35:43,582 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:35:43,584 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 23:35:43,584 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 23:35:43,634 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 23:35:43,635 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 839 ms
+2026-02-03 23:35:43,736 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 23:35:43,771 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 23:35:43,793 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 23:35:43,992 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 23:35:44,013 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 23:35:44,081 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@994544
+2026-02-03 23:35:44,082 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 23:35:44,101 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 23:35:44,113 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 23:35:44,840 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 23:35:44,885 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:35:45,052 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 23:35:45,436 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 23:35:45,501 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 23:35:45,551 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 23:35:45,567 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 23:35:45,599 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 23:35:45,650 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:35:45,663 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 23:35:45,668 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.278 seconds (process running for 3.537)
+2026-02-03 23:35:49,695 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 23:35:49,695 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Initializing Servlet 'dispatcherServlet'
+2026-02-03 23:35:49,696 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected StandardServletMultipartResolver
+2026-02-03 23:35:49,696 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected AcceptHeaderLocaleResolver
+2026-02-03 23:35:49,696 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected FixedThemeResolver
+2026-02-03 23:35:49,697 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@559d9517
+2026-02-03 23:35:49,697 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.support.SessionFlashMapManager@601c953c
+2026-02-03 23:35:49,698 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 23:35:49,698 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed initialization in 2 ms
+2026-02-03 23:35:49,704 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] GET "/participantes", parameters={}
+2026-02-03 23:35:49,712 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-2] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 23:35:49,806 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-2] Searching with filters: null null null
+2026-02-03 23:35:49,807 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-2] GET/participantes
+2026-02-03 23:35:49,818 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-2] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:35:49,856 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Writing [java.lang.StackOverflowError]
+2026-02-03 23:35:49,897 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-2] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 23:35:49,898 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-2] Found 'Content-Type:application/json' in response
+2026-02-03 23:35:49,900 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 23:35:49,904 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-2] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 23:35:49,905 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 23:36:06,857 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] DELETE "/participantes/8", parameters={}
+2026-02-03 23:36:06,858 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-4] Mapped to com.svalero.asociation.controller.ParticipanteController#deleteParticipante(long)
+2026-02-03 23:36:06,871 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-4] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 23:36:06,872 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:36:06,873 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 23:36:06,874 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-4] Resolved [org.hibernate.query.ParameterLabelException: Participante con ID:8no encontrado]
+2026-02-03 23:36:06,874 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-4] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 23:36:10,232 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] DELETE "/participantes/7", parameters={}
+2026-02-03 23:36:10,232 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-6] Mapped to com.svalero.asociation.controller.ParticipanteController#deleteParticipante(long)
+2026-02-03 23:36:10,234 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-6] Participante with ID: 7 deleted successfully
+2026-02-03 23:36:10,262 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-6] DELETE/participantes/{id}
+2026-02-03 23:36:10,263 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:36:10,263 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Nothing to write: null body
+2026-02-03 23:36:10,264 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-6] Completed 204 NO_CONTENT
+2026-02-03 23:36:12,743 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] GET "/participantes", parameters={}
+2026-02-03 23:36:12,744 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-7] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 23:36:12,747 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-7] Searching with filters: null null null
+2026-02-03 23:36:12,747 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-7] GET/participantes
+2026-02-03 23:36:12,747 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-7] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:36:12,750 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-7] Writing [[Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com,  (truncated)...]
+2026-02-03 23:36:12,751 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-7] Completed 200 OK
+2026-02-03 23:36:32,767 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] POST "/socios/1/participante", parameters={}
+2026-02-03 23:36:32,767 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-8] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:36:32,794 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:36:32,824 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-8] Successfully created new participante with ID: 0
+2026-02-03 23:36:32,851 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-8] POST/participantes
+2026-02-03 23:36:32,853 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:36:32,853 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [ParticipanteDto(id=0, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:36:32,854 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-8] Completed 201 CREATED
+2026-02-03 23:37:06,130 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] DELETE "/participantes/0", parameters={}
+2026-02-03 23:37:06,130 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-9] Mapped to com.svalero.asociation.controller.ParticipanteController#deleteParticipante(long)
+2026-02-03 23:37:06,132 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-9] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 23:37:06,133 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-9] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:37:06,133 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-9] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 23:37:06,133 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-9] Resolved [org.hibernate.query.ParameterLabelException: Participante con ID:0no encontrado]
+2026-02-03 23:37:06,134 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-9] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 23:37:09,841 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/participantes", parameters={}
+2026-02-03 23:37:09,841 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 23:37:09,844 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-1] Searching with filters: null null null
+2026-02-03 23:37:09,844 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-1] GET/participantes
+2026-02-03 23:37:09,845 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:37:09,861 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [java.lang.StackOverflowError]
+2026-02-03 23:37:09,861 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-1] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 23:37:09,862 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Found 'Content-Type:application/json' in response
+2026-02-03 23:37:09,862 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 23:37:09,863 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-1] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 23:37:09,863 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 23:37:16,813 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] DELETE "/participantes/8", parameters={}
+2026-02-03 23:37:16,814 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-3] Mapped to com.svalero.asociation.controller.ParticipanteController#deleteParticipante(long)
+2026-02-03 23:37:16,818 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-3] Participante with ID: 8 deleted successfully
+2026-02-03 23:37:16,827 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-3] DELETE/participantes/{id}
+2026-02-03 23:37:16,828 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:37:16,828 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Nothing to write: null body
+2026-02-03 23:37:16,829 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-3] Completed 204 NO_CONTENT
+2026-02-03 23:37:38,855 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] GET "/participantes", parameters={}
+2026-02-03 23:37:38,855 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-4] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 23:37:38,858 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-4] Searching with filters: null null null
+2026-02-03 23:37:38,858 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-4] GET/participantes
+2026-02-03 23:37:38,859 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:37:38,862 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] Writing [[Participante(id=2, dni=21546634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com,  (truncated)...]
+2026-02-03 23:37:38,863 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-4] Completed 200 OK
+2026-02-03 23:42:41,367 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 23:42:41,373 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 23:42:41,375 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:42:41,376 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 23:42:41,378 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 23:43:13,005 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 23:43:13,037 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 23424 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 23:43:13,038 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 23:43:13,448 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 23:43:13,496 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+2026-02-03 23:43:13,841 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 23:43:13,850 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:43:13,852 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 23:43:13,852 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 23:43:13,902 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 23:43:13,902 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 834 ms
+2026-02-03 23:43:14,010 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 23:43:14,047 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 23:43:14,070 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 23:43:14,273 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 23:43:14,295 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 23:43:14,362 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@1b791dca
+2026-02-03 23:43:14,364 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 23:43:14,383 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 23:43:14,395 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 23:43:15,110 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 23:43:15,154 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:43:15,315 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 23:43:15,703 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 23:43:15,765 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 23:43:15,815 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 23:43:15,830 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 23:43:15,860 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 23:43:15,911 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:43:15,924 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 23:43:15,929 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.267 seconds (process running for 3.529)
+2026-02-03 23:43:20,306 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 23:43:20,306 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Initializing Servlet 'dispatcherServlet'
+2026-02-03 23:43:20,307 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected StandardServletMultipartResolver
+2026-02-03 23:43:20,308 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected AcceptHeaderLocaleResolver
+2026-02-03 23:43:20,308 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected FixedThemeResolver
+2026-02-03 23:43:20,309 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@1a02063a
+2026-02-03 23:43:20,309 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-2] Detected org.springframework.web.servlet.support.SessionFlashMapManager@5c934077
+2026-02-03 23:43:20,309 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 23:43:20,310 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed initialization in 3 ms
+2026-02-03 23:43:20,315 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] POST "/socios/1/participante", parameters={}
+2026-02-03 23:43:20,325 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-2] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:43:20,388 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:43:20,493 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-2] Successfully created new participante with ID: 0
+2026-02-03 23:43:20,529 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-2] POST/participantes
+2026-02-03 23:43:20,543 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-2] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:43:20,544 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-2] Writing [ParticipanteDto(id=9, dni=98246634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:43:20,552 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-2] Completed 201 CREATED
+2026-02-03 23:43:50,533 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] POST "/socios/2/participante", parameters={}
+2026-02-03 23:43:50,533 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-3] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:43:50,534 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=99046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:43:50,538 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-3] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleNotFound(RuntimeException)
+2026-02-03 23:43:50,538 ERROR c.s.a.e.GlobalExceptionHandler [http-nio-8080-exec-3] Resource not found
+com.svalero.asociation.exception.SocioNotFoundException: Socio con ID 2 no encontrado
+	at com.svalero.asociation.service.SocioService.lambda$findById$0(SocioService.java:35)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.svalero.asociation.service.SocioService.findById(SocioService.java:35)
+	at com.svalero.asociation.controller.ParticipanteController.addParticipante(ParticipanteController.java:70)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-02-03 23:43:50,543 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-3] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:43:50,545 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-3] Writing [ErrorResponse(code=404, message=Socio con ID 2 no encontrado, title=Resource Not Found, error={})]
+2026-02-03 23:43:50,548 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-3] Resolved [com.svalero.asociation.exception.SocioNotFoundException: Socio con ID 2 no encontrado]
+2026-02-03 23:43:50,549 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-3] Completed 404 NOT_FOUND
+2026-02-03 23:43:58,122 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] POST "/socios/3/participante", parameters={}
+2026-02-03 23:43:58,123 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-4] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:43:58,124 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=99046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:43:58,126 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-4] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleNotFound(RuntimeException)
+2026-02-03 23:43:58,126 ERROR c.s.a.e.GlobalExceptionHandler [http-nio-8080-exec-4] Resource not found
+com.svalero.asociation.exception.SocioNotFoundException: Socio con ID 3 no encontrado
+	at com.svalero.asociation.service.SocioService.lambda$findById$0(SocioService.java:35)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.svalero.asociation.service.SocioService.findById(SocioService.java:35)
+	at com.svalero.asociation.controller.ParticipanteController.addParticipante(ParticipanteController.java:70)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-02-03 23:43:58,128 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:43:58,128 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-4] Writing [ErrorResponse(code=404, message=Socio con ID 3 no encontrado, title=Resource Not Found, error={})]
+2026-02-03 23:43:58,129 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-4] Resolved [com.svalero.asociation.exception.SocioNotFoundException: Socio con ID 3 no encontrado]
+2026-02-03 23:43:58,130 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-4] Completed 404 NOT_FOUND
+2026-02-03 23:44:02,032 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] POST "/socios/5/participante", parameters={}
+2026-02-03 23:44:02,032 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-5] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:44:02,033 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=99046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:44:02,037 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-5] Successfully created new participante with ID: 0
+2026-02-03 23:44:02,046 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-5] POST/participantes
+2026-02-03 23:44:02,046 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-5] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:44:02,047 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-5] Writing [ParticipanteDto(id=10, dni=99046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.co (truncated)...]
+2026-02-03 23:44:02,047 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-5] Completed 201 CREATED
+2026-02-03 23:44:09,335 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] GET "/participantes", parameters={}
+2026-02-03 23:44:09,336 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-6] Mapped to com.svalero.asociation.controller.ParticipanteController#getAll(LocalDate, String, String)
+2026-02-03 23:44:09,351 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-6] Searching with filters: null null null
+2026-02-03 23:44:09,352 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-6] GET/participantes
+2026-02-03 23:44:09,353 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:44:09,388 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] Writing [java.lang.StackOverflowError]
+2026-02-03 23:44:09,401 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-6] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleGlobalError(Exception)
+2026-02-03 23:44:09,401 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-6] Found 'Content-Type:application/json' in response
+2026-02-03 23:44:09,402 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-6] Writing [ErrorResponse(code=500, message=An unexpected error occurred, title=Internal Server Error, error={})]
+2026-02-03 23:44:09,403 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-6] Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]]
+2026-02-03 23:44:09,403 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-6] Completed 500 INTERNAL_SERVER_ERROR
+2026-02-03 23:49:01,224 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] POST "/socios/5/participante", parameters={}
+2026-02-03 23:49:01,225 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-8] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:49:01,227 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=99046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:49:01,232 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-8] Using @ExceptionHandler com.svalero.asociation.exception.GlobalExceptionHandler#handleBadRequestManual(BusinessRuleException)
+2026-02-03 23:49:01,232 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-8] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:49:01,233 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-8] Writing [ErrorResponse(code=409, message=Un participante con DNI 99046634P ya existe, title=Ya hay un usuario (truncated)...]
+2026-02-03 23:49:01,233 DEBUG o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8080-exec-8] Resolved [com.svalero.asociation.exception.BusinessRuleException: Un participante con DNI 99046634P ya existe]
+2026-02-03 23:49:01,234 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-8] Completed 405 METHOD_NOT_ALLOWED
+2026-02-03 23:49:04,751 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 23:49:04,756 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 23:49:04,759 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:49:04,761 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 23:49:04,763 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-02-03 23:49:15,198 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-03 23:49:15,231 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 32 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-03 23:49:15,232 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-03 23:49:15,640 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-03 23:49:15,688 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+2026-02-03 23:49:16,027 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-03 23:49:16,036 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:49:16,038 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-03 23:49:16,038 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-03 23:49:16,088 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-03 23:49:16,088 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 828 ms
+2026-02-03 23:49:16,196 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-03 23:49:16,233 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-03 23:49:16,256 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-03 23:49:16,461 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-03 23:49:16,482 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-03 23:49:16,552 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@1b475663
+2026-02-03 23:49:16,554 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-03 23:49:16,573 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-03 23:49:16,585 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-03 23:49:17,301 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-03 23:49:17,347 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:49:17,512 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-03 23:49:17,905 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-03 23:49:17,968 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-03 23:49:18,019 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-03 23:49:18,035 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-03 23:49:18,067 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-03 23:49:18,123 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-03 23:49:18,138 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-03 23:49:18,143 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 3.29 seconds (process running for 3.547)
+2026-02-03 23:49:25,485 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-03 23:49:25,486 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-02-03 23:49:25,487 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected StandardServletMultipartResolver
+2026-02-03 23:49:25,487 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected AcceptHeaderLocaleResolver
+2026-02-03 23:49:25,487 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected FixedThemeResolver
+2026-02-03 23:49:25,488 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@75ee63f2
+2026-02-03 23:49:25,488 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@3ed79f41
+2026-02-03 23:49:25,489 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-03 23:49:25,489 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 3 ms
+2026-02-03 23:49:25,495 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] POST "/socios/5/participante", parameters={}
+2026-02-03 23:49:25,504 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.ParticipanteController#addParticipante(ParticipanteDto, long)
+2026-02-03 23:49:25,562 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Read "application/json;charset=UTF-8" to [ParticipanteDto(id=0, dni=97046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.com (truncated)...]
+2026-02-03 23:49:25,663 INFO c.s.a.s.ParticipanteService [http-nio-8080-exec-1] Successfully created new participante with ID: 0
+2026-02-03 23:49:25,702 INFO c.s.a.c.ParticipanteController [http-nio-8080-exec-1] POST/participantes
+2026-02-03 23:49:25,714 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-03 23:49:25,715 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [ParticipanteDto(id=11, dni=97046634P, name=Amelia, surname=Tolano Mendoza, email=anyemail@hotmail.co (truncated)...]
+2026-02-03 23:49:25,723 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 201 CREATED
+2026-02-03 23:49:41,471 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-03 23:49:41,477 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-03 23:49:41,479 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-03 23:49:41,481 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-03 23:49:41,483 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

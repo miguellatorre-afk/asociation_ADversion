@@ -326,6 +326,17 @@ public class SocioControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void testDeleteSocio_For404() throws Exception{
+        Socio socio = new Socio(2, "777777U", "Marcos", "García", "email@email.com", "C Recogidas 128", "888-566-323", "Nuclear", true, LocalDate.now().plusDays(1), null, null);
+
+        when(socioService.findById(socio.getId())).thenThrow(new SocioNotFoundException("Socio con ID" + socio.getId() +" no encontrado"));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/socios/" + socio.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
 
 }
 

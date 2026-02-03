@@ -20,9 +20,7 @@ public class ParticipanteDto {
     private LocalDate birthDate;
     private String needs;
     private String typeRel;
-    private SocioDto socioID;
-
-
+    private long socioID;
 
     public long getId() {
         return id;

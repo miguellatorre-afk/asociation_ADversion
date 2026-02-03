@@ -67,5 +67,4 @@ public class Participante {
             joinColumns = @JoinColumn(name = "participante_id"),
             inverseJoinColumns = @JoinColumn(name = "servicio_id"))
     private List<Servicio> servicios;
-
 }
