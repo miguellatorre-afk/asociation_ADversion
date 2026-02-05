@@ -45,9 +45,9 @@ public class ParticipanteController {
     }
 
     @GetMapping("/participantes/{id}")
-    public ResponseEntity<Participante> getParticipanteById(@PathVariable long id) {
+    public ResponseEntity<ParticipanteDto> getParticipanteById(@PathVariable long id) {
 
-        Participante selectedparticipante = participanteService.findById(id);
+        ParticipanteDto selectedparticipante = participanteService.findById(id);
         if (selectedparticipante == null){
             logger.warn("Participante of ID: {} not found", id);
             return ResponseEntity.notFound().build();
@@ -68,20 +68,24 @@ public class ParticipanteController {
     public ResponseEntity<ParticipanteDto> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto, @PathVariable long id) throws SocioNotFoundException, ParticipanteNotFoundException {
 
         Participante newparticipante = participanteService.addDto(participanteDto, id);
-        logger.info("POST/participantes");
-       ParticipanteDto participanteDtoFinal = modelMapper.map(newparticipante, ParticipanteDto.class);
+        ParticipanteDto participanteDtoFinal = modelMapper.map(newparticipante, ParticipanteDto.class);
+        participanteDtoFinal.setSocioID(participanteDto.getSocioID());
         return new ResponseEntity<>(participanteDtoFinal, HttpStatus.CREATED);
     }
 
     @PutMapping("/participantes/{id}")
-    public ResponseEntity<Participante> editParticipante(@PathVariable long id, @Valid@RequestBody Participante participante) throws MethodArgumentNotValidException{
-        Participante updatedparticipante = participanteService.modify(id, participante);
+    public ResponseEntity<ParticipanteDto> editParticipante(@PathVariable long id, @Valid@RequestBody ParticipanteDto participanteDto) throws MethodArgumentNotValidException{
+
+        Participante updatedparticipante = participanteService.modifyDto(id, participanteDto);
+        ParticipanteDto participanteDtoUpdated = modelMapper.map(updatedparticipante, ParticipanteDto.class);
+        participanteDtoUpdated.setSocioID(participanteDto.getSocioID());
         logger.info("PUT/participantes/{id}");
-        return ResponseEntity.ok(updatedparticipante);
+        return ResponseEntity.ok(participanteDtoUpdated);
     }
 
     @DeleteMapping("/participantes/{id}")
     public ResponseEntity<Void> deleteParticipante (@PathVariable long id){
+
         participanteService.delete(id);
         logger.info("DELETE/participantes/{id}");
         return ResponseEntity.noContent().build();

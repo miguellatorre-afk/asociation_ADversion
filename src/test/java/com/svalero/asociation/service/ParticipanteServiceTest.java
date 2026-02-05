@@ -31,7 +31,7 @@ public class ParticipanteServiceTest {
 
     @Test
     public void testFindAll() {
-        // Arrange
+
         Socio socio = new Socio();
         socio.setId(1L);
 
@@ -59,7 +59,7 @@ public class ParticipanteServiceTest {
         when(mapper.map(p1, ParticipanteDto.class)).thenReturn(dto1);
         when(mapper.map(p2, ParticipanteDto.class)).thenReturn(dto2);
 
-        // Act
+
         List<ParticipanteDto> res = participanteService.findAll(null, null, null);
 
 
@@ -75,69 +75,132 @@ public class ParticipanteServiceTest {
     }
 
 
-//    @Test
-//    public void testFindByBirthDateAfter() {
-//
-//        Socio socio = new Socio();
-//        socio.setId(1L);
-//        List<Participante> mockParticipanteList = List.of(
-//                new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", socio, null, null),
-//                new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", socio, null, null)
-//        );
-//
-//        when(participanteRepository.findByFilters(LocalDate.now().plusDays(20), null, null  )).thenReturn(mockParticipanteList);
-//
-//        List<Participante>  participanteDtosList = participanteService.findAll(LocalDate.now().plusDays(20), null, null);
-//
+    @Test
+    public void testFindByBirthDateAfter() {
+
+        Socio socio = new Socio();
+        socio.setId(1L);
+
+        Participante p1 = new Participante();
+        p1.setId(1L);
+        p1.setName("Alberto");
+        p1.setSocio(socio);
+
+        Participante p2 = new Participante();
+        p2.setId(2L);
+        p2.setName("Roberto");
+        p2.setSocio(socio);
+
+        when(participanteRepository.findByFilters(LocalDate.now().minusYears(20), null, null))
+                .thenReturn(List.of(p1, p2));
+
+        ParticipanteDto dto1 = new ParticipanteDto();
+        dto1.setId(1L);
+        dto1.setName("Alberto");
+
+        ParticipanteDto dto2 = new ParticipanteDto();
+        dto2.setId(2L);
+        dto2.setName("Roberto");
+
+        when(mapper.map(p1, ParticipanteDto.class)).thenReturn(dto1);
+        when(mapper.map(p2, ParticipanteDto.class)).thenReturn(dto2);
+
+        List<ParticipanteDto> res = participanteService.findAll(LocalDate.now().minusYears(20), null, null);
+
 //        assertEquals(2, participanteDtosList.size());
 //        assertEquals("Alberto", participanteDtosList.getFirst().getName());
 //
 //        verify(participanteRepository, times(1)).findByFilters(LocalDate.now().plusDays(20), null, null  );
-//
-//    }
-//
-//    @Test
-//    public void testfindByNameStartingWithIgnoreCase() {
-//        List<Participante> mockParticipanteList = List.of(
-//                new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null),
-//                new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
-//        );
-//
-//        when(participanteRepository.findByFilters(null, "Roberto", null)).thenReturn(mockParticipanteList);
-//
-//        List<Participante> participanteList = participanteService.findAll(null, "Roberto", null);
-//
-//        assertEquals(2, participanteList.size());
-//        assertEquals("Alberto", participanteList.getFirst().getName());
-//
-//        verify(participanteRepository, times(1)).findByFilters(null, "Roberto", null);
-//
-//
-//    }
-//
-//    @Test
-//    public void testfindBytypeRel() {
-//        List<Participante> mockParticipanteList = List.of(
-//                new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null),
-//                new Participante(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null)
-//        );
-//
-//        when(participanteRepository.findByFilters(null, null, "hijo")).thenReturn(mockParticipanteList);
-//
-//        List<Participante>  participantesList = participanteService.findAll(null, null, "hijo");
-//        assertEquals(2, participantesList.size());
-//        assertEquals("Alberto", participantesList.getFirst().getName());
-//
-//        verify(participanteRepository, times(1)).findByFilters(null, null, "hijo");
-//    }
+
+    }
+
+    @Test
+    public void testfindByNameStartingWithIgnoreCase() {
+
+        Socio socio = new Socio();
+        socio.setId(1L);
+
+        Participante p1 = new Participante();
+        p1.setId(1L);
+        p1.setName("Alberto");
+        p1.setSocio(socio);
+
+        Participante p2 = new Participante();
+        p2.setId(2L);
+        p2.setName("Roberto");
+        p2.setSocio(socio);
+
+        when(participanteRepository.findByFilters(null, "Roberto", null))
+                .thenReturn(List.of(p1, p2));
+
+        ParticipanteDto dto1 = new ParticipanteDto();
+        dto1.setId(1L);
+        dto1.setName("Alberto");
+
+        ParticipanteDto dto2 = new ParticipanteDto();
+        dto2.setId(2L);
+        dto2.setName("Roberto");
+
+        when(mapper.map(p1, ParticipanteDto.class)).thenReturn(dto1);
+        when(mapper.map(p2, ParticipanteDto.class)).thenReturn(dto2);
+
+        List<ParticipanteDto> participanteList = participanteService.findAll(null, "Roberto", null);
+
+        assertEquals(2, participanteList.size());
+        assertEquals("Alberto", participanteList.getFirst().getName());
+
+        verify(participanteRepository, times(1)).findByFilters(null, "Roberto", null);
+
+
+    }
+
+    @Test
+    public void testfindBytypeRel() {
+        Socio socio = new Socio();
+        socio.setId(1L);
+
+        Participante p1 = new Participante();
+        p1.setId(1L);
+        p1.setName("Alberto");
+        p1.setSocio(socio);
+
+        Participante p2 = new Participante();
+        p2.setId(2L);
+        p2.setName("Roberto");
+        p2.setSocio(socio);
+
+        when(participanteRepository.findByFilters(null, null, "hijo"))
+                .thenReturn(List.of(p1, p2));
+
+        ParticipanteDto dto1 = new ParticipanteDto();
+        dto1.setId(1L);
+        dto1.setName("Alberto");
+
+        ParticipanteDto dto2 = new ParticipanteDto();
+        dto2.setId(2L);
+        dto2.setName("Roberto");
+
+        when(mapper.map(p1, ParticipanteDto.class)).thenReturn(dto1);
+        when(mapper.map(p2, ParticipanteDto.class)).thenReturn(dto2);
+
+        List<ParticipanteDto>  participantesList = participanteService.findAll(null, null, "hijo");
+        assertEquals(2, participantesList.size());
+        assertEquals("Alberto", participantesList.getFirst().getName());
+
+        verify(participanteRepository, times(1)).findByFilters(null, null, "hijo");
+    }
 
     @Test
     public void testFindById(){
+
+        ParticipanteDto selectedParticipanteDto =  new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20), "ninguna", "hijo", 1);
         Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
 
-        when(participanteRepository.findById(selectedParticipante.getId())).thenReturn(Optional.of(selectedParticipante));
+        when(participanteRepository.findById(1L)).thenReturn(Optional.of(selectedParticipante));
 
-        Participante result = participanteService.findById(selectedParticipante.getId());
+        when(mapper.map(selectedParticipante, ParticipanteDto.class)).thenReturn(selectedParticipanteDto);
+
+        ParticipanteDto result = participanteService.findById(selectedParticipante.getId());
 
         assertEquals("Alberto", result.getName());
     }
@@ -155,21 +218,35 @@ public class ParticipanteServiceTest {
 
     @Test
     public void testModify(){
-        Participante oldparticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
-        Participante wantedParticipante =  new Participante(1, "77777777U", "Lucas", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
 
-        when(participanteRepository.findById(oldparticipante.getId())).thenReturn(Optional.of(oldparticipante));
+        long id = 1L;
 
-        when(participanteRepository.save(oldparticipante)).thenReturn(wantedParticipante);
+        ParticipanteDto participanteDto = new ParticipanteDto(
+                1L, "77777777U", "Alberto", "Gomara",
+                "email@email.com", "888-566-323",
+                LocalDate.of(2000, 1, 1), "ninguna", "hijo", 1L
+        );
 
-        mapper.map(wantedParticipante, oldparticipante);
+        Participante old = new Participante();
+        old.setId(id);
 
-        Participante result = participanteService.modify(oldparticipante.getId(), wantedParticipante);
+        when(participanteRepository.findById(id)).thenReturn(Optional.of(old));
+
+        doNothing().when(mapper).map(any(ParticipanteDto.class), any(Participante.class));
+
+        when(participanteRepository.save(any(Participante.class))).thenAnswer(inv -> inv.getArgument(0));
 
 
-        assertEquals("Lucas", result.getName());
-        verify(participanteRepository).findById(oldparticipante.getId());
-        verify(participanteRepository, times(1)).save(oldparticipante);
+        Participante result = participanteService.modifyDto(id, participanteDto);
+
+        assertNotNull(result);
+        assertSame(old, result); // devuelve el mismo objeto que se guardó
+
+        verify(participanteRepository).findById(id);
+        verify(mapper).map(eq(participanteDto), eq(old));
+        verify(participanteRepository).save(eq(old));
+        verifyNoMoreInteractions(participanteRepository, mapper);
+
     }
 
     @Test

@@ -44,13 +44,17 @@ public class ParticipanteService {
                 .toList();
     }
 
-    public Participante findById(long id) {
+    public ParticipanteDto findById(long id) {
+
         Participante participanteSelected = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
+        ParticipanteDto participanteDtoselected = modelMapper.map(participanteSelected, ParticipanteDto.class);
+
         logger.debug("Fetching participante with ID: {}", id);
-        return participanteSelected;
+        return participanteDtoselected;
     }
 
     public  Participante add(Participante participante){
+
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un participante con DNI "+participante.getDni()+" ya existe");
         }
@@ -60,6 +64,7 @@ public class ParticipanteService {
     }
 
     public  Participante addDto(ParticipanteDto participanteDto, long id){
+
         Participante participante = new Participante();
         modelMapper.map(participanteDto, participante);
         if(participanteRepository.existsBydni(participante.getDni())){
@@ -73,14 +78,16 @@ public class ParticipanteService {
 
     }
 
-    public Participante modify(long id, Participante participante){
+    public Participante modifyDto(long id, ParticipanteDto participanteDto){
+
         Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         logger.info("Updating participante with ID: {}", id);
-        modelMapper.map(participante, oldparticipante);
+        modelMapper.map(participanteDto, oldparticipante);
         return participanteRepository.save(oldparticipante);
     }
 
     public void delete(long id) {
+
         Participante participante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
         logger.info("Participante with ID: {} deleted successfully", id);
         participanteRepository.delete(participante);

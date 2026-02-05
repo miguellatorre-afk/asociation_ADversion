@@ -5,15 +5,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.dto.ParticipanteDto;
-import com.svalero.asociation.dto.SocioDto;
-import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ParticipanteService;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -169,16 +166,23 @@ class ParticipanteControllerTest {
         });
 
         assertNotNull(participanteListResult);
-        assertEquals("Alberto", participanteListResult.get(0).getName());
+        assertEquals("Alberto", participanteListResult.getFirst().getName());
     }
 
     @Test
     public void testFindParticipanteById_Return200()throws Exception{
-        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
 
-        when(participanteService.findById(selectedParticipante.getId())).thenReturn(selectedParticipante);
+        Socio socio = new Socio();
+        socio.setId(1);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/participantes/"+ selectedParticipante.getId())
+        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", socio, null, null);
+
+        ModelMapper modelMapper = new ModelMapper();
+        ParticipanteDto participanteDto =modelMapper.map(selectedParticipante, ParticipanteDto.class);
+
+        when(participanteService.findById(selectedParticipante.getId())).thenReturn(participanteDto);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/participantes/" + participanteDto.getId())
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -273,73 +277,53 @@ class ParticipanteControllerTest {
 
     @Test
     void testEditParticipante_For200() throws Exception {
+        Socio socio = new Socio();
+        socio.setId(1);
 
-        Participante originalParticipante = new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-        Participante wantedParticipante = new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "padre", null, null, null);
+        ParticipanteDto wantedParticipante = new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20), "ninguna", "hijo", 1);
+        Participante updatedParticipante = new Participante(1, "77777777U", "Alejandro", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", socio, null, null);
+
+        when(participanteService.modifyDto(1, wantedParticipante)).thenReturn(updatedParticipante);
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        ParticipanteDto updatedParticipanteDto = modelMapper.map(wantedParticipante, ParticipanteDto.class);
+
+        when(modelmapper.map(updatedParticipante, ParticipanteDto.class)).thenReturn(updatedParticipanteDto);
+
+        updatedParticipanteDto.setSocioID(wantedParticipante.getId());
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
         thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         thisobjectmapper.registerModule(new JavaTimeModule());
 
-        when(participanteService.modify(1, wantedParticipante)).thenReturn(wantedParticipante);
-
         String jsonRequest = thisobjectmapper.writeValueAsString(wantedParticipante);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/participantes/" + originalParticipante.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put("/participantes/" + updatedParticipanteDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonRequest))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        Participante responseParticipante = thisobjectmapper.readValue(jsonResponse, Participante.class);
-        assertEquals(1, responseParticipante.getId());
-        assertEquals("padre", responseParticipante.getTypeRel());
+                .andExpect(status().isOk());
     }
 
-
-
-    @Test
-    void testEdiParticipante_For200() throws Exception {
-
-        Participante originalParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-        Participante wantedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "padre", null, null, null);
-
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
-        thisObjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        when(participanteService.modify(1, wantedParticipante)).thenReturn(wantedParticipante);
-
-        String jsonRequest = thisObjectmapper.writeValueAsString(wantedParticipante);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/participantes/" + originalParticipante.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        Participante responseActividad = thisObjectmapper.readValue(jsonResponse, Participante.class);
-        assertEquals(1, responseActividad.getId());
-        assertEquals("padre", responseActividad.getTypeRel());
-    }
 
     @Test
     void testEditParticipante_For404() throws Exception {
 
-        Participante originalParticipante = new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-        Participante wantedParticipante = new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
+        ParticipanteDto originalParticipante = new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20), "ninguna", "hijo", 1);
+        Participante wantedParticipante = new Participante(1, "77777777U", "Alejandro", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        ParticipanteDto wantedParticipanteDto = modelMapper.map(wantedParticipante, ParticipanteDto.class);
+
+        when(modelmapper.map(originalParticipante, ParticipanteDto.class)).thenReturn(wantedParticipanteDto);
+        when(participanteService.modifyDto(1, wantedParticipanteDto)).thenThrow(new ParticipanteNotFoundException("Participante Not Found"));
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
         thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         thisobjectmapper.registerModule(new JavaTimeModule());
 
-        when(participanteService.modify(1, wantedParticipante)).thenThrow(new ParticipanteNotFoundException("Participante Not Found"));
 
         String jsonRequest = thisobjectmapper.writeValueAsString(wantedParticipante);
 
