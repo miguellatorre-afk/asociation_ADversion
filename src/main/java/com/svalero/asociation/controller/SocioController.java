@@ -2,6 +2,7 @@ package com.svalero.asociation.controller;
 
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.model.Socio;
+import com.svalero.asociation.service.ParticipanteService;
 import com.svalero.asociation.service.SocioService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ import java.util.List;
 public class SocioController {
     @Autowired
     private SocioService socioService;
+    @Autowired
+    private ParticipanteService participanteService;
 
     private final Logger logger = LoggerFactory.getLogger(SocioController.class);
 
@@ -29,13 +32,13 @@ public class SocioController {
             @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entryDate) {
 
         logger.info("GET/socios");
-        List<SocioDto> allsocios = socioService.findAll(familyModel, active, entryDate);
+        List<SocioDto> allSociosDto = socioService.findAll(familyModel, active, entryDate);
 
-        if (allsocios.isEmpty()) {
+        if (allSociosDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(allsocios);
+        return ResponseEntity.ok(allSociosDto);
     }
 
     @GetMapping("/socios/{id}")

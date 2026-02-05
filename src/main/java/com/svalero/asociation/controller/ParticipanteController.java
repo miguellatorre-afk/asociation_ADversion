@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class ParticipanteController {
@@ -32,12 +33,13 @@ public class ParticipanteController {
 
 
     @GetMapping("/participantes")
-    public ResponseEntity<List<Participante>> getAll(
+    public ResponseEntity<List<ParticipanteDto>> getAll(
             @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "typeRel",required = false) String typeRel)
     {
-        List<Participante> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
+        List<ParticipanteDto> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
+
         logger.info("GET/participantes");
         return ResponseEntity.ok(allparticipantes);
     }

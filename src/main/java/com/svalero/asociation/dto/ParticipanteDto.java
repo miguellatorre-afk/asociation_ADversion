@@ -22,6 +22,7 @@ public class ParticipanteDto {
     private String typeRel;
     private long socioID;
 
+
     public long getId() {
         return id;
     }

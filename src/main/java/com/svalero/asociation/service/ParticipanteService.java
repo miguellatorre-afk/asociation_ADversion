@@ -32,10 +32,16 @@ public class ParticipanteService {
     private final Logger logger = LoggerFactory.getLogger(ParticipanteService.class);
 
 
-    public List<Participante> findAll(LocalDate birthDate, String name, String typeRel){
+    public List<ParticipanteDto> findAll(LocalDate birthDate, String name, String typeRel){
         List<Participante> participantes = participanteRepository.findByFilters(birthDate, name, typeRel);
         logger.info("Searching with filters: {} {} {}", birthDate, name, typeRel);
-        return participantes;
+        return participantes.stream()
+                .map(p -> {
+                    ParticipanteDto dto = modelMapper.map(p, ParticipanteDto.class);
+                    dto.setSocioID(p.getSocio().getId());
+                    return dto;
+                })
+                .toList();
     }
 
     public Participante findById(long id) {
