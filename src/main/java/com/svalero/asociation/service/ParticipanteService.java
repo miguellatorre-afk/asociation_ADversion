@@ -2,13 +2,16 @@ package com.svalero.asociation.service;
 
 
 import com.svalero.asociation.dto.ParticipanteDto;
+import com.svalero.asociation.dto.ParticipanteOutDto;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
+import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ParticipanteRepository;
 import com.svalero.asociation.repository.SocioRepository;
 import org.hibernate.query.ParameterLabelException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +34,15 @@ public class ParticipanteService {
 
     private final Logger logger = LoggerFactory.getLogger(ParticipanteService.class);
 
-
-    public List<ParticipanteDto> findAll(LocalDate birthDate, String name, String typeRel){
+    public List<ParticipanteOutDto> findAll(LocalDate birthDate, String name, String typeRel){
         List<Participante> participantes = participanteRepository.findByFilters(birthDate, name, typeRel);
         logger.info("Searching with filters: {} {} {}", birthDate, name, typeRel);
-        return participantes.stream()
-                .map(p -> {
-                    ParticipanteDto dto = modelMapper.map(p, ParticipanteDto.class);
-                    dto.setSocioID(p.getSocio().getId());
-                    return dto;
-                })
-                .toList();
+        List<ParticipanteOutDto>participanteOutDtoList = modelMapper.map(participantes, new TypeToken<List<ParticipanteOutDto>>(){}.getType());
+        return participanteOutDtoList;
     }
 
     public ParticipanteDto findById(long id) {
-
-        Participante participanteSelected = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
+        Participante participanteSelected = participanteRepository.findById(id).orElseThrow(() -> new ParticipanteNotFoundException("Participante con ID:" + id + "no encontrado"));
         ParticipanteDto participanteDtoselected = modelMapper.map(participanteSelected, ParticipanteDto.class);
 
         logger.debug("Fetching participante with ID: {}", id);
@@ -54,7 +50,6 @@ public class ParticipanteService {
     }
 
     public  Participante add(Participante participante){
-
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un participante con DNI "+participante.getDni()+" ya existe");
         }
@@ -64,31 +59,27 @@ public class ParticipanteService {
     }
 
     public  Participante addDto(ParticipanteDto participanteDto, long id){
-
         Participante participante = new Participante();
         modelMapper.map(participanteDto, participante);
         if(participanteRepository.existsBydni(participante.getDni())){
             throw new BusinessRuleException("Un participante con DNI "+participante.getDni()+" ya existe");
         }
-
         SocioDto socioDto = socioService.findById(id);
         participante.setSocio(socioRepository.findById(socioDto.getId()).get());
-        logger.info("Successfully created new participante with ID: {}", participanteDto.getId());
+//        logger.info("Successfully created new participante with ID: {}", participanteOutDto.getId());
         return participanteRepository.save(participante);
 
     }
 
     public Participante modifyDto(long id, ParticipanteDto participanteDto){
-
-        Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
+        Participante oldparticipante = participanteRepository.findById(id).orElseThrow(() -> new ParticipanteNotFoundException("Participante con ID:" + id + "no encontrado"));
         logger.info("Updating participante with ID: {}", id);
         modelMapper.map(participanteDto, oldparticipante);
         return participanteRepository.save(oldparticipante);
     }
 
     public void delete(long id) {
-
-        Participante participante = participanteRepository.findById(id).orElseThrow(() -> new ParameterLabelException("Participante con ID:" + id + "no encontrado"));
+        Participante participante = participanteRepository.findById(id).orElseThrow(() -> new ParticipanteNotFoundException("Participante con ID:" + id + "no encontrado"));
         logger.info("Participante with ID: {} deleted successfully", id);
         participanteRepository.delete(participante);
     }

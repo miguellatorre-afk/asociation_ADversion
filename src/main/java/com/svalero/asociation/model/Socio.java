@@ -51,10 +51,7 @@ public class Socio {
         @Null
         private LocalDate outDate;
 
-
         @OneToMany(mappedBy = "socio")
         @JsonBackReference
         private List<Participante> participanteList;
-
-
 }

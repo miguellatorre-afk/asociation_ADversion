@@ -1,6 +1,5 @@
 package com.svalero.asociation.service;
 
-import com.svalero.asociation.dto.ParticipanteDto;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.SocioNotFoundException;
@@ -34,40 +33,7 @@ public class SocioService {
         List<SocioDto> sociosDto = modelMapper.map(socios, new TypeToken<List<SocioDto>>() {
         }.getType());
 
-        return socios.stream().map(this::toDto).toList();
-    }
-
-    private SocioDto toDto(Socio s) {
-        SocioDto dto = new SocioDto();
-        dto.setId(s.getId());
-        dto.setDni(s.getDni());
-        dto.setName(s.getName());
-        dto.setSurname(s.getSurname());
-        dto.setEmail(s.getEmail());
-        dto.setPhoneNumber(s.getPhoneNumber());
-        dto.setActive(s.getActive());
-        dto.setFamilyModel(s.getFamilyModel());
-        dto.setEntryDate(s.getEntryDate());
-
-        List<ParticipanteDto> participantes = s.getParticipanteList().stream()
-                .map(p -> {
-                    ParticipanteDto pd = new ParticipanteDto();
-                    pd.setId(p.getId());
-                    pd.setDni(p.getDni());
-                    pd.setName(p.getName());
-                    pd.setSurname(p.getSurname());
-                    pd.setEmail(p.getEmail());
-                    pd.setPhoneNumber(p.getPhoneNumber());
-                    pd.setBirthDate(p.getBirthDate());
-                    pd.setNeeds(p.getNeeds());
-                    pd.setTypeRel(p.getTypeRel());
-                    pd.setSocioID(s.getId());
-                    return pd;
-                })
-                .toList();
-
-        dto.setParticipanteDtoList(participantes);
-        return dto;
+        return sociosDto;
     }
 
     public SocioDto findById(long id) {

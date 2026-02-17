@@ -1,5 +1,7 @@
 package com.svalero.asociation.controller;
 
+import com.svalero.asociation.dto.ActividadDto;
+import com.svalero.asociation.dto.ActividadOutDto;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
 import jakarta.validation.Valid;
@@ -24,12 +26,12 @@ public class ActividadController {
     private final Logger logger = LoggerFactory.getLogger(ActividadController.class);
 
     @GetMapping("/actividades")
-    public ResponseEntity<List<Actividad>> getAll(
+    public ResponseEntity<List<ActividadOutDto>> getAll(
             @RequestParam(value = "dayActivity", required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate dayActivity,
             @RequestParam(value = "canJoin", required = false) Boolean canJoin,
             @RequestParam(value = "duration", required = false) Float duration){
         logger.info("GET/actividades");
-        List<Actividad> allactividades = actividadService.findAll(dayActivity, canJoin, duration);
+        List<ActividadOutDto> allactividades = actividadService.findAll(dayActivity, canJoin, duration);
         return ResponseEntity.ok(allactividades);
     }
 
@@ -45,10 +47,10 @@ public class ActividadController {
     }
 
     @PostMapping("/actividades")
-    public ResponseEntity<Actividad> addActividad(@Valid@RequestBody Actividad actividad){
-        Actividad newactividad = actividadService.add(actividad);
+    public ResponseEntity<ActividadOutDto> addActividad(@Valid@RequestBody ActividadDto actividad){
+        ActividadOutDto newActividad = actividadService.add(actividad);
         logger.info("POST/actividades");
-        return new ResponseEntity<>(newactividad, HttpStatus.CREATED);
+        return new ResponseEntity<>(newActividad, HttpStatus.CREATED);
     }
 
     @PutMapping("/actividades/{id}")

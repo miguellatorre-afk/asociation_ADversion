@@ -1,9 +1,12 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.ActividadDto;
+import com.svalero.asociation.dto.ActividadOutDto;
 import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,11 @@ public class ActividadService {
 
     private final Logger logger = LoggerFactory.getLogger(ActividadService.class);
 
-    public List<Actividad> findAll(LocalDate dayActivity, Boolean canJoin, Float duration) {
+    public List<ActividadOutDto> findAll(LocalDate dayActivity, Boolean canJoin, Float duration) {
         List<Actividad> actividades = actividadRepository.findByFilters(dayActivity, canJoin, duration);
         logger.info("Searching Actividad with filters: {} {} {}", dayActivity, canJoin, duration);
-        return actividades;
+        List<ActividadOutDto> actividadOutDtoList = modelMapper.map(actividades, new TypeToken<List<ActividadOutDto>>(){}.getType());
+        return actividadOutDtoList;
     }
 
     public Actividad findById(long id) {
@@ -34,10 +38,11 @@ public class ActividadService {
         return foundactividad;
     }
 
-    public Actividad add(Actividad actividad) {
+    public ActividadOutDto add(ActividadDto actividadDto) {
+        Actividad actividad = modelMapper.map(actividadDto, Actividad.class);
         actividadRepository.save(actividad);
         logger.info("Successfully created new socio with ID: {}", actividad.getId());
-        return actividad;
+        return modelMapper.map(actividad, ActividadOutDto.class);
     }
 
     public Actividad modify(long id, Actividad actividad) {
@@ -48,7 +53,6 @@ public class ActividadService {
     }
 
     public void delete(long id) {
-
         Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new ActividadNotFoundException("Actividad con ID:" + id + "not found"));
         logger.info("Socio with ID: {} deleted successfully", id);
         actividadRepository.delete(actividad);
