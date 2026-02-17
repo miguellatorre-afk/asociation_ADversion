@@ -3,8 +3,7 @@ package com.svalero.asociation.repository;
 import com.svalero.asociation.model.Socio;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,6 +24,7 @@ public interface SocioRepository extends CrudRepository<Socio, Long> {
             "(:familyModel IS NULL OR s.familyModel = :familyModel) AND " +
             "(:active IS NULL OR s.active = :active) AND " +
             "(:entryDate IS NULL OR s.entryDate >= :entryDate)")
+    @EntityGraph(attributePaths = "participanteList")
     List<Socio> findByFilters(@Param("familyModel") String familyModel,
                               @Param("active") Boolean active,
                               @Param("entryDate") LocalDate entryDate);

@@ -1,6 +1,7 @@
 package com.svalero.asociation.controller;
 
 import com.svalero.asociation.dto.ParticipanteDto;
+import com.svalero.asociation.dto.ParticipanteOutDto;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.exception.SocioNotFoundException;
@@ -33,12 +34,12 @@ public class ParticipanteController {
 
 
     @GetMapping("/participantes")
-    public ResponseEntity<List<ParticipanteDto>> getAll(
+    public ResponseEntity<List<ParticipanteOutDto>> getAll(
             @RequestParam(value = "birthDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "typeRel",required = false) String typeRel)
     {
-        List<ParticipanteDto> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
+        List<ParticipanteOutDto> allparticipantes = participanteService.findAll(birthDate, name, typeRel);
 
         logger.info("GET/participantes");
         return ResponseEntity.ok(allparticipantes);

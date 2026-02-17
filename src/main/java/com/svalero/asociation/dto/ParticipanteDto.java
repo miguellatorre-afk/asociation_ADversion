@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipanteDto {
-    private long id;
     private String dni;
     private String name;
     private String surname;
@@ -21,9 +21,5 @@ public class ParticipanteDto {
     private String needs;
     private String typeRel;
     private long socioID;
-
-
-    public long getId() {
-        return id;
-    }
+    private List<Long> actividadId;
 }

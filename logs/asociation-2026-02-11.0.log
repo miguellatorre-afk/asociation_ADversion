@@ -1,0 +1,59 @@
+2026-02-11 23:28:58,006 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.3.Final
+2026-02-11 23:28:58,053 INFO o.s.b.StartupInfoLogger [main] Starting AsociationApplication using Java 25.0.1 with PID 16220 (C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation\target\classes started by Usuario in C:\Users\Usuario\Desktop\DAM\2\AccesoDatos\asociation)
+2026-02-11 23:28:58,054 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2026-02-11 23:28:58,565 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-11 23:28:58,622 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 49 ms. Found 5 JPA repository interfaces.
+2026-02-11 23:28:59,026 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2026-02-11 23:28:59,038 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2026-02-11 23:28:59,040 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2026-02-11 23:28:59,041 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-02-11 23:28:59,101 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2026-02-11 23:28:59,102 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1009 ms
+2026-02-11 23:28:59,214 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-11 23:28:59,267 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-02-11 23:28:59,298 INFO o.h.c.i.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2026-02-11 23:28:59,545 INFO o.s.o.j.p.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-11 23:28:59,571 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2026-02-11 23:28:59,661 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.mariadb.jdbc.Connection@2499b971
+2026-02-11 23:28:59,663 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2026-02-11 23:28:59,687 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-11 23:28:59,700 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-11 23:29:00,500 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-11 23:29:00,548 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-11 23:29:00,742 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-11 23:29:01,453 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-11 23:29:01,525 DEBUG o.s.w.s.h.AbstractHandlerMethodMapping [main] 28 mappings in 'requestMappingHandlerMapping'
+2026-02-11 23:29:01,580 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-11 23:29:01,605 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-11 23:29:01,642 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-11 23:29:01,695 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2026-02-11 23:29:01,712 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2026-02-11 23:29:01,717 INFO o.s.b.StartupInfoLogger [main] Started AsociationApplication in 4.114 seconds (process running for 4.401)
+2026-02-11 23:29:17,669 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-11 23:29:17,670 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-02-11 23:29:17,671 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected StandardServletMultipartResolver
+2026-02-11 23:29:17,671 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected AcceptHeaderLocaleResolver
+2026-02-11 23:29:17,671 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected FixedThemeResolver
+2026-02-11 23:29:17,672 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5bf97be9
+2026-02-11 23:29:17,672 DEBUG o.s.w.s.DispatcherServlet [http-nio-8080-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@4e216b7e
+2026-02-11 23:29:17,672 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-11 23:29:17,673 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
+2026-02-11 23:29:17,678 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] GET "/socios?familyModel=monoparental&entryDate=2026-01-23&active=true", parameters={masked}
+2026-02-11 23:29:17,689 DEBUG o.s.w.s.h.AbstractHandlerMapping [http-nio-8080-exec-1] Mapped to com.svalero.asociation.controller.SocioController#getAllByAllFilters(String, Boolean, LocalDate)
+2026-02-11 23:29:17,712 INFO c.s.a.c.SocioController [http-nio-8080-exec-1] GET/socios
+2026-02-11 23:29:17,796 INFO c.s.a.s.SocioService [http-nio-8080-exec-1] Searching with filters: monoparental true 2026-01-23
+2026-02-11 23:29:17,814 DEBUG o.s.w.s.m.m.a.AbstractMessageConverterMethodProcessor [http-nio-8080-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-11 23:29:17,816 DEBUG o.s.c.l.LogFormatUtils [http-nio-8080-exec-1] Writing [[SocioDto(id=1, dni=65411896J, name=Roberto, surname=Faci, email=emial@email.com, phoneNumber=888-45 (truncated)...]
+2026-02-11 23:29:17,849 DEBUG o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed 200 OK
+2026-02-11 23:29:47,391 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-11 23:29:47,397 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-02-11 23:29:47,400 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-11 23:29:47,401 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-02-11 23:29:47,404 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

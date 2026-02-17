@@ -4,6 +4,7 @@ import com.svalero.asociation.controller.SocioController;
 import com.svalero.asociation.dto.SocioDto;
 import com.svalero.asociation.exception.BusinessRuleException;
 import com.svalero.asociation.exception.ServicioNotFoundException;
+import com.svalero.asociation.exception.TrabajadorNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
@@ -34,7 +35,7 @@ public class TrabajadorService {
     }
 
     public Trabajador findById(long id) {
-        Trabajador foundtrabajador = trabajadorRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
+        Trabajador foundtrabajador = trabajadorRepository.findById(id).orElseThrow(()-> new TrabajadorNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
         logger.info("Found Trabajador with ID: {} ", id);
         return foundtrabajador;
     }
@@ -52,14 +53,14 @@ public class TrabajadorService {
     }
 
     public Trabajador modify(long id, Trabajador trabajador) {
-        Trabajador oldtrabajador = trabajadorRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
+        Trabajador oldtrabajador = trabajadorRepository.findById(id).orElseThrow(()-> new TrabajadorNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
         modelMapper.map(trabajador, oldtrabajador);
         logger.info("Updated Trabajador with ID: {} ", id);
         return trabajadorRepository.save(oldtrabajador);
     }
 
     public void delete(long id) {
-        Trabajador trabajador = trabajadorRepository.findById(id).orElseThrow(()-> new ServicioNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
+        Trabajador trabajador = trabajadorRepository.findById(id).orElseThrow(()-> new TrabajadorNotFoundException("Trabajador con la ID:"+ id+ "no encontrado"));
         logger.info("Deleted Trabajador with ID: {} ", id);
         trabajadorRepository.delete(trabajador);
     }
