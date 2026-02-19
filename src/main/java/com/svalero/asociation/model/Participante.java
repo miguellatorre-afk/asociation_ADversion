@@ -56,6 +56,9 @@ public class Participante {
     @JoinColumn(name = "socio_id")
     private Socio socio;
 
+    @OneToMany(mappedBy = "participante")
+    private List<InscripcionActividad> inscripciones;
+
     @ManyToMany
     @JoinTable(name ="incripcion_actividad",
             joinColumns = @JoinColumn(name = "participante_id"),

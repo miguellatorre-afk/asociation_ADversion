@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
-
 
 @Data
 @AllArgsConstructor
@@ -18,5 +16,4 @@ public class ActividadDto {
     private Float duration;
     private Boolean canJoin;
     private Integer capacity;
-    private List<Long> participanteIdList;
 }

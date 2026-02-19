@@ -1,6 +1,7 @@
 package com.svalero.asociation.controller;
 
 import com.svalero.asociation.model.Servicio;
+import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.service.ServicioService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

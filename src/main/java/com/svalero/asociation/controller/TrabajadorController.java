@@ -50,6 +50,13 @@ public class TrabajadorController {
         return new ResponseEntity<>(newtrabajador, HttpStatus.CREATED);
     }
 
+    @PostMapping("servicios/{id}/trabajadores")
+    public ResponseEntity<Trabajador> addTrabajadors(@Valid@RequestBody Trabajador trabajador){
+        Trabajador newtrabajador = trabajadorService.add(trabajador);
+        logger.info("POST/trabajadores");
+        return new ResponseEntity<>(newtrabajador, HttpStatus.CREATED);
+    }
+
     @PutMapping("/trabajadores/{id}")
     public ResponseEntity<Trabajador> editTrabajador(@PathVariable long id, @Valid@RequestBody Trabajador trabajador){
         Trabajador updatedtrabajador = trabajadorService.modify(id, trabajador);

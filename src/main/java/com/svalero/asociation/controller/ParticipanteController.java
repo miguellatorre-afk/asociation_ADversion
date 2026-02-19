@@ -57,14 +57,6 @@ public class ParticipanteController {
         return new ResponseEntity<>(selectedparticipante, HttpStatus.OK);
     }
 
-    @PostMapping("/participantes")
-    public ResponseEntity<Participante> addParticipante(@Valid@RequestBody Participante participante) throws MethodArgumentNotValidException {
-
-        Participante newparticipante = participanteService.add(participante);
-        logger.info("POST/participantes");
-        return new ResponseEntity<>(newparticipante, HttpStatus.CREATED);
-    }
-
     @PostMapping("/socios/{id}/participante")
     public ResponseEntity<ParticipanteDto> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto, @PathVariable long id) throws SocioNotFoundException, ParticipanteNotFoundException {
 

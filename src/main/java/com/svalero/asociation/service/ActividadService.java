@@ -38,9 +38,14 @@ public class ActividadService {
         return foundactividad;
     }
 
+    public ActividadOutDto findOutById(long id) {
+        Actividad foundactividad = findById(id);
+        return modelMapper.map(foundactividad, ActividadOutDto.class);
+    }
+
     public ActividadOutDto add(ActividadDto actividadDto) {
         Actividad actividad = modelMapper.map(actividadDto, Actividad.class);
-        actividadRepository.save(actividad);
+        actividad = actividadRepository.save(actividad);
         logger.info("Successfully created new socio with ID: {}", actividad.getId());
         return modelMapper.map(actividad, ActividadOutDto.class);
     }

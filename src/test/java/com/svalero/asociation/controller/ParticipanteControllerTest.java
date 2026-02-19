@@ -1,14 +1,14 @@
 package com.svalero.asociation.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.svalero.asociation.dto.ParticipanteDto;
+import com.svalero.asociation.dto.ParticipanteOutDto;
 import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.model.Socio;
 import com.svalero.asociation.service.ParticipanteService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,21 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,37 +40,28 @@ class ParticipanteControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
-    public ParticipanteService participanteService;
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private ModelMapper modelmapper;
+    private ParticipanteService participanteService;
+
+    @MockitoBean
+    private ModelMapper modelMapper;
+
+    @BeforeEach
+    void setup() {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     @Test
-    void getAll() throws Exception {
+    void getAllReturns200() throws Exception {
+        ParticipanteOutDto dto1 = buildParticipanteOutDto(1L, "77777777U", "Alberto", 1L);
+        ParticipanteOutDto dto2 = buildParticipanteOutDto(2L, "88888888P", "Roberto", 1L);
 
-        ParticipanteDto dto1 = new ParticipanteDto();
-        dto1.setId(1L);
-        dto1.setDni("77777777U");
-        dto1.setName("Alberto");
-        dto1.setSurname("Gomara");
-        dto1.setEmail("email@email.com");
-        dto1.setPhoneNumber("888-566-323");
-        dto1.setTypeRel("hijo");
-        dto1.setSocioID(1L);
+        when(participanteService.findAll(any(), any(), any())).thenReturn(List.of(dto1, dto2));
 
-        ParticipanteDto dto2 = new ParticipanteDto();
-        dto2.setId(2L); dto2.setDni("77777327U"); dto2.setName("Roberto"); dto2.setSurname("Izabal"); dto2.setEmail("email@email.com"); dto2.setPhoneNumber("888-566-323");
-        dto2.setTypeRel("hijo"); dto2.setSocioID(1L);
-
-        when(participanteService.findAll(any(), any(), any()))
-                .thenReturn(List.of(dto1, dto2));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/participantes").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -78,282 +73,155 @@ class ParticipanteControllerTest {
     }
 
     @Test
-    public void testFindAllParticipante_ByBirthDate() throws Exception {
+    void getAllByFiltersReturns200() throws Exception {
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        ParticipanteOutDto dto = buildParticipanteOutDto(1L, "77777777U", "Alberto", 1L);
 
-        LocalDate date = LocalDate.now().minusYears(30);
+        when(participanteService.findAll(birthDate, "Alberto", "hijo")).thenReturn(List.of(dto));
 
-        List<ParticipanteDto> mockParticipanteDtoList = List.of(
-                new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323",LocalDate.now(), "ninguna", "hijo", 1L),
-                new ParticipanteDto(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(), "ninguna", "hijo", 1L)
-        );
-
-
-        when(participanteService.findAll(date, null, null)).thenReturn(mockParticipanteDtoList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
-                        .queryParam("birthDate", LocalDate.now().minusYears(30).toString())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-        List<Participante> participanteListResult = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {
-        });
-
-        assertEquals("Alberto", participanteListResult.get(0).getName());
-    }
-
-
-    @Test
-    public void testFindAllParticipante_ByName() throws Exception {
-
-        List<ParticipanteDto> mockParticipanteDtoList = List.of(
-                new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323",LocalDate.now(), "ninguna", "hijo", 1L),
-                new ParticipanteDto(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(), "ninguna", "hijo", 1L)
-        );
-
-        when(participanteService.findAll(null, "Roberto",null)).thenReturn(mockParticipanteDtoList);
-
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
-                        .queryParam("name", "Roberto")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        assertNotNull(jsonResponse);
-
-        List<Participante> participanteListResult = thisObjectMapper.readValue(jsonResponse,
-                new TypeReference<>() {
-                });
-
-        assertEquals("Roberto", participanteListResult.get(1).getName());
-    }
-
-    @Test
-    public void testFindAllParticipante_ByTypeRel() throws Exception {
-
-        List<ParticipanteDto> mockParticipanteDtoList = List.of(
-                new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323",LocalDate.now(), "ninguna", "hijo", 1L),
-                new ParticipanteDto(2, "77777327U", "Roberto", "Izabal", "email@email.com", "888-566-323", LocalDate.now(), "ninguna", "hijo", 1L)
-        );
-
-        when(participanteService.findAll(null, null, "hijo")).thenReturn(mockParticipanteDtoList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/participantes")
+        mockMvc.perform(get("/participantes")
+                        .queryParam("birthDate", birthDate.toString())
+                        .queryParam("name", "Alberto")
                         .queryParam("typeRel", "hijo")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        List<Participante> participanteListResult = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {
-        });
-
-        assertNotNull(participanteListResult);
-        assertEquals("Alberto", participanteListResult.getFirst().getName());
-    }
-
-    @Test
-    public void testFindParticipanteById_Return200()throws Exception{
-
-        Socio socio = new Socio();
-        socio.setId(1);
-
-        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", socio, null, null);
-
-        ModelMapper modelMapper = new ModelMapper();
-        ParticipanteDto participanteDto =modelMapper.map(selectedParticipante, ParticipanteDto.class);
-
-        when(participanteService.findById(selectedParticipante.getId())).thenReturn(participanteDto);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/participantes/" + participanteDto.getId())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-        Participante participante = objectMapper.readValue(jsonResponse, Participante.class);
-
-        assertEquals(1, participante.getId());
-
-    }
-
-    @Test
-    public void testFindParticipanteById_Return404()throws Exception{
-        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-
-        when(participanteService.findById(selectedParticipante.getId())).thenThrow(new ParticipanteNotFoundException("Participante con ID" + selectedParticipante.getId() +" no encontrado"));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/participante/"+ selectedParticipante.getId())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void testAddParticipante_Return201() throws Exception {
-
-        Participante participante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
-
-        when(participanteService.add(participante)).thenReturn(participante);
-
-        String jsonRequest = thisObjectmapper.writeValueAsString(participante);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/participantes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-
-        Participante responseParticipante = thisObjectmapper.readValue(jsonResponse, Participante.class);
-
-        assertNotNull(responseParticipante);
-        assertEquals(1, responseParticipante.getId());
-        assertEquals("Alberto", responseParticipante.getName());
-    }
-
-    @Test
-    public void testAddParticipante_Return400() throws Exception {
-
-        Participante newparticipante =  new Participante(1, "777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", null, null, null);
-
-        newparticipante.setDni(null);
-
-        String jsonRequest = objectMapper.writeValueAsString(newparticipante);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/participantes")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testAddParticipanteDto_Return200() throws Exception {
-        Socio socio = new Socio();
-        socio.setId(1);
-
-        Participante newparticipante =  new Participante(1, "777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now(),LocalDate.now(), "ninguna", "hijo", socio, null, null);
-        ParticipanteDto participanteDto = new ParticipanteDto();
-        participanteDto.setSocioID(1L);
-
-        ObjectMapper thisobjectmapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).registerModule(new JavaTimeModule());
-
-        when(participanteService.addDto(any(ParticipanteDto.class), eq(1L)))
-                .thenReturn(newparticipante);
-        when(modelmapper.map(eq(newparticipante), eq(ParticipanteDto.class)))
-                .thenReturn(participanteDto);
-
-        String jsonRequest = thisobjectmapper.writeValueAsString(participanteDto);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/socios/1/participante")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-    }
-
-    @Test
-    void testEditParticipante_For200() throws Exception {
-        Socio socio = new Socio();
-        socio.setId(1);
-
-        ParticipanteDto wantedParticipante = new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20), "ninguna", "hijo", 1);
-        Participante updatedParticipante = new Participante(1, "77777777U", "Alejandro", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", socio, null, null);
-
-        when(participanteService.modifyDto(1, wantedParticipante)).thenReturn(updatedParticipante);
-
-        ModelMapper modelMapper = new ModelMapper();
-
-        ParticipanteDto updatedParticipanteDto = modelMapper.map(wantedParticipante, ParticipanteDto.class);
-
-        when(modelmapper.map(updatedParticipante, ParticipanteDto.class)).thenReturn(updatedParticipanteDto);
-
-        updatedParticipanteDto.setSocioID(wantedParticipante.getId());
-
-        ObjectMapper thisobjectmapper = new ObjectMapper();
-        thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        thisobjectmapper.registerModule(new JavaTimeModule());
-
-        String jsonRequest = thisobjectmapper.writeValueAsString(wantedParticipante);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/participantes/" + updatedParticipanteDto.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isOk());
-    }
-
-
-    @Test
-    void testEditParticipante_For404() throws Exception {
-
-        ParticipanteDto originalParticipante = new ParticipanteDto(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20), "ninguna", "hijo", 1);
-        Participante wantedParticipante = new Participante(1, "77777777U", "Alejandro", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-
-        ModelMapper modelMapper = new ModelMapper();
-
-        ParticipanteDto wantedParticipanteDto = modelMapper.map(wantedParticipante, ParticipanteDto.class);
-
-        when(modelmapper.map(originalParticipante, ParticipanteDto.class)).thenReturn(wantedParticipanteDto);
-        when(participanteService.modifyDto(1, wantedParticipanteDto)).thenThrow(new ParticipanteNotFoundException("Participante Not Found"));
-
-        ObjectMapper thisobjectmapper = new ObjectMapper();
-        thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        thisobjectmapper.registerModule(new JavaTimeModule());
-
-
-        String jsonRequest = thisobjectmapper.writeValueAsString(wantedParticipante);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/participantes/" + originalParticipante.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testDelete_For204() throws Exception{
-        Participante selected =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
-
-        doNothing().when(participanteService).delete(selected.getId());
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/participantes/" + selected.getId())
                         .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("Alberto"));
+
+        verify(participanteService).findAll(birthDate, "Alberto", "hijo");
+    }
+
+    @Test
+    void getParticipanteByIdReturns200() throws Exception {
+        ParticipanteDto dto = buildParticipanteDto("77777777U", "Alberto", 1L);
+        when(participanteService.findById(1L)).thenReturn(dto);
+
+        mockMvc.perform(get("/participantes/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.dni").value("77777777U"))
+                .andExpect(jsonPath("$.name").value("Alberto"))
+                .andExpect(jsonPath("$.socioID").value(1));
+    }
+
+    @Test
+    void getParticipanteByIdReturns404() throws Exception {
+        when(participanteService.findById(1L)).thenThrow(new ParticipanteNotFoundException("Participante no encontrado"));
+
+        mockMvc.perform(get("/participantes/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void addParticipanteDtoReturns201() throws Exception {
+        ParticipanteDto requestDto = buildParticipanteDto("77777777U", "Alberto", 33L);
+        Participante participanteSaved = buildParticipante(10L, "77777777U", "Alberto", 1L);
+        ParticipanteDto mappedResponse = buildParticipanteDto("77777777U", "Alberto", 1L);
+
+        when(participanteService.addDto(any(ParticipanteDto.class), eq(1L))).thenReturn(participanteSaved);
+        when(modelMapper.map(participanteSaved, ParticipanteDto.class)).thenReturn(mappedResponse);
+
+        mockMvc.perform(post("/socios/1/participante")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.dni").value("77777777U"))
+                .andExpect(jsonPath("$.name").value("Alberto"))
+                .andExpect(jsonPath("$.socioID").value(33));
+    }
+
+    @Test
+    void editParticipanteReturns200() throws Exception {
+        ParticipanteDto requestDto = buildParticipanteDto("77777777U", "NuevoNombre", 25L);
+        Participante participanteUpdated = buildParticipante(1L, "77777777U", "NuevoNombre", 1L);
+        ParticipanteDto mappedResponse = buildParticipanteDto("77777777U", "NuevoNombre", 1L);
+
+        when(participanteService.modifyDto(eq(1L), any(ParticipanteDto.class))).thenReturn(participanteUpdated);
+        when(modelMapper.map(participanteUpdated, ParticipanteDto.class)).thenReturn(mappedResponse);
+
+        mockMvc.perform(put("/participantes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("NuevoNombre"))
+                .andExpect(jsonPath("$.socioID").value(25));
+    }
+
+    @Test
+    void editParticipanteReturns404() throws Exception {
+        ParticipanteDto requestDto = buildParticipanteDto("77777777U", "Alberto", 1L);
+        when(participanteService.modifyDto(eq(1L), any(ParticipanteDto.class)))
+                .thenThrow(new ParticipanteNotFoundException("Participante no encontrado"));
+
+        mockMvc.perform(put("/participantes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteParticipanteReturns204() throws Exception {
+        doNothing().when(participanteService).delete(1L);
+
+        mockMvc.perform(delete("/participantes/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    public void testDelete_For404()throws Exception{
-        Participante selectedParticipante =  new Participante(1, "77777777U", "Alberto", "Gomara", "email@email.com", "888-566-323", LocalDate.now().minusYears(20),LocalDate.now(), "ninguna", "hijo", null, null, null);
+    void deleteParticipanteReturns404() throws Exception {
+        doThrow(new ParticipanteNotFoundException("Participante no encontrado")).when(participanteService).delete(1L);
 
-        when(participanteService.findById(selectedParticipante.getId())).thenThrow(new ParticipanteNotFoundException("Participante con ID" + selectedParticipante.getId() +" no encontrado"));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/participante/"+ selectedParticipante.getId())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(delete("/participantes/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
+    private ParticipanteOutDto buildParticipanteOutDto(long id, String dni, String name, long socioId) {
+        ParticipanteOutDto dto = new ParticipanteOutDto();
+        dto.setId(id);
+        dto.setDni(dni);
+        dto.setName(name);
+        dto.setSurname("Gomara");
+        dto.setEmail("email@email.com");
+        dto.setPhoneNumber("888-566-323");
+        dto.setBirthDate(LocalDate.of(2000, 1, 1));
+        dto.setNeeds("ninguna");
+        dto.setTypeRel("hijo");
+        dto.setSocioID(socioId);
+        return dto;
+    }
+
+    private ParticipanteDto buildParticipanteDto(String dni, String name, long socioId) {
+        ParticipanteDto dto = new ParticipanteDto();
+        dto.setDni(dni);
+        dto.setName(name);
+        dto.setSurname("Gomara");
+        dto.setEmail("email@email.com");
+        dto.setPhoneNumber("888-566-323");
+        dto.setBirthDate(LocalDate.of(2000, 1, 1));
+        dto.setNeeds("ninguna");
+        dto.setTypeRel("hijo");
+        dto.setSocioID(socioId);
+        return dto;
+    }
+
+    private Participante buildParticipante(long id, String dni, String name, long socioId) {
+        Participante participante = new Participante();
+        participante.setId(id);
+        participante.setDni(dni);
+        participante.setName(name);
+        participante.setSurname("Gomara");
+        participante.setEmail("email@email.com");
+        participante.setPhoneNumber("888-566-323");
+        participante.setBirthDate(LocalDate.of(2000, 1, 1));
+        participante.setEntryDate(LocalDate.of(2025, 1, 1));
+        participante.setNeeds("ninguna");
+        participante.setTypeRel("hijo");
+        Socio socio = new Socio();
+        socio.setId(socioId);
+        participante.setSocio(socio);
+        return participante;
+    }
 }

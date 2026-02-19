@@ -469,7 +469,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Actividad'
+                  $ref: '#/components/schemas/ActividadOutDto'
               example:
                 type: array
                 Example1:
@@ -496,7 +496,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Actividad'
+              $ref: '#/components/schemas/ActividadDto'
             examples:
               Example1:
                 $ref: '#/components/examples/actividadExample1'
@@ -510,9 +510,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Actividad'
+                $ref: '#/components/schemas/ActividadOutDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/actividadExample1'
@@ -551,7 +549,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Actividad'
+                $ref: '#/components/schemas/ActividadOutDto'
               examples:
                 Caso1:
                   value:
@@ -646,6 +644,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+  /actividades/{id}/inscripciones:
+    post:
+      summary: Inscribir participante en actividad
+      description: Crea una inscripción para un participante en la actividad indicada
+      requestBody:
+        description: ID del participante a inscribir
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InscripcionActividadRequestDto'
+      responses:
+        201:
+          description: Inscripción creada
+        400:
+          description: Data not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest400**'
+        404:
+          description: Recurso no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Conflicto de negocio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+  /actividades/{id}/inscripciones/{participanteId}:
+    delete:
+      summary: Desinscribir participante de actividad
+      description: Elimina la inscripción del participante en la actividad indicada
+      responses:
+        204:
+          description: Borrado exitoso
+        404:
+          description: Recurso no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
+        409:
+          description: Conflicto de negocio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict 409'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError 500'
+  /actividades/{id}/participantes:
+    get:
+      summary: Devuelve participantes de una actividad
+      description: Lista los participantes inscritos en la actividad indicada
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParticipanteDto'
+        404:
+          description: Actividad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError 404'
         500:
           description: Server error
           content:
@@ -1220,6 +1305,101 @@ components:
         capacity:
           description: máximo de personas posible
           type: integer
+    ActividadDto:
+      type: object
+      required: [description, dayActivity, typeActivity]
+      properties:
+        description:
+          description: descripción de la actividad
+          type: string
+        dayActivity:
+          description: dia de la actividad
+          type: string
+          format: date
+        typeActivity:
+          description: tipo de actividad
+          type: string
+        duration:
+          description: tiempo de duración
+          type: float
+        canJoin:
+          description: el plazo para apuntarse a la actividad está abierto o no
+          type: boolean
+        capacity:
+          description: máximo de personas posible
+          type: integer
+    ParticipanteDto:
+      type: object
+      properties:
+        dni:
+          description: dni de participante
+          type: string
+          pattern: '^[0-9]{8}[A-Z]$'
+        name:
+          description: nombre de participante
+          type: string
+        surname:
+          description: apellido de participante
+          type: string
+        email:
+          type: string
+          description: email de participante
+        phoneNumber:
+          description: nº de telefono de participante
+          type: string
+          pattern: '^+34 [0-9]{9}$'
+        birthDate:
+          description: fecha de nacimiento de participante
+          type: string
+          format: date
+        needs:
+          description: necesidades especiales de participante
+          type: string
+        typeRel:
+          description: tipo de relación del participante respecto a su socio
+          type: string
+        socioID:
+          description: id del socio asociado
+          type: integer
+          format: int64
+    ActividadOutDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        description:
+          description: descripción de la actividad
+          type: string
+        dayActivity:
+          description: dia de la actividad
+          type: string
+          format: date
+        duration:
+          description: tiempo de duración
+          type: float
+        canJoin:
+          description: el plazo para apuntarse a la actividad está abierto o no
+          type: boolean
+        participanteDtoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipanteDto'
+    InscripcionActividadRequestDto:
+      type: object
+      required: [participanteId]
+      properties:
+        price:
+          type: number
+          format: float
+          description: precio aplicado a la inscripción
+        state:
+          type: string
+          description: estado de la inscripción (por ejemplo ACTIVE)
+        participanteId:
+          type: integer
+          format: int64
+          description: ID del participante a inscribir
     Servicio:
       type: object
       properties:

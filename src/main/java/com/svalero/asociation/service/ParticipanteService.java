@@ -49,15 +49,6 @@ public class ParticipanteService {
         return participanteDtoselected;
     }
 
-    public  Participante add(Participante participante){
-        if(participanteRepository.existsBydni(participante.getDni())){
-            throw new BusinessRuleException("Un participante con DNI "+participante.getDni()+" ya existe");
-        }
-        participanteRepository.save(participante);
-        logger.info("Successfully created new participante with ID: {}", participante.getId());
-        return participante;
-    }
-
     public  Participante addDto(ParticipanteDto participanteDto, long id){
         Participante participante = new Participante();
         modelMapper.map(participanteDto, participante);
@@ -66,7 +57,6 @@ public class ParticipanteService {
         }
         SocioDto socioDto = socioService.findById(id);
         participante.setSocio(socioRepository.findById(socioDto.getId()).get());
-//        logger.info("Successfully created new participante with ID: {}", participanteOutDto.getId());
         return participanteRepository.save(participante);
 
     }

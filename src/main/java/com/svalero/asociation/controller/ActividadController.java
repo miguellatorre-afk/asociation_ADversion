@@ -2,8 +2,11 @@ package com.svalero.asociation.controller;
 
 import com.svalero.asociation.dto.ActividadDto;
 import com.svalero.asociation.dto.ActividadOutDto;
+import com.svalero.asociation.dto.InscripcionActividadRequestDto;
+import com.svalero.asociation.dto.ParticipanteDto;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.service.ActividadService;
+import com.svalero.asociation.service.InscripcionActividadService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,6 +24,8 @@ public class ActividadController {
 
     @Autowired
     private ActividadService actividadService;
+    @Autowired
+    private InscripcionActividadService inscripcionActividadService;
 
     private final Logger logger = LoggerFactory.getLogger(ActividadController.class);
 
@@ -36,8 +40,8 @@ public class ActividadController {
     }
 
     @GetMapping("/actividades/{id}")
-    public ResponseEntity<Actividad> getActividadById(@PathVariable long id){
-        Actividad selectedactividad = actividadService.findById(id);
+    public ResponseEntity<ActividadOutDto> getActividadById(@PathVariable long id){
+        ActividadOutDto selectedactividad = actividadService.findOutById(id);
         if (selectedactividad == null){
             logger.warn("Actividad of ID: {} not found", id);
             return ResponseEntity.notFound().build();
@@ -51,6 +55,27 @@ public class ActividadController {
         ActividadOutDto newActividad = actividadService.add(actividad);
         logger.info("POST/actividades");
         return new ResponseEntity<>(newActividad, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/actividades/{id}/inscripciones")
+    public ResponseEntity<Void> inscribirParticipante(@PathVariable long id, @Valid @RequestBody InscripcionActividadRequestDto requestDto) {
+        inscripcionActividadService.inscribir(id, requestDto.getParticipanteId(), requestDto.getState(), requestDto.getPrice());
+        logger.info("POST/actividades/{id}/inscripciones");
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/actividades/{id}/inscripciones/{participanteId}")
+    public ResponseEntity<Void> desinscribirParticipante(@PathVariable long id, @PathVariable long participanteId) {
+        inscripcionActividadService.desinscribir(id, participanteId);
+        logger.info("DELETE/actividades/{id}/inscripciones/{participanteId}");
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/actividades/{id}/participantes")
+    public ResponseEntity<List<ParticipanteDto>> getParticipantesByActividad(@PathVariable long id) {
+        List<ParticipanteDto> participantes = inscripcionActividadService.listarParticipantes(id);
+        logger.info("GET/actividades/{id}/participantes");
+        return ResponseEntity.ok(participantes);
     }
 
     @PutMapping("/actividades/{id}")

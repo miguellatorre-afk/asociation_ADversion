@@ -1,33 +1,36 @@
 package com.svalero.asociation.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.svalero.asociation.dto.ActividadDto;
+import com.svalero.asociation.dto.ActividadOutDto;
 import com.svalero.asociation.exception.ActividadNotFoundException;
-import com.svalero.asociation.exception.BusinessRuleException;
-import com.svalero.asociation.exception.ParticipanteNotFoundException;
 import com.svalero.asociation.model.Actividad;
-import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.service.ActividadService;
+import com.svalero.asociation.service.InscripcionActividadService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ActividadController.class)
@@ -36,277 +39,165 @@ class ActividadControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
-    public ActividadService actividadService;
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private ModelMapper modelmapper;
+    private ActividadService actividadService;
 
-    @Test
-    void testGetAll_Return200() throws Exception {
+    @MockitoBean
+    private InscripcionActividadService inscripcionActividadService;
 
-        List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
-                new Actividad(2, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
-
-        );
-
-        when(actividadService.findAll(any(), any(), any())).thenReturn(actividadesList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        List<Actividad> finalActividadList = thisObjectMapper.readValue(jsonResponse, new TypeReference<List<Actividad>>() {});
-
-        assertNotNull(finalActividadList);
-        assertEquals("Club de lectura", finalActividadList.getFirst().getDescription());
-
+    @BeforeEach
+    void setup() {
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
-    void testGetAll_ByDayActivity() throws Exception {
+    void testGetAllReturn200() throws Exception {
+        ActividadOutDto dto1 = buildActividadOutDto(1L, "Club de lectura");
+        ActividadOutDto dto2 = buildActividadOutDto(2L, "Partido de baloncesto");
 
-        LocalDate filterDate = LocalDate.now();
+        when(actividadService.findAll(any(), any(), any())).thenReturn(List.of(dto1, dto2));
 
-        List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
-        );
-
-        when(actividadService.findAll(eq(filterDate), any(), any())).thenReturn(actividadesList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
-                        .queryParam("dayActivity", LocalDate.now().toString())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(get("/actividades").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        List<Actividad> actividadesListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
-
-        assertNotNull(actividadesListresponse);
-        assertEquals("Partido de baloncesto", actividadesListresponse.getLast().getDescription());
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].description").value("Club de lectura"))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].description").value("Partido de baloncesto"));
     }
 
     @Test
-    void testGetAll_ByJoin() throws Exception {
+    void testGetAllByFiltersReturn200() throws Exception {
+        LocalDate dayActivity = LocalDate.of(2026, 3, 20);
+        ActividadOutDto dto = buildActividadOutDto(1L, "Club de lectura");
 
-        List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
-                new Actividad(2, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
-        );
+        when(actividadService.findAll(dayActivity, true, 40f)).thenReturn(List.of(dto));
 
-        when(actividadService.findAll(any(), any(), any())).thenReturn(actividadesList);
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
-                        .queryParam("canjoin", "true")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        List<Actividad> actividadesListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
-
-        assertNotNull(actividadesListresponse);
-        assertEquals(2, actividadesListresponse.size());
-        assertEquals("Partido de baloncesto", actividadesListresponse.get(1).getDescription());
-    }
-
-    @Test
-    void testGetAll_ByDuration() throws Exception {
-
-        List<Actividad> actividadesList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now().plusDays(20), "Grupal", 60f, true, 10, null, null)
-        );
-
-        when(actividadService.findAll(any(), any(), anyFloat())).thenReturn(actividadesList);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/actividades")
+        mockMvc.perform(get("/actividades")
+                        .queryParam("dayActivity", dayActivity.toString())
+                        .queryParam("canJoin", "true")
                         .queryParam("duration", "40")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].description").value("Club de lectura"));
 
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        List<Actividad> actividadesListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
-
-        assertNotNull(actividadesListresponse);
-        assertEquals(40, actividadesListresponse.getFirst().getDuration());
+        verify(actividadService).findAll(dayActivity, true, 40f);
     }
 
     @Test
-    void testGetById_For200() throws Exception {
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+    void testGetByIdFor200() throws Exception {
+        ActividadOutDto dto = buildActividadOutDto(1L, "Club de lectura");
+        when(actividadService.findOutById(1L)).thenReturn(dto);
 
-
-        when(actividadService.findById(selected.getId())).thenReturn(selected);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/"+ selected.getId())
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(get("/actividades/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-
-        ObjectMapper thisObjectMapper = new ObjectMapper();
-        thisObjectMapper.registerModule(new JavaTimeModule());
-        thisObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        Actividad actividad = thisObjectMapper.readValue(jsonResponse, Actividad.class);
-
-        assertEquals(1, actividad.getId());
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.description").value("Club de lectura"));
     }
 
     @Test
-    void testGetById_For404() throws Exception {
+    void testGetByIdFor404() throws Exception {
+        when(actividadService.findOutById(1L)).thenThrow(new ActividadNotFoundException("Not found"));
 
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
-
-        when(actividadService.findById(selected.getId())).thenThrow(new ActividadNotFoundException("Not found"));
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/1")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound())
-                .andReturn();
-    }
-
-    @Test
-    void testAddFor201() throws Exception {
-
-        LocalDate date = LocalDate.parse("2026-05-20");
-
-        Actividad newActividad = new Actividad(1, "Club de lectura", date,
-                "Grupal", 40f, true, 7, null, null);
-
-        when(actividadService.add(any(Actividad.class))).thenReturn(newActividad);
-
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
-
-       MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(thisObjectmapper.writeValueAsString(newActividad)))
-                .andExpect(status().isCreated())
-               .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-        Actividad actividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
-
-        assertEquals("Grupal", actividad.getTypeActivity());
-    }
-
-    @Test
-    void testAddActivity_For400() throws Exception {
-
-        Actividad newActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20),
-                "Grupal", 40f, true, 7, null, null);
-        newActivity.setDescription(null);
-
-        String actividadJson = objectMapper.writeValueAsString(newActivity);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/actividades")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(actividadJson))
-                .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    void testEdit_For200() throws Exception {
-
-        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
-        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Individual", 40f, true, 7, null, null);
-
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
-        thisObjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        when(actividadService.modify(1, wantedActivity)).thenReturn(wantedActivity);
-
-        String jsonRequest = thisObjectmapper.writeValueAsString(wantedActivity);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/actividades/" + originalActivity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-
-        Actividad responseActividad = thisObjectmapper.readValue(jsonResponse, Actividad.class);
-        assertEquals(1, responseActividad.getId());
-    }
-
-    @Test
-    void testEdit_For404() throws Exception {
-
-        Actividad originalActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
-        Actividad wantedActivity = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Individual", 40f, true, 7, null, null);
-
-        ObjectMapper thisObjectmapper = new ObjectMapper();
-        thisObjectmapper.registerModule(new JavaTimeModule());
-        thisObjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        when(actividadService.modify(1, wantedActivity)).thenThrow( new ActividadNotFoundException("Activitdad Not Found"));
-
-        String jsonRequest = thisObjectmapper.writeValueAsString(wantedActivity);
-
-       mockMvc.perform(MockMvcRequestBuilders.put("/actividades/" + originalActivity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonRequest))
+        mockMvc.perform(get("/actividades/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void testDelete_For204() throws Exception{
-    Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+    void testAddFor201() throws Exception {
+        ActividadDto actividadDto = buildActividadDto("Club de lectura");
+        ActividadOutDto outDto = buildActividadOutDto(1L, "Club de lectura");
 
-        doNothing().when(actividadService).delete(selected.getId());
+        when(actividadService.add(any(ActividadDto.class))).thenReturn(outDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/actividades/" + selected.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/actividades")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(actividadDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.description").value("Club de lectura"));
+    }
+
+    @Test
+    void testEditFor200() throws Exception {
+        Actividad wanted = buildActividadEntity(1L, "Club de lectura", "Individual");
+        when(actividadService.modify(eq(1L), any(Actividad.class))).thenReturn(wanted);
+
+        mockMvc.perform(put("/actividades/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(wanted)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.typeActivity").value("Individual"));
+    }
+
+    @Test
+    void testEditFor404() throws Exception {
+        Actividad wanted = buildActividadEntity(1L, "Club de lectura", "Individual");
+        when(actividadService.modify(eq(1L), any(Actividad.class)))
+                .thenThrow(new ActividadNotFoundException("Not found"));
+
+        mockMvc.perform(put("/actividades/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(wanted)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testDeleteFor204() throws Exception {
+        doNothing().when(actividadService).delete(1L);
+
+        mockMvc.perform(delete("/actividades/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    public void testDelete_For404()throws Exception{
-        Actividad selected = new Actividad(1, "Club de lectura",LocalDate.now().plusDays(20), "Grupal", 40f, true, 7, null, null);
+    void testDeleteFor404() throws Exception {
+        doThrow(new ActividadNotFoundException("Not found")).when(actividadService).delete(1L);
 
-        when(actividadService.findById(selected.getId())).thenThrow(new ActividadNotFoundException("Not found"));
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/actividades/1")
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound())
-                .andReturn();
+        mockMvc.perform(delete("/actividades/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
+    private ActividadDto buildActividadDto(String description) {
+        ActividadDto dto = new ActividadDto();
+        dto.setDescription(description);
+        dto.setDayActivity(LocalDate.of(2026, 5, 20));
+        dto.setTypeActivity("Grupal");
+        dto.setDuration(40f);
+        dto.setCanJoin(true);
+        dto.setCapacity(10);
+        return dto;
+    }
+
+    private ActividadOutDto buildActividadOutDto(long id, String description) {
+        ActividadOutDto dto = new ActividadOutDto();
+        dto.setId(id);
+        dto.setDescription(description);
+        dto.setDayActivity(LocalDate.of(2026, 5, 20));
+        dto.setDuration(40f);
+        dto.setCanJoin(true);
+        dto.setParticipanteDtoList(List.of());
+        return dto;
+    }
+
+    private Actividad buildActividadEntity(long id, String description, String type) {
+        Actividad actividad = new Actividad();
+        actividad.setId(id);
+        actividad.setDescription(description);
+        actividad.setDayActivity(LocalDate.of(2026, 5, 20));
+        actividad.setTypeActivity(type);
+        actividad.setDuration(40f);
+        actividad.setCanJoin(true);
+        actividad.setCapacity(10);
+        return actividad;
+    }
 }

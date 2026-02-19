@@ -1,7 +1,9 @@
 package com.svalero.asociation.service;
 
+import com.svalero.asociation.dto.ActividadDto;
+import com.svalero.asociation.dto.ActividadOutDto;
+import com.svalero.asociation.exception.ActividadNotFoundException;
 import com.svalero.asociation.model.Actividad;
-import com.svalero.asociation.model.Participante;
 import com.svalero.asociation.repository.ActividadRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,15 +12,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ActividadServiceTest {
+class ActividadServiceTest {
+
     @InjectMocks
     private ActividadService actividadService;
 
@@ -26,132 +38,174 @@ public class ActividadServiceTest {
     private ActividadRepository actividadRepository;
 
     @Mock
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Test
-    public void testFindAll() {
-        List<Actividad> mockActividadList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
-        );
+    void testFindAll() {
+        LocalDate day = LocalDate.of(2026, 3, 20);
 
-        when(actividadRepository.findByFilters(null, null, null)).thenReturn(mockActividadList);
+        Actividad a1 = buildActividad(1L, "Club de lectura");
+        Actividad a2 = buildActividad(2L, "Partido de baloncesto");
+        List<Actividad> entidades = List.of(a1, a2);
 
-        List<Actividad> actividadList = actividadService.findAll(null, null, null);
+        ActividadOutDto dto1 = buildActividadOutDto(1L, "Club de lectura");
+        ActividadOutDto dto2 = buildActividadOutDto(2L, "Partido de baloncesto");
+        List<ActividadOutDto> expected = List.of(dto1, dto2);
 
-        assertEquals(2, actividadList.size());
-        assertEquals("Club de lectura", actividadList.getFirst().getDescription());
+        when(actividadRepository.findByFilters(day, true, 40f)).thenReturn(entidades);
+        doReturn(expected).when(modelMapper).map(eq(entidades), any(Type.class));
 
-        verify(actividadRepository, times(1)).findByFilters(null, null, null);
-//        verify(actividadRepository, times(0)).findByDayActivity(null);
-//        verify(actividadRepository, times(0)).findByCanJoin(null);
-//        verify(actividadRepository, times(0)).findByDuration(null);
+        List<ActividadOutDto> result = actividadService.findAll(day, true, 40f);
 
+        assertEquals(2, result.size());
+        assertEquals("Club de lectura", result.get(0).getDescription());
+        assertEquals("Partido de baloncesto", result.get(1).getDescription());
+
+        verify(actividadRepository).findByFilters(day, true, 40f);
+        verify(modelMapper).map(eq(entidades), any(Type.class));
     }
 
     @Test
-    public void testFindByDayActivity() {
-        List<Actividad> mockActividadList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
-        );
+    void testFindById() {
+        Actividad actividad = buildActividad(1L, "Club de lectura");
+        when(actividadRepository.findById(1L)).thenReturn(Optional.of(actividad));
 
-        when(actividadRepository.findByFilters(LocalDate.now(), null, null)).thenReturn(mockActividadList);
+        Actividad result = actividadService.findById(1L);
 
-        List<Actividad> actividadList = actividadService.findAll(LocalDate.now(), null, null);
-
-        assertEquals(2, actividadList.size());
-        assertEquals("Club de lectura", actividadList.getFirst().getDescription());
-
-        verify(actividadRepository, times(1)).findByFilters(LocalDate.now(), null, null);
-
+        assertSame(actividad, result);
+        verify(actividadRepository).findById(1L);
     }
 
     @Test
-    public void testfindByJoin() {
-        List<Actividad> mockActividadList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 60f, true, 10, null, null)
-        );
+    void testFindByIdNotFound() {
+        when(actividadRepository.findById(99L)).thenReturn(Optional.empty());
 
-        when(actividadRepository.findByFilters(null, true, null)).thenReturn(mockActividadList);
+        assertThrows(ActividadNotFoundException.class, () -> actividadService.findById(99L));
 
-        List<Actividad> actividadList = actividadService.findAll(null, true, null);
-
-        assertEquals(2, actividadList.size());
-        assertEquals("Club de lectura", actividadList.getFirst().getDescription());
-
-        verify(actividadRepository, times(1)).findByFilters(null, true, null);
+        verify(actividadRepository).findById(99L);
     }
 
     @Test
-    public void testfindBytypeRel() {
+    void testFindOutById() {
+        Actividad actividad = buildActividad(1L, "Club de lectura");
+        ActividadOutDto dto = buildActividadOutDto(1L, "Club de lectura");
 
-        List<Actividad> mockActividadList = List.of(
-                new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null),
-                new Actividad(1, "Partido de baloncesto",LocalDate.now(), "Grupal", 40f, true, 10, null, null)
-        );
+        when(actividadRepository.findById(1L)).thenReturn(Optional.of(actividad));
+        when(modelMapper.map(actividad, ActividadOutDto.class)).thenReturn(dto);
 
+        ActividadOutDto result = actividadService.findOutById(1L);
 
-        when(actividadRepository.findByFilters(null, null, 40f)).thenReturn(mockActividadList);
-
-        List<Actividad>  actividadList = actividadService.findAll(null, null, 40f);
-
-        assertEquals(2, actividadList.size());
-        assertEquals("Club de lectura", actividadList.getFirst().getDescription());
-
-        verify(actividadRepository, times(1)).findByFilters(null, null, 40f);
-    }
-
-    @Test
-    public void testFindById(){
-        Actividad selectedActividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
-
-        when(actividadRepository.findById(selectedActividad.getId())).thenReturn(Optional.of(selectedActividad));
-
-        Actividad result = actividadService.findById(selectedActividad.getId());
-
+        assertEquals(1L, result.getId());
         assertEquals("Club de lectura", result.getDescription());
+        verify(actividadRepository).findById(1L);
+        verify(modelMapper).map(actividad, ActividadOutDto.class);
     }
 
     @Test
-    public void testAdd(){
-        Actividad newactividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+    void testAdd() {
+        ActividadDto actividadDto = buildActividadDto("Club de lectura");
+        Actividad actividadEntity = buildActividad(1L, "Club de lectura");
+        ActividadOutDto outDto = buildActividadOutDto(1L, "Club de lectura");
 
-        when(actividadRepository.save(newactividad)).thenReturn(newactividad);
-        Actividad result = actividadService.add(newactividad);
+        when(modelMapper.map(actividadDto, Actividad.class)).thenReturn(actividadEntity);
+        when(actividadRepository.save(actividadEntity)).thenReturn(actividadEntity);
+        when(modelMapper.map(actividadEntity, ActividadOutDto.class)).thenReturn(outDto);
 
+        ActividadOutDto result = actividadService.add(actividadDto);
+
+        assertEquals(1L, result.getId());
         assertEquals("Club de lectura", result.getDescription());
-        verify(actividadRepository, times(1)).save(newactividad);
+        verify(modelMapper).map(actividadDto, Actividad.class);
+        verify(actividadRepository).save(actividadEntity);
+        verify(modelMapper).map(actividadEntity, ActividadOutDto.class);
     }
 
     @Test
-    public void testModify(){
-        Actividad oldactividad =  new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
-        Actividad wantedActividad =  new Actividad(1, "Club de lectura",LocalDate.now().plusDays(1), "Individual", 20f, true, 10, null, null);
+    void testModify() {
+        Actividad oldActividad = buildActividad(1L, "Club de lectura");
+        Actividad wantedActividad = buildActividad(1L, "Descripcion nueva");
+        wantedActividad.setTypeActivity("Individual");
+        wantedActividad.setDuration(20f);
+        wantedActividad.setCapacity(15);
 
-        when(actividadRepository.findById(oldactividad.getId())).thenReturn(Optional.of(oldactividad));
+        when(actividadRepository.findById(1L)).thenReturn(Optional.of(oldActividad));
+        doNothing().when(modelMapper).map(eq(wantedActividad), eq(oldActividad));
+        when(actividadRepository.save(oldActividad)).thenReturn(wantedActividad);
 
-        when(actividadRepository.save(oldactividad)).thenReturn(wantedActividad);
+        Actividad result = actividadService.modify(1L, wantedActividad);
 
-        Actividad result = actividadService.modify(oldactividad.getId(), wantedActividad);
-
-        mapper.map(wantedActividad, oldactividad);
-
+        assertEquals("Descripcion nueva", result.getDescription());
+        assertEquals("Individual", result.getTypeActivity());
         assertEquals(20f, result.getDuration());
-        verify(actividadRepository).findById(oldactividad.getId());
-        verify(actividadRepository, times(1)).save(oldactividad);
+
+        verify(actividadRepository).findById(1L);
+        verify(modelMapper).map(eq(wantedActividad), eq(oldActividad));
+        verify(actividadRepository).save(oldActividad);
     }
 
     @Test
-    public void testDelete(){
-        Actividad actividad = new Actividad(1, "Club de lectura",LocalDate.now(), "Grupal", 40f, true, 7, null, null);
+    void testModifyNotFound() {
+        when(actividadRepository.findById(88L)).thenReturn(Optional.empty());
 
-        when(actividadRepository.findById(actividad.getId())).thenReturn(Optional.of(actividad));
+        assertThrows(ActividadNotFoundException.class, () -> actividadService.modify(88L, buildActividad(88L, "x")));
 
-        actividadService.delete(actividad.getId());
+        verify(actividadRepository).findById(88L);
+        verify(modelMapper, never()).map(any(Actividad.class), any(Actividad.class));
+        verify(actividadRepository, never()).save(any(Actividad.class));
+    }
 
-        verify(actividadRepository, times(1)).delete(actividad);
+    @Test
+    void testDelete() {
+        Actividad actividad = buildActividad(1L, "Club de lectura");
+        when(actividadRepository.findById(1L)).thenReturn(Optional.of(actividad));
 
+        actividadService.delete(1L);
+
+        verify(actividadRepository).findById(1L);
+        verify(actividadRepository).delete(actividad);
+    }
+
+    @Test
+    void testDeleteNotFound() {
+        when(actividadRepository.findById(200L)).thenReturn(Optional.empty());
+
+        assertThrows(ActividadNotFoundException.class, () -> actividadService.delete(200L));
+
+        verify(actividadRepository).findById(200L);
+        verify(actividadRepository, never()).delete(any(Actividad.class));
+    }
+
+    private Actividad buildActividad(long id, String description) {
+        Actividad actividad = new Actividad();
+        actividad.setId(id);
+        actividad.setDescription(description);
+        actividad.setDayActivity(LocalDate.of(2026, 5, 20));
+        actividad.setTypeActivity("Grupal");
+        actividad.setDuration(40f);
+        actividad.setCanJoin(true);
+        actividad.setCapacity(10);
+        return actividad;
+    }
+
+    private ActividadDto buildActividadDto(String description) {
+        ActividadDto dto = new ActividadDto();
+        dto.setDescription(description);
+        dto.setDayActivity(LocalDate.of(2026, 5, 20));
+        dto.setTypeActivity("Grupal");
+        dto.setDuration(40f);
+        dto.setCanJoin(true);
+        dto.setCapacity(10);
+        return dto;
+    }
+
+    private ActividadOutDto buildActividadOutDto(long id, String description) {
+        ActividadOutDto dto = new ActividadOutDto();
+        dto.setId(id);
+        dto.setDescription(description);
+        dto.setDayActivity(LocalDate.of(2026, 5, 20));
+        dto.setDuration(40f);
+        dto.setCanJoin(true);
+        dto.setParticipanteDtoList(List.of());
+        return dto;
     }
 }

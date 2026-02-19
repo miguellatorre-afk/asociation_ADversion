@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +20,4 @@ public class ParticipanteOutDto {
     private String needs;
     private String typeRel;
     private long socioID;
-    private List<Long> actividadIdList;
 }

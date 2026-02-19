@@ -1,9 +1,6 @@
 package com.svalero.asociation.repository;
 
 import com.svalero.asociation.model.Actividad;
-import com.svalero.asociation.model.Participante;
-import com.svalero.asociation.model.Servicio;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
