@@ -1,6 +1,6 @@
 package com.svalero.asociation.service;
 
-import com.svalero.asociation.model.Actividad;
+import com.svalero.asociation.model.Servicio;
 import com.svalero.asociation.model.Trabajador;
 import com.svalero.asociation.repository.TrabajadorRepository;
 import org.junit.jupiter.api.Test;
@@ -28,6 +28,8 @@ public class TrabajadorServiceTest{
 
     @Mock
     private ModelMapper mapper;
+    @Mock
+    private ServicioService servicioService;
 
     @Test
     void findAll() {
@@ -111,12 +113,17 @@ public class TrabajadorServiceTest{
     @Test
     void testAdd() {
         Trabajador newTrabajador =   new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now(), LocalDate.now(), "Tiempo Parcial", null, null);
+        Servicio servicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
 
+        when(servicioService.findById(1)).thenReturn(servicio);
         when(trabajadorRepository.save(newTrabajador)).thenReturn(newTrabajador);
-        Trabajador result = trabajadorService.add(newTrabajador);
+        Trabajador result = trabajadorService.add(newTrabajador, 1);
 
         assertEquals("Hector", result.getName());
+        assertNotNull(result.getServicios());
+        assertEquals(1, result.getServicios().getId());
         verify(trabajadorRepository, times(1)).save(newTrabajador);
+        verify(servicioService, times(1)).findById(1);
     }
 
     @Test
@@ -136,6 +143,44 @@ public class TrabajadorServiceTest{
 
         assertEquals("Gustavo", result.getName());
         verify(trabajadorRepository).findById(oldTrabajador.getId());
+        verify(trabajadorRepository, times(1)).save(oldTrabajador);
+    }
+
+    @Test
+    void testModify_ReassignServicio() {
+        Servicio oldServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        Servicio newServicio = new Servicio(2, "terapia", "semanal", "ninguno", 10f, 1, null, null);
+
+        Trabajador oldTrabajador = new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now().minusDays(1), LocalDate.now(), "Tiempo Parcial", null, oldServicio);
+
+        Trabajador wantedTrabajador = new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now().minusDays(1), LocalDate.now(), "Tiempo Parcial", null, new Servicio(2, null, null, null, null, null, null, null));
+
+        when(trabajadorRepository.findById(oldTrabajador.getId())).thenReturn(Optional.of(oldTrabajador));
+        when(servicioService.findById(2)).thenReturn(newServicio);
+        when(trabajadorRepository.save(oldTrabajador)).thenReturn(oldTrabajador);
+
+        Trabajador result = trabajadorService.modify(oldTrabajador.getId(), wantedTrabajador);
+
+        assertNotNull(result.getServicios());
+        assertEquals(2, result.getServicios().getId());
+        verify(servicioService, times(1)).findById(2);
+        verify(trabajadorRepository, times(1)).save(oldTrabajador);
+    }
+
+    @Test
+    void testModify_RemoveServicio() {
+        Servicio oldServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        Trabajador oldTrabajador = new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now().minusDays(1), LocalDate.now(), "Tiempo Parcial", null, oldServicio);
+
+        Trabajador wantedTrabajador = new Trabajador(1, "77777777U", "Hector", "Aladia", "email@email", "888-566-323", LocalDate.now().minusDays(1), LocalDate.now(), "Tiempo Parcial", null, null);
+
+        when(trabajadorRepository.findById(oldTrabajador.getId())).thenReturn(Optional.of(oldTrabajador));
+        when(trabajadorRepository.save(oldTrabajador)).thenReturn(oldTrabajador);
+
+        Trabajador result = trabajadorService.modify(oldTrabajador.getId(), wantedTrabajador);
+
+        assertNull(result.getServicios());
+        verify(servicioService, never()).findById(anyLong());
         verify(trabajadorRepository, times(1)).save(oldTrabajador);
     }
 

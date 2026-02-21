@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -53,14 +54,14 @@ public class SocioController {
     }
 
     @PostMapping("/socios")
-     public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio){
+     public ResponseEntity<Socio> addSocio(@Valid @RequestBody Socio socio) throws MethodArgumentNotValidException {
         logger.info("POST/socios");
         Socio newsocio = socioService.add(socio);
         return new ResponseEntity<>(newsocio, HttpStatus.CREATED);
     }
 
     @PutMapping("/socios/{id}")
-    public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio){
+    public ResponseEntity<Socio> editSocio(@PathVariable long id, @Valid @RequestBody Socio socio) throws MethodArgumentNotValidException{
         logger.info("PUT/socios");
         Socio updatedsocio = socioService.modify(id, socio);
         return ResponseEntity.ok(updatedsocio);

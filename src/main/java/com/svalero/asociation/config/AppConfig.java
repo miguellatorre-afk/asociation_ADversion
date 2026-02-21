@@ -3,11 +3,15 @@ package com.svalero.asociation.config;
 import com.svalero.asociation.dto.ActividadOutDto;
 import com.svalero.asociation.dto.ParticipanteDto;
 import com.svalero.asociation.dto.ParticipanteOutDto;
+import com.svalero.asociation.dto.ServicioOutDto;
 import com.svalero.asociation.dto.SocioDto;
+import com.svalero.asociation.dto.TrabajadorOutDto;
 import com.svalero.asociation.model.Actividad;
 import com.svalero.asociation.model.InscripcionActividad;
 import com.svalero.asociation.model.Participante;
+import com.svalero.asociation.model.Servicio;
 import com.svalero.asociation.model.Socio;
+import com.svalero.asociation.model.Trabajador;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -37,6 +41,16 @@ public class AppConfig {
                                 .map(participante -> modelMapper.map(participante, ParticipanteDto.class))
                                 .toList();
 
+        Converter<List<Trabajador>, List<Long>> trabajadoresToIds = context ->
+                context.getSource() == null ? List.of() :
+                        context.getSource().stream()
+                                .filter(Objects::nonNull)
+                                .map(Trabajador::getId)
+                                .toList();
+
+        Converter<Servicio, ServicioOutDto> servicioToServicioOutDto = context ->
+                context.getSource() == null ? null : modelMapper.map(context.getSource(), ServicioOutDto.class);
+
         modelMapper.typeMap(Participante.class, ParticipanteDto.class).addMappings(mapper -> {
             mapper.using(socioToId).map(Participante::getSocio, ParticipanteDto::setSocioID);
         });
@@ -51,6 +65,14 @@ public class AppConfig {
 
         modelMapper.typeMap(Actividad.class, ActividadOutDto.class).addMappings(mapper ->{
             mapper.using(inscripcionesToParticipantes).map(Actividad::getInscripciones, ActividadOutDto::setParticipanteDtoList);
+        });
+
+        modelMapper.typeMap(Servicio.class, ServicioOutDto.class).addMappings(mapper -> {
+            mapper.using(trabajadoresToIds).map(Servicio::getTrabajadoresAsignados, ServicioOutDto::setTrabajadoresIds);
+        });
+
+        modelMapper.typeMap(Trabajador.class, TrabajadorOutDto.class).addMappings(mapper -> {
+            mapper.using(servicioToServicioOutDto).map(Trabajador::getServicios, TrabajadorOutDto::setServicioOutDto);
         });
 
         return  modelMapper;

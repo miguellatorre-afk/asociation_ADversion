@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.svalero.asociation.exception.BusinessRuleException;
+import com.svalero.asociation.dto.ServicioDto;
+import com.svalero.asociation.dto.ServicioOutDto;
 import com.svalero.asociation.exception.ServicioNotFoundException;
-import com.svalero.asociation.model.Servicio;
 import static org.mockito.ArgumentMatchers.*;
 
 import com.svalero.asociation.service.ServicioService;
@@ -19,7 +19,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import java.util.List;
@@ -48,13 +47,13 @@ class ServicioControllerTest {
     @Test
     void testGetAllServicio_Return200() throws Exception {
 
-        List<Servicio> serviciosList = List.of(
-                new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
-                new Servicio(2, "terapia", "semanal", "ninguno", 1f, 1, null, null)
+        List<ServicioOutDto> serviciosList = List.of(
+                new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of()),
+                new ServicioOutDto(2, "terapia", "semanal", "ninguno", 1f, 1, List.of())
 
         );
 
-        when(servicioService.findAll(isNull(), isNull(), isNull())).thenReturn(serviciosList);
+        when(servicioService.findAllDto(isNull(), isNull(), isNull())).thenReturn(serviciosList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/servicios")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -67,7 +66,7 @@ class ServicioControllerTest {
 
         String jsonResponse = result.getResponse().getContentAsString();
 
-        List<Servicio> finalServicioList = thisObjectMapper.readValue(jsonResponse, new TypeReference<List<Servicio>>() {});
+        List<ServicioOutDto> finalServicioList = thisObjectMapper.readValue(jsonResponse, new TypeReference<List<ServicioOutDto>>() {});
 
         assertNotNull(finalServicioList);
         assertEquals("terapia", finalServicioList.get(1).getDescription());
@@ -77,12 +76,12 @@ class ServicioControllerTest {
     @Test
     void testGetAllServicio_ByPeridiocity() throws Exception {
 
-        List<Servicio> serviciosList = List.of(
-                new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
-                new Servicio(2, "terapia", "semanal", "ninguno", 1f, 1, null, null)
+        List<ServicioOutDto> serviciosList = List.of(
+                new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of()),
+                new ServicioOutDto(2, "terapia", "semanal", "ninguno", 1f, 1, List.of())
         );
 
-        when(servicioService.findAll(eq("anual"), isNull(), isNull())).thenReturn(serviciosList);
+        when(servicioService.findAllDto(eq("anual"), isNull(), isNull())).thenReturn(serviciosList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/servicios")
                         .queryParam("periodicity", "anual")
@@ -94,7 +93,7 @@ class ServicioControllerTest {
 
         String jsonResponse = result.getResponse().getContentAsString();
 
-        List<Servicio> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        List<ServicioOutDto> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
         assertNotNull(servicioListresponse);
         assertEquals("terapia", servicioListresponse.getLast().getDescription());
@@ -103,12 +102,12 @@ class ServicioControllerTest {
     @Test
     void testGetAllServicio_ByCapacity() throws Exception {
 
-        List<Servicio> serviciosList = List.of(
-                new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
-                new Servicio(2, "terapia", "semanal", "ninguno", 1f, 1, null, null)
+        List<ServicioOutDto> serviciosList = List.of(
+                new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of()),
+                new ServicioOutDto(2, "terapia", "semanal", "ninguno", 1f, 1, List.of())
         );
 
-        when(servicioService.findAll(isNull(), any(), isNull())).thenReturn(serviciosList);
+        when(servicioService.findAllDto(isNull(), any(), isNull())).thenReturn(serviciosList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/servicios")
                         .queryParam("capacity", "1")
@@ -120,7 +119,7 @@ class ServicioControllerTest {
 
         String jsonResponse = result.getResponse().getContentAsString();
 
-        List<Servicio> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        List<ServicioOutDto> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
         assertNotNull(servicioListresponse);
         assertEquals("terapia", servicioListresponse.getLast().getDescription());
@@ -129,12 +128,12 @@ class ServicioControllerTest {
     @Test
     void testGetAllServicio_ByDuration() throws Exception {
 
-        List<Servicio> serviciosList = List.of(
-                new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null),
-                new Servicio(2, "terapia", "semanal", "ninguno", 1f, 1, null, null)
+        List<ServicioOutDto> serviciosList = List.of(
+                new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of()),
+                new ServicioOutDto(2, "terapia", "semanal", "ninguno", 1f, 1, List.of())
         );
 
-        when(servicioService.findAll(isNull(), isNull(), any())).thenReturn(serviciosList);
+        when(servicioService.findAllDto(isNull(), isNull(), any())).thenReturn(serviciosList);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/servicios")
                         .queryParam("duration", "40")
@@ -146,7 +145,7 @@ class ServicioControllerTest {
 
         String jsonResponse = result.getResponse().getContentAsString();
 
-        List<Servicio> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        List<ServicioOutDto> servicioListresponse = thisObjectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
         assertNotNull(servicioListresponse);
         assertEquals(40, servicioListresponse.getFirst().getDuration());
@@ -154,9 +153,9 @@ class ServicioControllerTest {
 
     @Test
     void testGetServicioById_For200() throws Exception {
-        Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioOutDto selected = new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of());
 
-        when(servicioService.findById(selected.getId())).thenReturn(selected);
+        when(servicioService.findDtoById(selected.getId())).thenReturn(selected);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/servicios/"+ selected.getId())
                         .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -164,7 +163,7 @@ class ServicioControllerTest {
                 .andReturn();
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
-        Servicio servicio = objectMapper.readValue(jsonResponse, Servicio.class);
+        ServicioOutDto servicio = objectMapper.readValue(jsonResponse, ServicioOutDto.class);
 
         assertEquals(1, servicio.getId());
     }
@@ -172,7 +171,7 @@ class ServicioControllerTest {
     @Test
     void testGetServicioById_For404() throws Exception {
 
-        when(servicioService.findById(7)).thenThrow(ServicioNotFoundException.class);
+        when(servicioService.findDtoById(7)).thenThrow(ServicioNotFoundException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/servicios/7")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -184,10 +183,11 @@ class ServicioControllerTest {
     @Test
     void testAddServicio_Return200() throws Exception {
 
-        Servicio newServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioDto newServicio = new ServicioDto("trabajo social", "anual", "ninguno", 40f, 3);
+        ServicioOutDto createdServicio = new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of());
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
-        when(servicioService.add(any(Servicio.class))).thenReturn(newServicio);
+        when(servicioService.addDto(any(ServicioDto.class))).thenReturn(createdServicio);
 
         String jsonRequest = thisobjectmapper.writeValueAsString(newServicio);
 
@@ -200,7 +200,7 @@ class ServicioControllerTest {
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
 
-        Servicio responseServicio = thisobjectmapper.readValue(jsonResponse, Servicio.class);
+        ServicioOutDto responseServicio = thisobjectmapper.readValue(jsonResponse, ServicioOutDto.class);
 
         assertNotNull(responseServicio);
         assertEquals("trabajo social", responseServicio.getDescription());
@@ -209,7 +209,7 @@ class ServicioControllerTest {
     @Test
     public void testAddServicio_Return400() throws Exception {
 
-        Servicio newServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioDto newServicio = new ServicioDto("trabajo social", "anual", "ninguno", 40f, 3);
         newServicio.setDescription(null);
 
         String jsonRequest = objectMapper.writeValueAsString(newServicio);
@@ -223,13 +223,14 @@ class ServicioControllerTest {
     @Test
     void testEditServicio_For200() throws Exception {
 
-        Servicio originalServicio = new Servicio(1, "trabajo social", "diario", "ninguno", 40f, 3, null, null);
-        Servicio wantedServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioOutDto originalServicio = new ServicioOutDto(1, "trabajo social", "diario", "ninguno", 40f, 3, List.of());
+        ServicioDto wantedServicio = new ServicioDto("trabajo social", "anual", "ninguno", 40f, 3);
+        ServicioOutDto updatedServicio = new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of());
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
         thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        when(servicioService.modify(1, wantedServicio)).thenReturn(wantedServicio);
+        when(servicioService.modifyDto(eq(1L), any(ServicioDto.class))).thenReturn(updatedServicio);
 
         String jsonRequest = thisobjectmapper.writeValueAsString(wantedServicio);
 
@@ -242,20 +243,20 @@ class ServicioControllerTest {
 
         String jsonResponse = result.getResponse().getContentAsString();
 
-        Servicio responseServicio = thisobjectmapper.readValue(jsonResponse, Servicio.class);
+        ServicioOutDto responseServicio = thisobjectmapper.readValue(jsonResponse, ServicioOutDto.class);
         assertEquals(1, responseServicio.getId());
     }
 
     @Test
     void testEditServicio_For404() throws Exception {
 
-        Servicio originalServicio = new Servicio(1, "trabajo social", "diario", "ninguno", 40f, 3, null, null);
-        Servicio wantedServicio = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioOutDto originalServicio = new ServicioOutDto(1, "trabajo social", "diario", "ninguno", 40f, 3, List.of());
+        ServicioDto wantedServicio = new ServicioDto("trabajo social", "anual", "ninguno", 40f, 3);
 
         ObjectMapper thisobjectmapper = new ObjectMapper();
         thisobjectmapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        when(servicioService.modify(1, wantedServicio)).thenThrow(new ServicioNotFoundException("Servicio Not Found"));
+        when(servicioService.modifyDto(eq(1L), any(ServicioDto.class))).thenThrow(new ServicioNotFoundException("Servicio Not Found"));
 
         String jsonRequest = thisobjectmapper.writeValueAsString(wantedServicio);
 
@@ -269,7 +270,7 @@ class ServicioControllerTest {
 
     @Test
     void testDeleteServicio_204() throws Exception{
-        Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioOutDto selected = new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of());
 
         doNothing().when(servicioService).delete(selected.getId());
 
@@ -280,7 +281,7 @@ class ServicioControllerTest {
 
     @Test
     void testDeleteServicio_404() throws Exception{
-        Servicio selected = new Servicio(1, "trabajo social", "anual", "ninguno", 40f, 3, null, null);
+        ServicioOutDto selected = new ServicioOutDto(1, "trabajo social", "anual", "ninguno", 40f, 3, List.of());
 
         doNothing().when(servicioService).delete(selected.getId());
 

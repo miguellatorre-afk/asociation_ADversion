@@ -1,7 +1,7 @@
 package com.svalero.asociation.controller;
 
-import com.svalero.asociation.model.Servicio;
-import com.svalero.asociation.model.Trabajador;
+import com.svalero.asociation.dto.ServicioDto;
+import com.svalero.asociation.dto.ServicioOutDto;
 import com.svalero.asociation.service.ServicioService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -23,18 +23,18 @@ public class ServicioController {
 
 
     @GetMapping("/servicios")
-    public ResponseEntity<List<Servicio>> getAll(
+    public ResponseEntity<List<ServicioOutDto>> getAll(
             @RequestParam(value = "periodicity", required = false)String periodicity,
             @RequestParam(value="capacity", required = false) Integer capacity,
             @RequestParam(value="duration", required = false) Float duration ){
-        List<Servicio> allservicios = servicioService.findAll(periodicity, capacity, duration);
+        List<ServicioOutDto> allservicios = servicioService.findAllDto(periodicity, capacity, duration);
         logger.info("GET/servicios");
         return ResponseEntity.ok(allservicios);
     }
 
     @GetMapping("/servicios/{id}")
-    public ResponseEntity<Servicio> getServicioById(@PathVariable long id){
-        Servicio selectedservicio = servicioService.findById(id);
+    public ResponseEntity<ServicioOutDto> getServicioById(@PathVariable long id){
+        ServicioOutDto selectedservicio = servicioService.findDtoById(id);
         if (selectedservicio == null){
             logger.warn("Servicio of ID: {} not found", id);
             return ResponseEntity.notFound().build();
@@ -44,16 +44,16 @@ public class ServicioController {
     }
 
     @PostMapping("/servicios")
-    public ResponseEntity<Servicio> addServicio(@Valid@RequestBody Servicio servicio) throws MethodArgumentNotValidException {
-        Servicio newservicio = servicioService.add(servicio);
+    public ResponseEntity<ServicioOutDto> addServicio(@Valid@RequestBody ServicioDto servicioDto) throws MethodArgumentNotValidException {
+        ServicioOutDto newservicio = servicioService.addDto(servicioDto);
         logger.info("POST/servicios");
         return new ResponseEntity<>(newservicio, HttpStatus.CREATED);
     }
 
 
     @PutMapping("/servicios/{id}")
-    public ResponseEntity<Servicio> editServicio(@PathVariable long id, @Valid @RequestBody Servicio servicio) throws MethodArgumentNotValidException{
-        Servicio updatedservicio = servicioService.modify(id, servicio);
+    public ResponseEntity<ServicioOutDto> editServicio(@PathVariable long id, @Valid @RequestBody ServicioDto servicioDto) throws MethodArgumentNotValidException{
+        ServicioOutDto updatedservicio = servicioService.modifyDto(id, servicioDto);
         logger.info("PUT/servicios/{id}");
         return ResponseEntity.ok(updatedservicio);
     }

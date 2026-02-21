@@ -1,6 +1,7 @@
 package com.svalero.asociation.controller;
 
-import com.svalero.asociation.model.Trabajador;
+import com.svalero.asociation.dto.TrabajadorDto;
+import com.svalero.asociation.dto.TrabajadorOutDto;
 import com.svalero.asociation.service.TrabajadorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,18 +25,18 @@ public class TrabajadorController {
     private final Logger logger = LoggerFactory.getLogger(TrabajadorController.class);
 
     @GetMapping("/trabajadores")
-    public ResponseEntity<List<Trabajador>> getAll(
+    public ResponseEntity<List<TrabajadorOutDto>> getAll(
             @RequestParam(value = "entryDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entryDate,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "contractType", required = false) String contractType){
-        List<Trabajador> alltrabajadores = trabajadorService.findAll(entryDate, name, contractType);
+        List<TrabajadorOutDto> alltrabajadores = trabajadorService.findAllDto(entryDate, name, contractType);
         logger.info("GET/trabajadores");
         return ResponseEntity.ok(alltrabajadores);
     }
 
     @GetMapping("/trabajadores/{id}")
-    public ResponseEntity<Trabajador> getTrabajadorById(@PathVariable long id){
-        Trabajador selectedtrabajador = trabajadorService.findById(id);
+    public ResponseEntity<TrabajadorOutDto> getTrabajadorById(@PathVariable long id){
+        TrabajadorOutDto selectedtrabajador = trabajadorService.findDtoById(id);
         if (selectedtrabajador == null){
             logger.warn("Trabajador of ID: {} not found", id);
             return ResponseEntity.notFound().build();
@@ -43,23 +45,16 @@ public class TrabajadorController {
         return new ResponseEntity<>(selectedtrabajador, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/trabajadores")
-    public ResponseEntity<Trabajador> addTrabajador(@Valid@RequestBody Trabajador trabajador){
-        Trabajador newtrabajador = trabajadorService.add(trabajador);
-        logger.info("POST/trabajadores");
-        return new ResponseEntity<>(newtrabajador, HttpStatus.CREATED);
-    }
-
     @PostMapping("servicios/{id}/trabajadores")
-    public ResponseEntity<Trabajador> addTrabajadors(@Valid@RequestBody Trabajador trabajador){
-        Trabajador newtrabajador = trabajadorService.add(trabajador);
+    public ResponseEntity<TrabajadorOutDto> addTrabajadors(@Valid@RequestBody TrabajadorDto trabajadorDto, @PathVariable long id) throws MethodArgumentNotValidException{
+        TrabajadorOutDto newtrabajador = trabajadorService.addDto(trabajadorDto, id);
         logger.info("POST/trabajadores");
         return new ResponseEntity<>(newtrabajador, HttpStatus.CREATED);
     }
 
     @PutMapping("/trabajadores/{id}")
-    public ResponseEntity<Trabajador> editTrabajador(@PathVariable long id, @Valid@RequestBody Trabajador trabajador){
-        Trabajador updatedtrabajador = trabajadorService.modify(id, trabajador);
+    public ResponseEntity<TrabajadorOutDto> editTrabajador(@PathVariable long id, @Valid@RequestBody TrabajadorDto trabajadorDto) throws MethodArgumentNotValidException {
+        TrabajadorOutDto updatedtrabajador = trabajadorService.modifyDto(id, trabajadorDto);
         logger.info("PUT/trabajadores/{id}");
         return ResponseEntity.ok(updatedtrabajador);
     }

@@ -39,8 +39,7 @@ paths:
           required: false
           schema:
             type: date (yyyy-MM-dd)
-            example:
-              value: 2026-03-03
+            example: '2025-04-07'
 
       responses:
         200:
@@ -54,8 +53,6 @@ paths:
               example:
                 CasoÉxito:
                   $ref: '#/components/examples/socioDtoExample1'
-                ",":
-                  $ref: '#/components/examples/socioDtoExample2'
         404:
           description: Not found
           content:
@@ -173,6 +170,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest400*'
+              example:
+                $ref: '#/components/examples/socioExampleBad'
         404:
           description: Socio no encontrado
           content:
@@ -768,11 +767,6 @@ paths:
           in: query
           description: Filtro por fecha de nacimiento (filtra todos los que nacieron después)
           required: false
-          schema:
-            type: float
-            example:
-              minimum:
-                value: 0
       responses:
         200:
           description: OK
@@ -807,7 +801,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Servicio'
+              $ref: '#/components/schemas/ServicioDto'
             examples:
               Example1:
                 $ref: '#/components/examples/servicioExample1'
@@ -823,7 +817,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Servicio'
+                  $ref: '#/components/schemas/ServicioOutDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/servicioExample1'
@@ -858,7 +852,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Servicio'
+                $ref: '#/components/schemas/ServicioDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/servicioExample1'
@@ -884,7 +878,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Servicio'
+              $ref: '#/components/schemas/ServicioDto'
             examples:
               Example1:
                 $ref: '#/components/examples/servicioExample1'
@@ -898,7 +892,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Servicio'
+                $ref: '#/components/schemas/ServicioOutDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/servicioExample1'
@@ -998,7 +992,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Trabajador'
+                  $ref: '#/components/schemas/TrabajadorOutDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/trabajadoresExample1'
@@ -1024,7 +1018,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Trabajador'
+              $ref: '#/components/schemas/TrabajadorDto'
             examples:
               Example1:
                 $ref: '#/components/examples/trabajadoresExample1'
@@ -1040,7 +1034,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Trabajador'
+                  $ref: '#/components/schemas/TrabajadorOutDto'
               examples:
                 Example1:
                   $ref: '#/components/examples/trabajadoresExample1'
@@ -1075,7 +1069,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Trabajador'
+                $ref: '#/components/schemas/TrabajadorOutDto'
               examples:
                 Caso1:
                     $ref: '#/components/examples/trabajadoresExample1'
@@ -1101,7 +1095,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Trabajador'
+              $ref: '#/components/schemas/TrabajadorDto'
             examples:
               Example1:
                 $ref: '#/components/examples/trabajadoresExample1'
@@ -1115,7 +1109,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Trabajador'
+                $ref: '#/components/schemas/TrabajadorOutDto'
               examples:
                 Caso1:
                   $ref: '#/components/examples/trabajadoresExample1'
@@ -1403,6 +1397,9 @@ components:
     Servicio:
       type: object
       properties:
+        id:
+          description: id del servicio
+          type: integer
         description:
           description: titulo y descripcion del servicio
           type: string
@@ -1418,6 +1415,45 @@ components:
         capacity:
           description: máximo de personas posible
           type: integer
+    ServicioDto:
+      type: object
+      properties:
+        description:
+          description: titulo y descripción del servicio
+          type: string
+        periodicity:
+          description: periodicidad en la que el servicio se contrata
+          type: string
+        requisites:
+          description: requisitos necesarios del solicitante
+          type: string
+        duration:
+          description: duración del servicio
+          type: float
+        capacity:
+          description: máximo de personas posible
+          type: integer
+    ServicioOutDto:
+       type: object
+       properties:
+         description:
+           description: titulo y descripción del servicio
+           type: string
+         periodicity:
+           description: periodicidad en la que el servicio se contrata
+           type: string
+         requisites:
+           description: requisitos necesarios del solicitante
+           type: string
+         duration:
+           description: duración del servicio
+           type: float
+         capacity:
+           description: máximo de personas posible
+           type: integer
+         TrabajadoresIds:
+           description: lista de ids de los trabajadores asginados a un servicio
+           type: array
     Trabajador:
       type: object
       properties:
@@ -1449,6 +1485,76 @@ components:
         contractType:
           description: tipo de contrato del trabajador
           type: string
+    TrabajadorDto:
+      type: object
+      properties:
+        dni:
+          description: dni del trabajador
+          type: string
+        name:
+          description: nombre de trabajador
+          type: string
+        surname:
+          description: apellidos de trabajador
+          type: string
+        email:
+          description: email del trabajador
+          type: string
+          format: email
+        phoneNumber:
+          description: nº de telefono de trabajador
+          type: string
+          pattern: '^+34 [0-9]{9}$'
+        birthDate:
+          description: fecha de nacimiento de participante
+          type: string
+          format: date
+        entryDate:
+          description: fecha de alta de trabajador
+          type: string
+          format: date
+        contractType:
+          description: tipo de contrato del trabajador
+          type: string
+        servicioId:
+          description: id del servicio al que el trabajador está asginado
+          type: long
+    TrabajadorOutDto:
+      type: object
+      properties:
+        id:
+          description: id del trabajador
+          type: long
+        dni:
+          description: dni del trabajador
+          type: string
+        name:
+          description: nombre de trabajador
+          type: string
+        surname:
+          description: apellidos de trabajador
+          type: string
+        email:
+          description: email del trabajador
+          type: string
+          format: email
+        phoneNumber:
+          description: nº de telefono de trabajador
+          type: string
+          pattern: '^+34 [0-9]{9}$'
+        birthDate:
+          description: fecha de nacimiento de participante
+          type: string
+          format: date
+        entryDate:
+          description: fecha de alta de trabajador
+          type: string
+          format: date
+        contractType:
+          description: tipo de contrato del trabajador
+          type: string
+        servicioOutDto:
+          type: ServicioOutDto
     Http:
       allOf:
         - $ref: '#/components/schemas/Response'
@@ -1538,7 +1644,7 @@ components:
         surname: ESPINOSA TIRADO
         email: plobcspc3@netscape.com
         address: CAMÍ REAL, 46
-        phoneNumber: 646857166
+        phoneNumber: 646-857-166
         familyModel: Monoparental
         active: true
         entryDate: 1993-05-20
@@ -1549,7 +1655,7 @@ components:
         surname: PIZARRO PUJOL
         email: 554lqsjtn@netscape.com
         address: SECTOR ANTONIO MACHADO, 66
-        phoneNumber: 723619673
+        phoneNumber: 723-619-673
         familyModel: Nuclear
         active: false
         entryDate: 1990-05-20
@@ -1576,7 +1682,7 @@ components:
         surname: ESPINOSA TIRADO
         email: plobcspc3@netscape.com
         address: CAMÍ REAL, 46
-        phoneNumber: 646857166
+        phoneNumber: 646-857-166
         familyModel: Monoparental
         active: true
         entryDate: 1993-05-20
@@ -1586,7 +1692,7 @@ components:
         name: PERE
         surname: ESPINOSA TIRADO
         email: i4sglo0w@writeme.com
-        phoneNumber: 639704472
+        phoneNumber: 639-704-472
         birthDate: 1978-08-31
         entryDate: 2004-07-20
         needs: apoyo psicológico
@@ -1597,7 +1703,7 @@ components:
         name: AROA
         surname: GUERRERO CEBRIAN
         email: p8lwjm8b@usa.com
-        phoneNumber: 620488532
+        phoneNumber: 620-488-532
         birthDate: 2001-06-12
         entryDate: 20014-11-18
         needs: null
@@ -1608,7 +1714,7 @@ components:
         name: PERE
         surname: ESPINOSA TIRADO
         email: i4sglo0w@writeme.com
-        phoneNumber: 639704472
+        phoneNumber: 639-704-472
         birthDate: 1978-08-31
         entryDate: 2004-07-20
         needs: apoyo psicológico

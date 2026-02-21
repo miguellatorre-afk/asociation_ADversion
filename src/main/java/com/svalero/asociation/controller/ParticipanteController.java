@@ -58,7 +58,7 @@ public class ParticipanteController {
     }
 
     @PostMapping("/socios/{id}/participante")
-    public ResponseEntity<ParticipanteDto> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto, @PathVariable long id) throws SocioNotFoundException, ParticipanteNotFoundException {
+    public ResponseEntity<ParticipanteDto> addParticipante(@Valid@RequestBody ParticipanteDto participanteDto, @PathVariable long id) throws SocioNotFoundException, ParticipanteNotFoundException, MethodArgumentNotValidException {
 
         Participante newparticipante = participanteService.addDto(participanteDto, id);
         ParticipanteDto participanteDtoFinal = modelMapper.map(newparticipante, ParticipanteDto.class);

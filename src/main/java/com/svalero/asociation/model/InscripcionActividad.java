@@ -22,13 +22,10 @@ public class InscripcionActividad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
-
     @Column(nullable = false)
     private String state;
-
     @Column(nullable = false)
     private float price;
 

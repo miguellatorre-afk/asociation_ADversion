@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -51,14 +52,14 @@ public class ActividadController {
     }
 
     @PostMapping("/actividades")
-    public ResponseEntity<ActividadOutDto> addActividad(@Valid@RequestBody ActividadDto actividad){
+    public ResponseEntity<ActividadOutDto> addActividad(@Valid@RequestBody ActividadDto actividad) throws MethodArgumentNotValidException {
         ActividadOutDto newActividad = actividadService.add(actividad);
         logger.info("POST/actividades");
         return new ResponseEntity<>(newActividad, HttpStatus.CREATED);
     }
 
     @PostMapping("/actividades/{id}/inscripciones")
-    public ResponseEntity<Void> inscribirParticipante(@PathVariable long id, @Valid @RequestBody InscripcionActividadRequestDto requestDto) {
+    public ResponseEntity<Void> inscribirParticipante(@PathVariable long id, @Valid@RequestBody InscripcionActividadRequestDto requestDto)  throws MethodArgumentNotValidException  {
         inscripcionActividadService.inscribir(id, requestDto.getParticipanteId(), requestDto.getState(), requestDto.getPrice());
         logger.info("POST/actividades/{id}/inscripciones");
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -79,7 +80,7 @@ public class ActividadController {
     }
 
     @PutMapping("/actividades/{id}")
-    public ResponseEntity<Actividad> editActividad(@PathVariable long id, @Valid@RequestBody Actividad actividad){
+    public ResponseEntity<Actividad> editActividad(@PathVariable long id, @Valid@RequestBody Actividad actividad) throws MethodArgumentNotValidException{
         Actividad updatedactividad = actividadService.modify(id, actividad);
         if (updatedactividad == null){
             return ResponseEntity.notFound().build();

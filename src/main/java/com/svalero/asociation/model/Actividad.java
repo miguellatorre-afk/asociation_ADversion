@@ -37,6 +37,7 @@ public class Actividad {
     @Positive
     private Float duration;
     @Column(name = "can_join")
+    @NotNull
     private Boolean canJoin;
     @Column(precision = 2)
     @Positive

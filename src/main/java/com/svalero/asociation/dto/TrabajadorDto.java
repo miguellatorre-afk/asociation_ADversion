@@ -1,7 +1,5 @@
 package com.svalero.asociation.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -12,25 +10,25 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ParticipanteDto {
-    @Pattern(regexp = "\\d{8}[A-Z]")
-    @NotBlank(message = "debe tener dni")
+@NoArgsConstructor
+public class TrabajadorDto {
+    @Pattern(regexp = "^\\d{8}[A-Z]$")
+    @NotBlank(message = "necesita un DNI")
     private String dni;
-    @NotBlank(message = "debe tener nombre")
+    @NotBlank(message = "necesita un nombre")
     private String name;
-    @NotBlank(message = "debe tener apellidos")
+    @NotBlank(message = "necesita un apellido")
     private String surname;
-    @NotBlank(message = "debe tener email")
+    @NotBlank(message = "necesita una email")
     private String email;
     @Pattern(regexp="\\d{3}-\\d{3}-\\d{3}")
-    @NotBlank(message = "debe tener nº de teléfono")
+    @NotBlank(message = "necesita una tlfno")
     private String phoneNumber;
     @Past
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
-    private String needs;
-    private String typeRel;
-    private long socioID;
+    private LocalDate entryDate;
+    @NotBlank(message = "necesita una tipo de contrato")
+    private String contractType;
+    private long servicioId;
 }
